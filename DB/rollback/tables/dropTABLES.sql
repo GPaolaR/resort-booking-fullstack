@@ -1,0 +1,36 @@
+/************************************************************************************
+Descripción: Drop GEST_SPA tables
+Autor:       Gina Riveros
+Fecha:       17-10-2023
+@copyright:  TechCamp
+************************************************************************************/
+PROMPT Eliminando tabla GEST_SPA.ADMINISTRATORS
+DROP TABLE GEST_SPA.ADMINISTRATORS PURGE;
+/
+PROMPT Eliminando tabla GEST_SPA.APPOINTMENTS
+DROP TABLE GEST_SPA.APPOINTMENTS PURGE;
+/
+PROMPT Eliminando tabla GEST_SPA.SPECIALISTS
+DROP TABLE GEST_SPA.SPECIALISTS PURGE;
+/
+PROMPT Eliminando tabla GEST_SPA.SPECIALITIES
+DROP TABLE GEST_SPA.SPECIALITIES PURGE;
+/
+PROMPT Eliminando tabla GEST_SPA.PLANS
+DROP TABLE GEST_SPA.PLANS PURGE;
+/
+PROMPT Eliminando tabla GEST_SPA.USERS
+DROP TABLE GEST_SPA.USERS PURGE;
+/
+PROMPT Eliminando tabla GEST_SPA.DOCUMENT_TYPES
+DROP TABLE GEST_SPA.DOCUMENT_TYPES PURGE;
+/
+PROMPT Eliminando tabla GEST_SPA.LOGIN
+DROP TABLE GEST_SPA.LOGIN PURGE;
+/
+PROMPT Eliminando tabla GEST_SPA.ROLES
+DROP TABLE GEST_SPA.ROLES PURGE;
+/
+PROMPT Eliminando tabla GEST_SPA.MEMBERSHIP_TYPES
+DROP TABLE GEST_SPA.MEMBERSHIP_TYPES PURGE;
+/
