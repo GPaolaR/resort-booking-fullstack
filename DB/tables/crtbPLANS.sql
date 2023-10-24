@@ -6,8 +6,10 @@ Date:        12-10-2023
 ************************************************************************************/
 CREATE TABLE PLANS (
     PLAN_ID NUMBER(4),
-    PLAN_TYPE VARCHAR2(20) NOT NULL,
-    BASE_PRICE NUMBER(8) NOT NULL
+    PLAN_TYPE VARCHAR2(50) NOT NULL,
+    PLAN_DESCRIPTION VARCHAR(500)NOT NULL,
+    BASE_PRICE NUMBER(8) NOT NULL,
+    PRICE_PER_PERSON NUMBER(1) NOT NULL
 );
 
 COMMENT ON TABLE GEST_SPA.PLANS IS 'SPA Belleza plans table';

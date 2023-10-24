@@ -32,7 +32,8 @@ public class LoginController {
         if (iLoginService.validarCredenciales(username, password)) {
             return ResponseEntity.ok("Inicio de sesión exitoso");
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
+            return ResponseEntity.ok("Credenciales incorrectas");
+            //return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
         }
     }
     

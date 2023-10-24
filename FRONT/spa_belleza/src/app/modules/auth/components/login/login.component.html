@@ -1,7 +1,9 @@
+
 <section class="background_login">
     <div class="cover">
         <div class="container">
             <h1>Spa Belleza</h1>
+            
             <p>Disfruta de una experiencia única en nuestro Spa Belleza con los mejores especialistas </p>
             <p-divider type="solid" >
                 <div class="inline-flex align-items-center">
@@ -12,16 +14,17 @@
             <section class="login">
                 
                 <span class="p-float-label">
-                    <input style="width: 273px;" pInputText placeholder="Usuario" id="username"/>
+                    <input style="width: 273px;" pInputText placeholder="Usuario" id="username" required [(ngModel)]="credentialUser.USERNAME"/>
                     <label htmlFor="username">Usuario</label>
                 </span>
                 <span class="p-float-label justify-content-center">
-                    <p-password placeholder="Contraseña" [toggleMask]="true" [feedback]="false"></p-password>
+                    <p-password placeholder="Contraseña" [toggleMask]="true" [feedback]="false" [(ngModel)]="credentialUser.PASSWORD_ENCRYPTED"></p-password>
                     <label for="password">Contraseña</label>
                 </span>
                 <p-button
                     label="Inicia sesión"
-                    styleClass="p-button-rounded p-button-outlined p-button-success"
+                    styleClass="p-button-rounded p-button-outlined"
+                    (click)="btLogin()"
                 ></p-button>
             </section>
         </div>

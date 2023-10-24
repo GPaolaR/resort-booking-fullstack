@@ -32,6 +32,7 @@ import { InputTextModule } from 'primeng/inputtext';
     PasswordModule,
     InputTextModule
   ],
+  exports:[],
   providers: [],
   bootstrap: [AppComponent]
 })

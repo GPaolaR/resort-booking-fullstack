@@ -1,8 +1,3 @@
-body{
-    border: 0px;
-    margin: 0px;
-    padding: 0px;
-}
 .background_login{
     width: 100%;
     height: 100vh;
@@ -32,41 +27,45 @@ body{
 .container h1{
     color: #386801;
     font-size: 64px;
-    font-family: Dosis;
+    font-family:'Dosis', 'Roboto', sans-serif;
     font-weight: 700;
 }
 .container p{
     color: white;
     font-size: 24px;
-    font-family: Roboto;
+    font-family: 'Roboto';
     font-weight: 400;
-    padding: 3% 10%;
+    padding: 10% 3%;
     box-sizing: border-box;
-}
-/*.container b{
-    // border-color: black; 
-    color: black; 
-    background-color: transparent; 
-
 }
 .container label{
     padding: 0 10px;
     box-sizing: border-box;
-}*/
-.login{
-    width: 300px;
-    margin: 0 auto;
 }
-/*.container p-password{
-    width: 300px;
+.login{
     display: flex;
-    //padding: 0px;
-}*/
+    width: 300px;
+    padding: 40px 0;
+    margin: 0 auto;
+    flex-direction: column;
+    gap: 40px;
+}
 .container span{
     display: flex;
     margin: 0px;
     justify-content: center;
     align-items: center;
-    padding: 22px 0 ;
+    //padding: 10px 0 ;
     //text-align: center;
 }
+::ng-deep {
+    .p-button {
+       width: 273px;  
+    }
+
+    /*.p-divider{
+        border-color: black;
+        background-color: black;
+    }*/
+}
+
