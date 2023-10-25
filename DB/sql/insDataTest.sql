@@ -1,5 +1,7 @@
 insert into ROLES values (SEQ_ROL.NEXTVAL, 'Usuario', 'Clientes de Spa Belleza');
 insert into ROLES values (SEQ_ROL.NEXTVAL, 'Administrador', 'Administrador del Spa Belleza');
+--insert into ROLES values (SEQ_ROL.NEXTVAL, 'Especialista', 'Especialista del Spa Belleza');
+
 
 insert into DOCUMENT_TYPES values(SEQ_DOCTY.NEXTVAL,'CC', 'Cédula de ciudadanía');
 --insert into DOCUMENT_TYPES values(SEQ_DOCTY.NEXTVAL,'TI', 'Tarjeta de identidad');
@@ -16,7 +18,20 @@ insert into plans values(seq_plan.nextval, 'Spa para empresas', 'Promueve la sal
 insert into plans values(seq_plan.nextval, 'Masajes de relajación', 'Masaje con aceites naturales para equilibrar energias, relajarte y aliviar tensiones.', 250000, 1);
 insert into plans values(seq_plan.nextval, 'Tratamientos faciales', 'Hidrata y refresca, refina los poros abiertos, reduce líneas de expresion y aclara la piel dejándola clara y limpia.', 215000, 1);
 
+insert into specialities values(seq_SPETY.nextval, 'Facial', systimestamp);
+insert into specialities values(seq_SPETY.nextval, 'Corporal', systimestamp);
+insert into specialities values(seq_SPETY.nextval, 'Uñas', systimestamp);
+
+insert into specialists values(seq_splts.nextval,'Carlos', 'Flores', 1, '10000001', '3000000002', 'carlos.flores@spabelleza.com', 2, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('17:00','hh24:mi'), systimestamp);
+
 
 insert into LOGIN values (SEQ_LOGIN.NEXTVAL, 'USUARIO1', 'contra123', 1, systimestamp);
 insert into LOGIN values (SEQ_LOGIN.NEXTVAL, 'Admin1', 'admin123', 2, systimestamp);
+
+insert into administrators values (SEQ_ADMIN.NEXTVAL, 2, 'Juan','Perez', 1, '1000000002', '3000000003', 'AdminJP@spabelleza.com', systimestamp);
+
+insert into users values (SEQ_USER.NEXTVAL, 1, 'Carolina','Jimenez', 1, '1000000001', 32, 'F', '3000000001', 'carolina.jimenez@example.com', 4, systimestamp);
+
+
+
 

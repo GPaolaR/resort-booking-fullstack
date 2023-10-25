@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -29,8 +31,9 @@ public class Login {
     @Column(name = "PASSWORD_ENCRYPTED", nullable = false, length = 255)
     private String passwordEncrypted;
 
-    @Column(name = "ROL_ID")
-    private Integer roleId;
+    @ManyToOne
+    @JoinColumn(name = "ROL_ID")
+    private Role role;
 
     @Column(name = "LAST_CHANGE_DATE", nullable = false)
     private Timestamp lastChangeDate;
