@@ -1,5 +1,6 @@
 package com.spabelleza.gestion_spa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name="MEMBERSHIP_TYPES")
 @Data
+@JsonIgnoreProperties({ "membershipTypeId"})
 public class MembershipType {
 
     @Id

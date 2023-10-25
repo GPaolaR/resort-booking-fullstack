@@ -1,5 +1,6 @@
 package com.spabelleza.gestion_spa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name="ADMINISTRATORS")
 @Data
+@JsonIgnoreProperties({ "administratorId", "documentNumber", "documentType", "celphone", "lastChangeDate" })
 public class Administrator {
 
     @Id

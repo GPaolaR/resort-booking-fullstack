@@ -1,11 +1,13 @@
 package com.spabelleza.gestion_spa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
 @Table(name="DOCUMENT_TYPES")
 @Data
+@JsonIgnoreProperties({ "documentTypeId", "documentTypeName" })
 public class DocumentType {
 
     @Id

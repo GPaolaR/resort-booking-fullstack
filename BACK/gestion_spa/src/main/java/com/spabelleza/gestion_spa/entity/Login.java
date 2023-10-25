@@ -1,22 +1,15 @@
 package com.spabelleza.gestion_spa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
-
 @Entity
 @Data
 @Table(name="LOGIN")
+@JsonIgnoreProperties({ "username", "passwordEncrypted", "lastChangeDate" })
 public class Login {
 
     @Id
