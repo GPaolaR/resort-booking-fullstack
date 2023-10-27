@@ -1,14 +1,14 @@
 package com.spabelleza.gestion_spa.service;
 
-import org.springframework.stereotype.Service;
 import com.spabelleza.gestion_spa.entity.Login;
+import com.spabelleza.gestion_spa.exception.BadRequestException;
+import com.spabelleza.gestion_spa.exception.NotFoundException;
 import com.spabelleza.gestion_spa.repository.LoginRepository;
+import com.spabelleza.gestion_spa.DTO.LoginDTO;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-
+import java.util.Objects;
 
 @Service
 public class LoginService implements ILoginService{
@@ -16,10 +16,10 @@ public class LoginService implements ILoginService{
     private final LoginRepository loginRepository;
 	
 	public LoginService ( LoginRepository loginRepository) {
-		this.loginRepository = loginRepository;
+        this.loginRepository = loginRepository;
 	}
 
-    @Autowired
+    /*@Autowired
     private JdbcTemplate jdbcTemplate;
     
     @Override
@@ -27,16 +27,28 @@ public class LoginService implements ILoginService{
         String sql = "SELECT COUNT(*) FROM LOGIN WHERE USERNAME = ? AND PASSWORD_ENCRYPTED = ?";
         int count = jdbcTemplate.queryForObject(sql, Integer.class, USERNAME, PASSWORD_ENCRYPTED);
         return count > 0;
-    }
-    
+    }*/
+
     @Override
-	public Login obtenerUsPorId(Long loginId) {
+    public Login validateLogin(LoginDTO loginDTO) throws BadRequestException {
+        Login clientLogin = (Login) loginRepository.findByUsername(loginDTO.getUsername()).orElseThrow(
+                () -> new NotFoundException("El nombre de usuario '" + loginDTO.getUsername() + "' no existe"));
+
+        if (!Objects.equals(clientLogin.getPasswordEncrypted(), loginDTO.getPassword())) {
+            throw new BadRequestException("Contraseña incorrecta. Por favor, intente de nuevo");
+        }
+
+        return clientLogin;
+    }
+
+    @Override
+	public Login getLoginById(Long loginId) {
 		Login login = this.loginRepository.findById(loginId).orElse(null);
 		return login;
 	}
     
     @Override
-	public List<Login> obtenerClientes(){
+	public List<Login> getLogins(){
 		return this.loginRepository.findAll();
 	}
 }

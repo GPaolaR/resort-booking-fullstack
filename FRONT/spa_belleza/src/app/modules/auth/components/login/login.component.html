@@ -1,9 +1,9 @@
 
 <section class="background_login">
-    <div class="cover">
+    <div class="cover">   
+        <p-toast></p-toast> 
         <div class="container">
-            <h1>Spa Belleza</h1>
-            
+            <h1>Spa Belleza</h1>            
             <p>Disfruta de una experiencia única en nuestro Spa Belleza con los mejores especialistas </p>
             <p-divider type="solid" >
                 <div class="inline-flex align-items-center">
@@ -11,22 +11,27 @@
                     <b> Sumérgete en tu experiencia Spa Belleza</b>
                 </div>
             </p-divider>
-            <section class="login">
+            <form [formGroup]="credentialUser" (ngSubmit)="btLogin()" novalidate class="login">
                 
                 <span class="p-float-label">
-                    <input style="width: 273px;" pInputText placeholder="Usuario" id="username" required [(ngModel)]="credentialUser.USERNAME"/>
+                    <input style="width: 273px;" pInputText placeholder="Usuario" id="username" formControlName="username"/>
                     <label htmlFor="username">Usuario</label>
+                    <small class="p-error block" *ngIf="
+                    credentialUser.get('username')?.invalid && credentialUser.get('username')?.dirty"> Nombre de usuario requerido</small>
                 </span>
                 <span class="p-float-label justify-content-center">
-                    <p-password placeholder="Contraseña" [toggleMask]="true" [feedback]="false" [(ngModel)]="credentialUser.PASSWORD_ENCRYPTED"></p-password>
+                    <p-password placeholder="Contraseña" [toggleMask]="true" [feedback]="false" formControlName="password"></p-password>
                     <label for="password">Contraseña</label>
+                    <small class="p-error block" *ngIf="
+                    credentialUser.get('password')?.invalid && credentialUser.get('password')?.dirty"> Contraseña requerida</small>
                 </span>
                 <p-button
+                    type="submit" 
                     label="Inicia sesión"
                     styleClass="p-button-rounded p-button-outlined"
-                    (click)="btLogin()"
+                    [disabled]="credentialUser.invalid"
                 ></p-button>
-            </section>
+            </form>
         </div>
     </div>
 </section>

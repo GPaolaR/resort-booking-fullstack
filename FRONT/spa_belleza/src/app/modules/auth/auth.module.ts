@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
+import { PrimeNGModule } from '../prime-ng/prime-ng.module';
 
-import { DividerModule } from 'primeng/divider';
-import { ButtonModule } from 'primeng/button';
-import { PasswordModule } from 'primeng/password';
-import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
 
@@ -16,10 +13,7 @@ import { HttpClientModule} from '@angular/common/http';
   ],
   imports: [
     CommonModule,
-    DividerModule,
-    ButtonModule,
-    PasswordModule,
-    InputTextModule,
+    PrimeNGModule,
     HttpClientModule,
     FormsModule
   ]

@@ -14,7 +14,9 @@
     align-items: center;
 }
 .container{
-    width: 620px;
+    width: 45%;
+    min-width: 324px;
+    max-width: 620px;
     //height: 90vh;
     //display: flexbox;
     background-color: #A9AC7D;
@@ -60,7 +62,7 @@
 }
 ::ng-deep {
     .p-button {
-       width: 273px;  
+       width: 273px; 
     }
 
     /*.p-divider{

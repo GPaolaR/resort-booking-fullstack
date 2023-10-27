@@ -1,16 +1,15 @@
 package com.spabelleza.gestion_spa.controller;
 
-import com.spabelleza.gestion_spa.entity.*;
-import com.spabelleza.gestion_spa.service.*;
-import com.spabelleza.gestion_spa.repository.*;
-
-import java.util.List;
-import java.util.Map;
-
+import com.spabelleza.gestion_spa.entity.Login;
+import com.spabelleza.gestion_spa.exception.BadRequestException;
+import com.spabelleza.gestion_spa.DTO.LoginDTO;
+import com.spabelleza.gestion_spa.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin("*") //pendiente
@@ -25,26 +24,25 @@ public class LoginController {
     }
 
     @PostMapping("/validate")
-    public ResponseEntity<String> autenticar(@RequestBody Map<String, String> credentials) {
-        String username = credentials.get("USERNAME");
-        String password = credentials.get("PASSWORD_ENCRYPTED");
+    public Login autenticate(@RequestBody LoginDTO credentials) throws BadRequestException {
+        return this.iLoginService.validateLogin(credentials);
 
-        if (iLoginService.validarCredenciales(username, password)) {
+        /*if (iLoginService.validarCredenciales(username, password)) {
             return ResponseEntity.ok("Inicio de sesión exitoso");
         } else {
             return ResponseEntity.ok("Credenciales incorrectas");
             //return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
-        }
+        }*/
     }
     
     @GetMapping("/{idUs}")
-    public Login obtenerClientePorId(@PathVariable ("idUs") Long loginId) {		
-        return this.iLoginService.obtenerUsPorId(loginId);
+    public Login getClientById(@PathVariable ("idUs") Long loginId) {
+        return this.iLoginService.getLoginById(loginId);
     }
     
     @GetMapping("/Usuarios")
-	public ResponseEntity<List<Login>> obtenerClientes (){
-		List<Login> clientes = iLoginService.obtenerClientes();
+	public ResponseEntity<List<Login>> getClients (){
+		List<Login> clientes = iLoginService.getLogins();
         return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
     
