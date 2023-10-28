@@ -27,7 +27,7 @@ export class LoginComponent {
         // Maneja la respuesta del servidor aquí
         console.log('Mensaje:', response);
         if (response.role && response.role.rolName === 'Usuario') {
-          this.router.navigate(['user/home']); // Redirige al home de usuario
+          this.router.navigate(['user/home'], { queryParams: { loginId: response.loginId } }); // Redirige al home de usuario
         } else if (response.role && response.role.rolName === 'Administrador') {
           this.router.navigate(['admin/home']); // Redirige al home de admin
         }

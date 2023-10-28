@@ -12,6 +12,10 @@ import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
+import { CarouselModule } from 'primeng/carousel';
+import { TagModule } from 'primeng/tag';
+import { CardModule } from 'primeng/card';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 @NgModule({
   declarations: [],
@@ -30,7 +34,11 @@ import { MenubarModule } from 'primeng/menubar';
     BrowserAnimationsModule,
     MessagesModule,
     ToastModule,
-    MenubarModule
+    MenubarModule,
+    CarouselModule,
+    TagModule,
+    CardModule,
+    ScrollPanelModule
   ]
 })
 export class PrimeNGModule { }

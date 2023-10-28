@@ -5,15 +5,12 @@ import com.spabelleza.gestion_spa.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-//@CrossOrigin("*") //pendiente
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/user")
 public class UserController {
 
@@ -24,6 +21,11 @@ public class UserController {
         this.iUserService = iUserService;
     }
 
+
+    @GetMapping("/Us/{LoginId}")
+    public User getUserByLoginId(@PathVariable ("LoginId") Long loginId) {
+        return this.iUserService.getUserByLoginId(loginId);
+    }
 
     @GetMapping("/{idUs}")
     public User obtenerUsPorId(@PathVariable ("idUs") Long userId) {

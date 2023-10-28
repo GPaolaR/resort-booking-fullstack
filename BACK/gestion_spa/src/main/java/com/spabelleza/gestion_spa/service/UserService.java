@@ -16,6 +16,12 @@ public class UserService implements IUserService{
     }
 
     @Override
+    public User getUserByLoginId(Long loginId) {
+        User user = this.userRepository.findUserByLogin_LoginId(loginId).orElse(null);
+        return user;
+    }
+
+    @Override
     public User obtenerUsPorId(Long userId) {
         User user = this.userRepository.findById(userId).orElse(null);
         return user;

@@ -1,0 +1,77 @@
+.container {
+    height: 100vh; /* Establece la altura del contenedor principal al 100% de la ventana */
+    display: flex;
+    flex-direction: column;  
+    box-sizing: border-box;
+}
+h1{
+    text-align: center; 
+    color: #386801;
+    font-size: 36px;
+    font-family: Dosis;
+}
+h5{
+    color: black;
+    font-size: 18px;
+    font-family: Roboto;
+    text-align: left; 
+    margin:0%   
+}
+p{
+    margin: 0;
+    color: black;
+    font-size: 18px;
+    font-family: 'Roboto';
+}
+::ng-deep {
+    .p-scrollPanel{
+        padding: 0;
+        width: '100%'; 
+        height: '80%';
+    }
+    .p-carousel {
+        padding: 1rem;
+        min-height: fit-content;
+        min-width: 300px;
+        width: 100%; 
+        box-sizing: border-box;
+        
+    }
+    .product-item {
+        .p-card {
+            border: 1px solid var(--surface-d);
+            border-radius: 3px;
+            margin: .5rem;
+            text-align: center;
+            //height: 680px;
+            display: flex;
+            flex-direction: column;
+            height: 650px;
+            min-height: 650px;
+            //padding: .5rem;
+        }
+        // .p-card-body{
+        //     //padding: 0.5rem;
+        // }
+        .p-card-title{
+            padding: 5% 0;
+            margin: 0;
+            color: #386801;
+            font-size: 22px;
+            font-family: 'Roboto';
+        }
+        .p-card-footer{
+            display: flex;
+            flex-direction: column;
+            //align-items: center;
+            //justify-content: space-between; /* Alinea los elementos del pie de la tarjeta en los extremos */
+            padding: 0.5rem;
+            gap:0.8rem;
+            //background-color: #f5f5f5; 
+        }
+        .product-image {
+            width: 50%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+        }
+    }
+}
