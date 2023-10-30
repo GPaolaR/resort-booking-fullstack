@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { PrimeNGModule } from '../prime-ng/prime-ng.module';
 import { HttpClientModule} from '@angular/common/http';
 import { PlanImagePipe } from './pipes/plan-image.pipe';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { PlanImagePipe } from './pipes/plan-image.pipe';
     CommonModule,
     SharedModule,
     PrimeNGModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ]
 })
 export class UserModule { }

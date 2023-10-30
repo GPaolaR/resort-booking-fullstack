@@ -1,3 +1,40 @@
-<app-header></app-header>
-<p>appointment-history works!</p>
-<app-footer></app-footer>
+<div class="container">
+    <app-header></app-header>
+   <div>
+    <p-scrollPanel [style]="{ width: '100%', height: '85%' }">
+        <h1>Tus citas</h1>   
+        <div class="product-list">
+            <div *ngFor="let product of products" class="product-item">
+                <p-card [header]="product.planType">
+                    <p>Fecha y Hora: {{ product.planDescription  }}</p>
+                    <p>Tratamiento: {{ product.planDescription  }}</p>
+                    <div class="specialists">
+                        <p>Especialista(s): {{ product.planDescription  }}</p>
+                        <h5>$$$$$</h5>
+                    </div>
+                </p-card>
+            </div>
+        </div>
+        
+        <!-- <p-carousel [value]="products" [numVisible]="4" [numScroll]="1" orientation="vertical" [responsiveOptions]="responsiveOptions">
+            <ng-template let-product pTemplate="item">
+            <div class="product-item">
+                <p-card [header]="product.planType" >                
+                    <p>fecha y hora: {{ product.planDescription }}</p>  
+                    <p>Tratamiento: {{ product.planDescription }}</p>  
+                    <span>
+                        <p>Especialista(s): {{ product.planDescription }}</p>                
+                        <h5>$$$$$</h5>
+                    </span>            
+                </p-card>
+            </div>
+            </ng-template>
+        </p-carousel> -->
+    </p-scrollPanel>   
+   </div>
+         
+    <app-footer></app-footer>
+   
+    
+</div>
+    

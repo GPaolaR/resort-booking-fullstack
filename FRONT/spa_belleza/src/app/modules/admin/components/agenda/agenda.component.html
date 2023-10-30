@@ -1,3 +1,63 @@
-<app-header></app-header>
-<p>agenda works!</p>
-<app-footer></app-footer>
+<div class="container">
+    <app-header></app-header>
+   <div>
+    <p-scrollPanel [style]="{ width: '100%', height: '85%' }">
+        <h1>Agenda general</h1> 
+        <div class="filter">
+            <h2>Filtros</h2>
+            <div class="flex justify-content-start gap-5">                
+                <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+                <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+                <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+                <p-calendar  [(ngModel)]="date" [showIcon]="true"></p-calendar>
+                <p-calendar  [(ngModel)]="date" [showIcon]="true"></p-calendar>
+            </div>
+            <p-button [rounded]="true"  size="small">Buscar</p-button>
+        </div>  
+        <div>
+            
+            <!-- [value]="customers" -->
+            <p-table
+            [paginator]="true"
+            [rows]="5"
+            [showCurrentPageReport]="true"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Especialista</th>
+                    <th>Usuario</th>
+                    <th>Membresia</th>
+                    <th>Plan</th>
+                    <th>Tratamiento</th>
+                    <th>Fecha</th>
+                    <th>Hotal</th>
+                    <th>Estado</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer>
+                <!-- <tr>
+                    <td>{{ customer.name }}</td>
+                    <td>{{ customer.country.name }}</td>
+                    <td>{{ customer.company }}</td>
+                    <td>{{ customer.representative.name }}</td>
+                </tr> -->
+            </ng-template>
+            <!-- <ng-template pTemplate="paginatorleft">
+                <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+            </ng-template>
+            <ng-template pTemplate="paginatorright">
+                <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+            </ng-template> -->
+            </p-table>
+        </div>
+    </p-scrollPanel>   
+   </div>
+         
+    <app-footer></app-footer>
+   
+    
+</div>
+    

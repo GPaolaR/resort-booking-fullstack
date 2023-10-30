@@ -16,6 +16,10 @@ import { CarouselModule } from 'primeng/carousel';
 import { TagModule } from 'primeng/tag';
 import { CardModule } from 'primeng/card';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
+import { DataViewModule } from 'primeng/dataview';
 
 @NgModule({
   declarations: [],
@@ -38,7 +42,11 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
     CarouselModule,
     TagModule,
     CardModule,
-    ScrollPanelModule
+    ScrollPanelModule,
+    CalendarModule,
+    DropdownModule,
+    TableModule,
+    DataViewModule
   ]
 })
 export class PrimeNGModule { }

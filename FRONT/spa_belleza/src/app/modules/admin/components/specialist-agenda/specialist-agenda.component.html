@@ -1,3 +1,38 @@
-<app-header></app-header>
-<p>specialist-agenda works!</p>
-<app-footer></app-footer>
+<div class="container">
+    <app-header></app-header>
+   <div>
+    <p-scrollPanel [style]="{ width: '100%', height: '85%' }">
+        <h1>Agenda especialista</h1> 
+        <div class="filter">
+            <h2>Filtros</h2>
+            <div class="flex justify-content-start gap-5">                
+                <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+                <p-calendar  [(ngModel)]="date" [showIcon]="true"></p-calendar>
+            </div>
+            <p-button [rounded]="true"  size="small">Buscar</p-button>
+        </div>  
+        <div class="product-list">
+            <div *ngFor="let product of products" class="product-item">
+                <p-card [header]="product.planType">
+                    <div>
+                        <p>Fecha y Hora: {{ product.planDescription  }}</p>
+                        <p>Tratamiento: {{ product.planDescription  }}</p>
+                        <div class="specialists">
+                            <p>Especialista(s): {{ product.planDescription  }}</p>
+                            <h5>$$$$$</h5>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- <h3>Hora: </h3> -->
+                    </div>
+                </p-card>
+            </div>
+        </div>
+    </p-scrollPanel>   
+   </div>
+         
+    <app-footer></app-footer>
+   
+    
+</div>
+    

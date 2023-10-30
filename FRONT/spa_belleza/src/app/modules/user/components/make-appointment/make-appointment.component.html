@@ -1,3 +1,68 @@
-<app-header></app-header>
-<p>make-appointment works!</p>
-<app-footer></app-footer>
+<div class="container">
+    <app-header></app-header>
+   <div>
+    <p-scrollPanel [style]="{ width: '100%', height: '85%' }">
+        <h1>Solicita tu cita</h1> 
+        <div class="flex justify-content-center m-6 gap-2">
+            <div class="bg-white p-3 w-6 gap-4">
+                 <h2>Datos de la cita</h2>
+
+                <div class="flex flex-column justify-content-start gap-2">  
+                    <h3>Plan</h3>              
+                    <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+                    <h3>Tipo de tratamiento</h3>
+                    <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+                    <h3>Número de personas</h3>
+                    <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+                    <h3>Fecha de cita</h3>
+                    <p-calendar  [(ngModel)]="date" [showIcon]="true"></p-calendar>
+                </div>
+                <p-button [rounded]="true"  size="small">Buscar</p-button>
+            </div>  
+            <div class="bg-green-300 p-3 w-6">
+                <h2>Horarios disponibles</h2>
+                <h4>date</h4>
+                    
+                <p-dataView #dv [value]="products">
+                    <ng-template let-product pTemplate="listItem">
+                        <div class="col-12">
+                            <div
+                              class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4"
+                            >
+                              <div
+                                class="
+                                  flex flex-column
+                                  sm:flex-row
+                                  justify-content-between
+                                  align-items-center
+                                  xl:align-items-start
+                                  flex-1
+                                  gap-4
+                                "
+                              >
+                                <div
+                                  class="
+                                    flex flex-column
+                                    align-items-center
+                                    sm:align-items-start
+                                    gap-3
+                                  "
+                                >
+                                  <div class="font-bold">{{ product.name }}</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </ng-template>
+                </p-dataView>
+               
+            </div>
+        </div>
+    </p-scrollPanel>   
+   </div>
+         
+    <app-footer></app-footer>
+   
+    
+</div>
+    
