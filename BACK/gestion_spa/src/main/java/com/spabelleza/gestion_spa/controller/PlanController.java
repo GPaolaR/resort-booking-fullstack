@@ -25,5 +25,6 @@ public class PlanController {
         List<PlanDTO> plans = iPlanService.getPlansByMembershipTypeId(membershipTypeId);
         return ResponseEntity.ok(plans);
     }
+
 }
 

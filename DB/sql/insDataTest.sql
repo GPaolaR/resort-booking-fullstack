@@ -32,6 +32,8 @@ insert into administrators values (SEQ_ADMIN.NEXTVAL, 2, 'Juan','Perez', 1, '100
 
 insert into users values (SEQ_USER.NEXTVAL, 1, 'Carolina','Jimenez', 1, '1000000001', 32, 'F', '3000000001', 'carolina.jimenez@example.com', 4, systimestamp);
 
+insert into appointments values (SEQ_APPOI.NEXTVAL, 1, 1, 2, 4, TO_TIMESTAMP('05/11/2023 12:00', 'dd/mm/yyyy hh24:mi:ss'), 2, 225000,'Pendiente', systimestamp);
+
 
 
 

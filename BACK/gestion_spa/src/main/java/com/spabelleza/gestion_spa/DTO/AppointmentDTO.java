@@ -1,11 +1,15 @@
 package com.spabelleza.gestion_spa.DTO;
 
-import com.spabelleza.gestion_spa.entity.Plan;
-import com.spabelleza.gestion_spa.entity.Speciality;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 public class AppointmentDTO {
-    private Speciality speciality;
-    private Plan plan;
+    private Long specialistId;
+    private LocalDateTime appointmentDate;
+    private Long userId;
+    private Long planId;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 }

@@ -22,20 +22,20 @@ public class UserController {
     }
 
 
-    @GetMapping("/Us/{LoginId}")
+    @GetMapping("/us/{LoginId}")
     public User getUserByLoginId(@PathVariable ("LoginId") Long loginId) {
         return this.iUserService.getUserByLoginId(loginId);
     }
 
     @GetMapping("/{idUs}")
-    public User obtenerUsPorId(@PathVariable ("idUs") Long userId) {
-        return this.iUserService.obtenerUsPorId(userId);
+    public User getUserById(@PathVariable ("idUs") Long userId) {
+        return this.iUserService.getUserById(userId);
     }
 
-    @GetMapping("/Usuarios")
-    public ResponseEntity<List<User>> obtenerUsers(){
-        List<User> usuarios = iUserService.obtenerUsers();
-        return new ResponseEntity<>(usuarios, HttpStatus.OK);
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getUsers(){
+        List<User> users = iUserService.getUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
 }

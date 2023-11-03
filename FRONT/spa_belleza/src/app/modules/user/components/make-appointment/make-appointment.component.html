@@ -1,7 +1,7 @@
 <div class="container">
-    <app-header></app-header>
+    <!-- <app-header></app-header> -->
    <div>
-    <p-scrollPanel [style]="{ width: '100%', height: '85%' }">
+    <p-scrollPanel [style]="{ width: '100%', height: '100%' }">
         <h1>Solicita tu cita</h1> 
         <div class="flex justify-content-center m-6 gap-2">
             <div class="bg-white p-3 w-6 gap-4">
@@ -11,7 +11,8 @@
                     <h3>Plan</h3>              
                     <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
                     <h3>Tipo de tratamiento</h3>
-                    <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+                    
+<!-- <p-multiSelect [options]="cities" [(ngModel)]="selectedCities" defaultLabel="Select a City" optionLabel="name" display="chip"></p-multiSelect> -->
                     <h3>Número de personas</h3>
                     <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
                     <h3>Fecha de cita</h3>
@@ -61,7 +62,7 @@
     </p-scrollPanel>   
    </div>
          
-    <app-footer></app-footer>
+    <!-- <app-footer></app-footer> -->
    
     
 </div>

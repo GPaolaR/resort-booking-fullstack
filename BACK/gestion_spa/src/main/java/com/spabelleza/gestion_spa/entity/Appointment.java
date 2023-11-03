@@ -2,6 +2,7 @@ package com.spabelleza.gestion_spa.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 @Entity
 @Table(name="APPOINTMENTS")
@@ -33,14 +34,11 @@ public class Appointment {
     @Column(name = "APPOINTMENT_DATE")
     private Timestamp appointmentDate;
 
-    @Column(name = "APPOINTMENT_TIME")
-    private Timestamp appointmentTime;
-
     @Column(name = "APPOINTMENT_DURATION")
     private int duration;
 
     @Column(name = "TOTAL_PRICE")
-    private Long totalPrice;
+    private BigDecimal totalPrice;
 
     @Column(name = "STATUS")
     private String status;

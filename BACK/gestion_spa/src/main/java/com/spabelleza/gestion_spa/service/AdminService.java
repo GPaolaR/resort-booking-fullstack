@@ -15,13 +15,13 @@ public class AdminService implements IAdminService{
     }
 
     @Override
-    public Administrator obtenerAdminPorId(Long AdminId) {
+    public Administrator getAdminById(Long AdminId) {
         Administrator admin = this.adminRepository.findById(AdminId).orElse(null);
         return admin;
     }
 
     @Override
-    public List<Administrator> obtenerAdmins(){
+    public List<Administrator> getAdmins(){
         return this.adminRepository.findAll();
     }
 }

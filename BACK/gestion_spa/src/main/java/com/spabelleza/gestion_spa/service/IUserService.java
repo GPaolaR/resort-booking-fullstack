@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IUserService {
     User getUserByLoginId(Long loginId);
-    User obtenerUsPorId(Long usId);
+    User getUserById(Long usId);
 
-    List<User> obtenerUsers();
+    List<User> getUsers();
 }

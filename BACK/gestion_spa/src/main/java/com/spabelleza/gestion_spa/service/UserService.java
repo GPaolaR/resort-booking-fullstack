@@ -22,13 +22,13 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public User obtenerUsPorId(Long userId) {
+    public User getUserById(Long userId) {
         User user = this.userRepository.findById(userId).orElse(null);
         return user;
     }
 
     @Override
-    public List<User> obtenerUsers(){
+    public List<User> getUsers(){
         return this.userRepository.findAll();
     }
 }

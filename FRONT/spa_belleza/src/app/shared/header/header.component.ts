@@ -41,7 +41,12 @@ export class HeaderComponent {
  // @Input() isAdmin: boolean = false; // Flag para verificar si el usuario es administrador
  userMenuItems: MenuItem[] | undefined;
  adminMenuItems: MenuItem[] | undefined;
-  ngOnInit() {
+ menuItems: MenuItem[] | undefined;
+ rol:String | null ='';
+ name:String |null ='';
+ membershipType:String |null ='Informacion';
+
+  ngOnInit() {  
     this.userMenuItems = [
       { label: 'Home', routerLink: '/user/home' },
       { label: 'Citas', items:[
@@ -49,9 +54,9 @@ export class HeaderComponent {
           { label: 'Tus citas', routerLink: '/user/history'  }
       ]
       },
-      { label: 'Usuario', items:[
-          { label: 'Membresia' },
-          { label: 'Cerrar Sesión' }
+      { label: 'Mi cuenta' + this.name, items:[
+          // { label: ''+this.membershipType },
+          { label: 'Cerrar Sesión', routerLink: '/auth/login' }
         ]
       }
     ];
@@ -63,10 +68,19 @@ export class HeaderComponent {
         ]
       },
       { label: 'Gestión Citas', routerLink: '/admin/management' },
-      { label: 'Administrador', items:[
-          { label: 'Cerrar Sesión',  }
+      { label: 'Mi cuenta' + this.name, items:[
+          { label: 'Cerrar Sesión',routerLink: '/auth/login'  }
         ]
       }
     ];
+    this.rol = localStorage.getItem('rol');
+    this.name = localStorage.getItem('name');
+    if(this.rol=='Usuario'){
+      this.menuItems=this.userMenuItems;
+      this.membershipType = localStorage.getItem('membershipType');
+    }
+    else if(this.rol=='Administrador'){
+      this.menuItems=this.adminMenuItems;      
+    }
   }
 }

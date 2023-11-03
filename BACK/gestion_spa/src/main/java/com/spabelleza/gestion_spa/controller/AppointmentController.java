@@ -1,16 +1,15 @@
 package com.spabelleza.gestion_spa.controller;
 
-import com.spabelleza.gestion_spa.entity.Plan;
-import com.spabelleza.gestion_spa.entity.Speciality;
 import com.spabelleza.gestion_spa.DTO.AppointmentDTO;
+import com.spabelleza.gestion_spa.DTO.TYRC_APPOI;
+import com.spabelleza.gestion_spa.entity.Appointment;
 import com.spabelleza.gestion_spa.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -24,10 +23,39 @@ public class AppointmentController {
         this.iAppointmentService = iAppointmentService;
     }
 
-    @GetMapping("/datesWithoutAvailableSpecialists")
+    @PostMapping("/get-agenda")
+    public ResponseEntity<List<TYRC_APPOI>> getAppointmentAgenda(@RequestBody AppointmentDTO request) {
+        //LocalDateTime appointmentDate = request.getAppointmentDate();
+        //Timestamp timestamp = Timestamp.valueOf(appointmentDate);
+        List<TYRC_APPOI> appointments = iAppointmentService.getAppointmentAgenda(request);
+        return new ResponseEntity<>(appointments, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/filter")
+    public List<Appointment> getAppointments(
+            @RequestParam int specialistId,
+            @RequestParam(required = false) long userId,
+            @RequestParam(required = false) Integer planId,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
+        LocalDate parsedStartDate = (startDate != null) ? LocalDate.parse(startDate) : null;
+        LocalDate parsedEndDate = (endDate != null) ? LocalDate.parse(endDate) : null;
+        return iAppointmentService.getAppointmentsByCriteria(specialistId, userId, planId, parsedStartDate, parsedEndDate);
+    }
+
+    @GetMapping("/userFuture")
+    public List<Appointment> getAppointmentsForUserInFuture(
+            @RequestParam long userId) {
+            //@RequestParam String startDate
+        //LocalDate parsedStartDate = LocalDate.parse(startDate);
+        return iAppointmentService.getAppointmentsForUserInFuture(userId);
+    }
+
+    /*@GetMapping("/datesWithoutAvailableSpecialists")
     public List<Date> getDatesWithoutAvailableSpecialists(@RequestBody AppointmentDTO appointmentDTO) {
         Speciality speciality = appointmentDTO.getSpeciality();
         Plan plan = appointmentDTO.getPlan();
         return iAppointmentService.getDatesWithoutAvailableSpecialists(speciality, plan);
-    }
+    }*/
 }

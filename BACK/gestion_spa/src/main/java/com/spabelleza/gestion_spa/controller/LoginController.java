@@ -40,10 +40,10 @@ public class LoginController {
         return this.iLoginService.getLoginById(loginId);
     }
     
-    @GetMapping("/Usuarios")
+    @GetMapping("/clients")
 	public ResponseEntity<List<Login>> getClients (){
-		List<Login> clientes = iLoginService.getLogins();
-        return new ResponseEntity<>(clientes, HttpStatus.OK);
+		List<Login> clients = iLoginService.getLogins();
+        return new ResponseEntity<>(clients, HttpStatus.OK);
 	}
     
 }

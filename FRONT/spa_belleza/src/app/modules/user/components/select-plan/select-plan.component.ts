@@ -41,27 +41,36 @@ export class SelectPlanComponent {
   ];  
 
   loginId: any;
+  membershipType: any;
+  userName: any;
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.loginId = params['loginId'];
-      console.log('loginId: ',this.loginId);          
-    });
-
+    // this.route.queryParams.subscribe(params => {
+    //   this.loginId = params['loginId'];
+    //   localStorage.setItem('loginId', this.loginId)
+               
+    // });
+    this.loginId=localStorage.getItem('loginId');
+    //console.log(this.loginId);
     // Llama al método del servicio aquí
     this.apiPlanService.getUser(this.loginId).subscribe(
       (data:any) => {
         // Maneja la respuesta del servicio aquí
-        console.log('Respuesta del servicio:', data.membershipType.membershipTypeId);
+        console.log('Respuesta del servicio:', data);
         this.membershipTypeId=data.membershipType.membershipTypeId;
-        console.log('this.membershipTypeId en getUser: ', this.membershipTypeId);
-
+        this.membershipType=data.membershipType.membershipType;
+        this.userName=data.userName;
+        //console.log('this.membershipTypeId en getUser: ', this.membershipTypeId);
+        localStorage.setItem('membershipType',this.membershipType);
+        localStorage.setItem('name',this.userName);
+        //console.log(localStorage.getItem('name'));
+        //console.log(localStorage.getItem('membershipType'));
 
         // Llama al método del servicio aquí
         this.apiPlanService.getPlans(this.membershipTypeId).subscribe(
           (data:any) => {
             // Maneja la respuesta del servicio aquí
-            console.log('Respuesta del servicio:', data);
+            //console.log('Respuesta del servicio:', data);
             this.products = data;
 
           },

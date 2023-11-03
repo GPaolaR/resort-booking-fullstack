@@ -24,13 +24,13 @@ public class AdminController {
     }
 
     @GetMapping("/{idAd}")
-    public Administrator obtenerAdminPorId(@PathVariable("idAd") Long AdminId) {
-        return this.iAdminService.obtenerAdminPorId(AdminId);
+    public Administrator getAdminById(@PathVariable("idAd") Long AdminId) {
+        return this.iAdminService.getAdminById(AdminId);
     }
 
-    @GetMapping("/Admins")
-    public ResponseEntity<List<Administrator>> obtenerAdmins(){
-        List<Administrator> admins = iAdminService.obtenerAdmins();
+    @GetMapping("/admins")
+    public ResponseEntity<List<Administrator>> getAdmins(){
+        List<Administrator> admins = iAdminService.getAdmins();
         return new ResponseEntity<>(admins, HttpStatus.OK);
     }
 }
