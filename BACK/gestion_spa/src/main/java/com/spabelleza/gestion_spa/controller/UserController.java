@@ -1,5 +1,6 @@
 package com.spabelleza.gestion_spa.controller;
 
+import com.spabelleza.gestion_spa.DTO.UserDTO;
 import com.spabelleza.gestion_spa.entity.User;
 import com.spabelleza.gestion_spa.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers(){
-        List<User> users = iUserService.getUsers();
+    public ResponseEntity<List<UserDTO>> getUsers(){
+        List<UserDTO> users = iUserService.getUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 

@@ -1,20 +1,26 @@
 package com.spabelleza.gestion_spa.service;
 
+import com.spabelleza.gestion_spa.DTO.UserDTO;
 import com.spabelleza.gestion_spa.entity.User;
 import com.spabelleza.gestion_spa.repository.UserRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements IUserService{
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
-    public UserService ( UserRepository userRepository) {
+    @Autowired
+    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
-
     @Override
     public User getUserByLoginId(Long loginId) {
         User user = this.userRepository.findUserByLogin_LoginId(loginId).orElse(null);
@@ -28,7 +34,10 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public List<User> getUsers(){
-        return this.userRepository.findAll();
+    public List<UserDTO> getUsers(){
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserDTO.class))
+                .collect(Collectors.toList());
     }
 }
