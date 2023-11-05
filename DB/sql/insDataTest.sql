@@ -23,6 +23,7 @@ insert into specialities values(seq_SPETY.nextval, 'Corporal', systimestamp);
 insert into specialities values(seq_SPETY.nextval, 'Uñas', systimestamp);
 
 insert into specialists values(seq_splts.nextval,'Carlos', 'Flores', 1, '10000001', '3000000002', 'carlos.flores@spabelleza.com', 2, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('17:00','hh24:mi'), systimestamp);
+insert into specialists values(seq_splts.nextval,'Juana', 'Martinez', 1, '10000003', '3000000004', 'juana.martinez@spabelleza.com', 3, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('17:00','hh24:mi'), systimestamp);
 
 
 insert into LOGIN values (SEQ_LOGIN.NEXTVAL, 'USUARIO1', 'contra123', 1, systimestamp);

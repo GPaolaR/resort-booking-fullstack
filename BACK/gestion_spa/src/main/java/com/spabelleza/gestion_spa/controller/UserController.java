@@ -33,7 +33,7 @@ public class UserController {
         return this.iUserService.getUserById(userId);
     }
 
-    @GetMapping("/users")
+    @GetMapping("/list")
     public ResponseEntity<List<UserDTO>> getUsers(){
         List<UserDTO> users = iUserService.getUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);

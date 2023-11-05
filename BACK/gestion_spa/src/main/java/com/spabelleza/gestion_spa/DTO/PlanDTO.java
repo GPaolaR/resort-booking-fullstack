@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 public class PlanDTO {
-    private Long planId;
+    //private Long planId;
     private String planType;
     private String planDescription;
     private BigDecimal discountedPrice;

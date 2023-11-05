@@ -8,6 +8,5 @@ import java.util.List;
 public interface IUserService {
     User getUserByLoginId(Long loginId);
     User getUserById(Long usId);
-
     List<UserDTO> getUsers();
 }

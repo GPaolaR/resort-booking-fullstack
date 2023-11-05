@@ -7,8 +7,8 @@ const routes: Routes = [
   { path:'auth', loadChildren: () => import('./modules/auth/auth-routing.module').then(m => m.AuthRoutingModule)},
   { path:'admin', loadChildren: () => import('./modules/admin/admin-routing.module').then(m => m.AdminRoutingModule)},
   { path:'user', loadChildren: () => import('./modules/user/user-routing.module').then(m => m.UserRoutingModule)},
-  //{ path: '', redirectTo:'auth'},
-  { path: '*', redirectTo:'auth'}
+  //{ path: '', redirectTo:'auth/login'},
+  { path: '*', redirectTo:'auth/login'}
 ];
 
 @NgModule({

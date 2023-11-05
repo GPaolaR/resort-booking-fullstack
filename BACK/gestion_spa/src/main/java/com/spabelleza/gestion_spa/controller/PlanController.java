@@ -1,8 +1,10 @@
 package com.spabelleza.gestion_spa.controller;
 
 import com.spabelleza.gestion_spa.DTO.PlanDTO;
+import com.spabelleza.gestion_spa.DTO.PlansListDTO;
 import com.spabelleza.gestion_spa.service.IPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,11 @@ public class PlanController {
     public ResponseEntity<List<PlanDTO>> getDiscountedPlans(@PathVariable("idMemty") Integer membershipTypeId) {
         List<PlanDTO> plans = iPlanService.getPlansByMembershipTypeId(membershipTypeId);
         return ResponseEntity.ok(plans);
+    }
+    @GetMapping("/list")
+    public ResponseEntity<List<PlansListDTO>> getPlans() {
+        List<PlansListDTO> plans = iPlanService.getPlans();
+        return new ResponseEntity<>(plans, HttpStatus.OK);
     }
 
 }
