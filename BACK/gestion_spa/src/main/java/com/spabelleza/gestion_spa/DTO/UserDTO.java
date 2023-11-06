@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserDTO {
     private Long userId;
-    private String userName;
-    private String userLastName;
+    private String userFullName;
+    // Constructor para crear el DTO con ID y nombre completo
+    public UserDTO(Long userId, String userName, String userLastName) {
+        this.userId = userId;
+        this.userFullName = userName + " " + userLastName;
+    }
 }

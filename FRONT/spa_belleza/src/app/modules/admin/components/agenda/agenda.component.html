@@ -1,24 +1,30 @@
 <div class="container">    
    <div>
-    <p-scrollPanel [style]="{ width: '100%', height: '85%' }">
+    <!-- <p-scrollPanel [style]="{ width: '100%', height: '85%' }"> -->
         <h1>Agenda general</h1> 
         <div class="filter">
             <h2 class="mb-3">Filtros</h2>
             <div class="flex justify-content-start gap-5 w-full"> 
                 <span class="p-float-label">
-                    <p-dropdown [options]="specialists" [(ngModel)]="selectedspecialist" optionLabel="specialistFullName" placeholder="Seleccione un especialista"></p-dropdown>
+                    <p-dropdown [options]="specialists" [(ngModel)]="selectedSpecialist" optionLabel="specialistFullName" placeholder="Seleccione un especialista"></p-dropdown>
                     <label for="float-label">Especialista</label>
                 </span>               
                 <span class="p-float-label">
-                    <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name" placeholder="Seleccione un usuario"></p-dropdown>
+                    <p-dropdown [options]="users" [(ngModel)]="selectedUser" optionLabel="userFullName" placeholder="Seleccione un usuario"></p-dropdown>
                     <label for="float-label">Usuario</label>
                 </span>
                 <span class="p-float-label">
-                    <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name" laceholder="Seleccione un plan"></p-dropdown>
+                    <p-dropdown [options]="plans" [(ngModel)]="selectedPlan" optionLabel="planType" placeholder="Seleccione un plan"></p-dropdown>
                     <label for="float-label">Plan</label>
                 </span>
-                <p-calendar  [(ngModel)]="date" [showIcon]="true"></p-calendar>
-                <p-calendar  [(ngModel)]="date" [showIcon]="true"></p-calendar>
+                <span class="p-float-label">
+                    <p-calendar  [(ngModel)]="inicialDate" [maxDate]="endDate"[showIcon]="true" placeholder="Seleccione una fecha inicio"></p-calendar>
+                    <label for="float-label">Fecha inicio</label>
+                </span>
+                <span class="p-float-label">
+                    <p-calendar  [(ngModel)]="endDate" [minDate]="inicialDate"[showIcon]="true" placeholder="Seleccione una fecha fin"></p-calendar>
+                    <label for="float-label">Fecha fin</label>
+                </span>
             </div>
             <p-button [rounded]="true"  size="small">Buscar</p-button>
         </div>  
@@ -61,7 +67,7 @@
             </ng-template> -->
             </p-table>
         </div>
-    </p-scrollPanel>   
+    <!-- </p-scrollPanel>    -->
    </div>    
 </div>
     

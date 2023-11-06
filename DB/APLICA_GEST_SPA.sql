@@ -14,11 +14,15 @@ ALTER SESSION SET CURRENT_SCHEMA=GEST_SPA;
 /****************************************************************************************************/
 PROMPT ---------------------------Objects: types-------------------------------------
 
-PROMPT Applying Object ...  @..\DB\types\crTYRC_RESERVAS.sql
---@..\DB\types\crTYRC_RESERVAS.sql
---/
-
-
+PROMPT Applying Object ...  @..\DB\types\crTYRC_LOGIN.sql
+@..\DB\types\crTYRC_LOGIN.sql
+/
+PROMPT Applying Object ...  @..\DB\types\crTYRC_APPOI.sql
+@..\DB\types\crTYRC_APPOI.sql
+/
+PROMPT Applying Object ...  @..\DB\types\crTYTB_APPOI.sql
+@..\DB\types\crTYTB_APPOI.sql
+/
 /****************************************************************************************************/
 PROMPT ---------------------------Objects: tables-------------------------------------
 
@@ -173,11 +177,11 @@ PROMPT Applying Object ...  @..\DB\references\crKF_USERS_MEMTY.sql
 
 /****************************************************************************************************/
 
-PROMPT ---------------------------Objects: packeges-------------------------------------
+PROMPT ---------------------------Objects: packages-------------------------------------
 
---PROMPT Applying Object ...  @..\DB\packeges\PKG_RESERVAS.pls
---@..\DB\paquetes\packeges.pls
---/
+PROMPT Applying Object ...  @..\DB\packages\PKG_APPOINTMENT.sql
+@..\DB\packages\PKG_APPOINTMENT.sql
+/
 
 
 /****************************************************************************************************/

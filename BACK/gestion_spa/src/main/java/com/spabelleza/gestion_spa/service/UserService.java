@@ -37,7 +37,12 @@ public class UserService implements IUserService{
     public List<UserDTO> getUsers(){
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map(user -> modelMapper.map(user, UserDTO.class))
-                .collect(Collectors.toList());
+                .map(user -> {
+                    String fullName = String.join(" ", user.getUserName(), user.getUserLastName())
+                            .replaceAll("\\s+", " ").trim();
+                    UserDTO UserDTO = modelMapper.map(user, UserDTO.class);
+                    UserDTO.setUserFullName(fullName);
+                    return UserDTO;
+                }).collect(Collectors.toList());
     }
 }

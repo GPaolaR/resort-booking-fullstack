@@ -1,49 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ApiSpecialistsService } from '../../services/api-specialists/api-specialists.service';
-interface City {
-  name: string;
-  code: string;
-}
-interface specialist {
-  specialistId: string;
-  specialistFullName: string;
-}
+import { specialist} from'../../interfaces/specialist.interface';
+import { plan } from'../../interfaces/plan.interface';
+import { user } from'../../interfaces/user.interface';
+import { ApiUsersService } from '../../services/api-users/api-users.service';
+import { ApiPlansService } from '../../services/api-plans/api-plans.service';
+import { forkJoin } from 'rxjs';
+
 @Component({
   selector: 'app-agenda',
   templateUrl: './agenda.component.html',
   styleUrls: ['./agenda.component.scss']
 })
 export class AgendaComponent {
-  date: Date | undefined;
-  cities: City[] | undefined;
+  inicialDate = new Date();
+  endDate= new Date();
+  
   specialists: specialist[] | undefined;
+  users: user[] | undefined;
+  plans: plan[] | undefined;
 
-  selectedCity: City | undefined;
-  selectedspecialist: specialist | undefined;
+  selectedSpecialist: specialist | undefined;
+  selectedUser: user | undefined;
+  selectedPlan: plan | undefined;
 
-  constructor(private apiSpecialistsService: ApiSpecialistsService){}
+  constructor(private cdr: ChangeDetectorRef,
+    private apiSpecialistsService: ApiSpecialistsService,
+    private apiUsersService: ApiUsersService,
+    private apiPlansService: ApiPlansService
+    ){}
 
 
   ngOnInit() {
-    this.apiSpecialistsService.getSpecialists().subscribe(
-      (data:any) => {
-        // Maneja la respuesta del servicio aquí
-        console.log('Respuesta del servicio:', data);
-        this.specialists = data;
-
+     // Combina las observables de los servicios en una sola
+    forkJoin([
+      this.apiSpecialistsService.getSpecialists(),
+      this.apiUsersService.getUsers(),
+      this.apiPlansService.getPlans()
+    ]).subscribe(
+      ([specialistsData, usersData, plansData]) => {
+        // Maneja la respuesta del servicio de especialistas
+        console.log('Respuesta del servicio de especialistas:', specialistsData);
+        this.specialists = specialistsData as specialist[];
+        // Maneja la respuesta del servicio de usuarios
+        console.log('Respuesta del servicio de usuarios:', usersData);
+        this.users = usersData as user[];
+        // Maneja la respuesta del servicio de planes
+        console.log('Respuesta del servicio de planes:', plansData);
+        this.plans = plansData as plan[];
       },
       (error) => {
         // Maneja los errores aquí
-        console.error('Error al llamar al servicio:', error);
+        console.error('Error al llamar a los servicios:', error);
       }
     );
-
-      this.cities = [
-          { name: 'New York', code: 'NY' },
-          { name: 'Rome', code: 'RM' },
-          { name: 'London', code: 'LDN' },
-          { name: 'Istanbul', code: 'IST' },
-          { name: 'Paris', code: 'PRS' }
-      ];
   }
 }
