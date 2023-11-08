@@ -20,6 +20,9 @@ import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { DataViewModule } from 'primeng/dataview';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [],
@@ -46,7 +49,10 @@ import { DataViewModule } from 'primeng/dataview';
     CalendarModule,
     DropdownModule,
     TableModule,
-    DataViewModule
+    DataViewModule,
+    MultiSelectModule,
+    InputNumberModule,
+    TabViewModule
   ]
 })
 export class PrimeNGModule { }

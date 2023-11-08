@@ -6,8 +6,8 @@ Date:        18-10-2023
 ************************************************************************************/
 
 CREATE OR REPLACE TYPE TYRC_APPOI AS OBJECT (
-    specialist_name VARCHAR2(50),
-    user_name VARCHAR2(50),
+    specialist_name VARCHAR2(200),
+    user_name VARCHAR2(200),
     membership_type VARCHAR2(20),
     plan_type VARCHAR2(50),
     speciality_name VARCHAR2(20),

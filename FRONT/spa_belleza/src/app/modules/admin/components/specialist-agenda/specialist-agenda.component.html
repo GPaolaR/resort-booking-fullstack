@@ -1,25 +1,33 @@
 <div class="container">
-    <!-- <app-header></app-header> -->
+    <p-toast></p-toast> 
    <div>
-    <p-scrollPanel [style]="{ width: '100%', height: '85%' }">
+    <!-- <p-scrollPanel [style]="{ width: '100%', height: '85%' }"> -->
         <h1>Agenda especialista</h1> 
         <div class="filter">
-            <h2>Filtros</h2>
+            <h2 class="mb-3">Filtros</h2>
             <div class="flex justify-content-start gap-5">                
-                <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
-                <p-calendar  [(ngModel)]="date" [showIcon]="true"></p-calendar>
+                <span class="p-float-label">
+                    <p-dropdown [options]="specialists" [(ngModel)]="selectedSpecialist" optionLabel="specialistFullName" placeholder="Seleccione un especialista"></p-dropdown>
+                    <label for="float-label">Especialista</label>
+                </span>  
+                <span class="p-float-label">
+                    <p-calendar  [(ngModel)]="dateAppointment" [showIcon]="true" placeholder="Seleccione una fecha"></p-calendar>
+                    <label for="float-label">Fecha</label>
+                </span>
+                <!-- <p-dropdown [options]="specialists" [(ngModel)]="selectedSpecialist" optionLabel="specialistFullName" placeholder="Seleccione un especialista"></p-dropdown> -->
+                <!-- <p-calendar  [(ngModel)]="dateAppointment" [showIcon]="true" placeholder="Seleccione una fecha"></p-calendar> -->
             </div>
-            <p-button [rounded]="true"  size="small">Buscar</p-button>
+            <p-button [rounded]="true"  size="small" (onClick)="search()">Buscar</p-button>
         </div>  
         <div class="product-list">
-            <div *ngFor="let product of products" class="product-item">
-                <p-card [header]="product.planType">
+            <div *ngFor="let appointment of appointments" class="product-item">
+                <p-card [header]="appointment.planType">
                     <div>
-                        <p>Fecha y Hora: {{ product.planDescription  }}</p>
-                        <p>Tratamiento: {{ product.planDescription  }}</p>
+                        <p>Fecha y Hora: {{ appointment.appointmentDate | dateFormat  }}</p>
+                        <p>Tratamiento: {{ appointment.specialityName  }}</p>
                         <div class="specialists">
-                            <p>Especialista(s): {{ product.planDescription  }}</p>
-                            <h5>$$$$$</h5>
+                            <p>Especialista(s): {{ appointment.specialistName  }}</p>
+                            <h5>{{ appointment.totalPrice}}</h5>
                         </div>
                     </div>
                     <div>
@@ -28,11 +36,8 @@
                 </p-card>
             </div>
         </div>
-    </p-scrollPanel>   
-   </div>
-         
-    <!-- <app-footer></app-footer> -->
-   
+    <!-- </p-scrollPanel>    -->
+   </div>  
     
 </div>
     

@@ -1,4 +1,5 @@
-<div class="container">    
+<div class="container">  
+    <p-toast></p-toast>  
    <div>
     <!-- <p-scrollPanel [style]="{ width: '100%', height: '85%' }"> -->
         <h1>Agenda general</h1> 
@@ -18,22 +19,22 @@
                     <label for="float-label">Plan</label>
                 </span>
                 <span class="p-float-label">
-                    <p-calendar  [(ngModel)]="inicialDate" [maxDate]="endDate"[showIcon]="true" placeholder="Seleccione una fecha inicio"></p-calendar>
+                    <p-calendar  [(ngModel)]="inicialDate" [showIcon]="true" placeholder="Seleccione una fecha inicio"></p-calendar>
                     <label for="float-label">Fecha inicio</label>
                 </span>
                 <span class="p-float-label">
-                    <p-calendar  [(ngModel)]="endDate" [minDate]="inicialDate"[showIcon]="true" placeholder="Seleccione una fecha fin"></p-calendar>
+                    <p-calendar  [(ngModel)]="endDate" [showIcon]="true" placeholder="Seleccione una fecha fin"></p-calendar>
                     <label for="float-label">Fecha fin</label>
                 </span>
             </div>
-            <p-button [rounded]="true"  size="small">Buscar</p-button>
+            <p-button [rounded]="true" size="small" (onClick)="search()" >Buscar</p-button>
         </div>  
         <div>
             
-            <!-- [value]="customers" -->
             <p-table
+            [value]="appointments"
             [paginator]="true"
-            [rows]="5"
+            [rows]="10"
             [showCurrentPageReport]="true"
             [tableStyle]="{ 'min-width': '50rem' }"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -47,17 +48,25 @@
                     <th>Plan</th>
                     <th>Tratamiento</th>
                     <th>Fecha</th>
-                    <th>Hotal</th>
+                    <th>Total</th>
                     <th>Estado</th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-customer>
-                <!-- <tr>
-                    <td>{{ customer.name }}</td>
-                    <td>{{ customer.country.name }}</td>
-                    <td>{{ customer.company }}</td>
-                    <td>{{ customer.representative.name }}</td>
-                </tr> -->
+            <ng-template pTemplate="body" let-appointment>
+                <tr>
+                    <td>{{ appointment.specialistName }}</td>
+                    <td>{{ appointment.userName }}</td>
+                    <td>{{ appointment.membershipType }}</td>
+                    <td>{{ appointment.planType }}</td>
+                    <td>{{ appointment.specialityName }}</td>
+                    <td>{{ appointment.appointmentDate | dateFormat}}</td>
+                    <td>{{ appointment.totalPrice | currencyFormat }}</td>
+                    <td>{{ appointment.status }}</td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(appointment)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(appointment)"></button>
+                    </td>
+                </tr>
             </ng-template>
             <!-- <ng-template pTemplate="paginatorleft">
                 <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>

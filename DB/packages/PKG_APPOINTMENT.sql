@@ -60,8 +60,8 @@ CREATE OR REPLACE PACKAGE BODY PKG_APPOINTMENT IS
         DBMS_OUTPUT.PUT_LINE('End_date: ' || p_end_date);
     
         v_sql_query := 'SELECT TYRC_APPOI(
-            S.SPECIALIST_NAME,
-            U.USER_NAME,
+            S.SPECIALIST_NAME || '' '' || S.SPECIALIST_LAST_NAME,
+            U.USER_NAME|| '' ''|| U.USER_LAST_NAME,
             MT.MEMBERSHIP_TYPE,
             P.PLAN_TYPE,
             SP.SPECIALITY_NAME,

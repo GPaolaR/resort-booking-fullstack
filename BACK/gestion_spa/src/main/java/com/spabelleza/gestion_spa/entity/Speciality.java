@@ -14,7 +14,7 @@ public class Speciality {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @SequenceGenerator(name = "SEQ_SPETY", sequenceName = "SEQ_SPETY")
     @Column(name = "SPECIALITY_ID")
-    private Integer specialityId;
+    private Integer speciality;
 
     @Column(name = "SPECIALITY_NAME")
     private String specialityName;

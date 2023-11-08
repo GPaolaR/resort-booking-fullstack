@@ -25,11 +25,13 @@ export class LoginComponent {
   }
 
   btLogin(){
+    console.log('Boton Inicio ');
+
     // Llama al servicio para enviar la información del cliente
     this.apiLoginService.validateUser(this.credentialUser.value).subscribe(
       (response: any) => {
         // Maneja la respuesta del servidor aquí
-        //console.log('Mensaje:', response);
+        console.log('Mensaje:', response);
         localStorage.setItem('loginId',response.loginId)
         localStorage.setItem('rol',response.role.rolName)
         if (response.role && response.role.rolName === 'Usuario') {

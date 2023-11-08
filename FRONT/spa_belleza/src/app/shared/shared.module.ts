@@ -5,12 +5,16 @@ import { BrowserAnimationsModule }  from '@angular/platform-browser/animations';
 
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { DateFormatPipe } from './pipes/date-format/date-format.pipe';
+import { CurrencyFormatPipe } from './pipes/currency-format/currency-format.pipe';
 
 
 @NgModule({
   declarations: [    
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    DateFormatPipe,
+    CurrencyFormatPipe
     ],
   imports: [
     CommonModule,    
@@ -21,7 +25,9 @@ import { HeaderComponent } from './header/header.component';
   ],
   exports:[
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    DateFormatPipe,
+    CurrencyFormatPipe
   ]
 })
 export class SharedModule { }
