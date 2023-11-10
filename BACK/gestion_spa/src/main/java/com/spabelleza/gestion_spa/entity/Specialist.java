@@ -37,7 +37,7 @@ public class Specialist {
 
     @ManyToOne
     @JoinColumn(name = "SPECIALITY_ID")
-    private Speciality specialty;
+    private Speciality speciality;
 
     @Column(name = "START_TIME")
     private Timestamp startTime;

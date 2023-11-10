@@ -29,7 +29,7 @@ public class AppointmentRowMapper implements RowMapper<Appointment> {
         appointment.setSpecialist(specialist);
 
         Speciality speciality = new Speciality();
-        speciality.setSpecialityId(resultSet.getInt("SPECIALITY_ID"));
+        speciality.setSpeciality(resultSet.getInt("SPECIALITY_ID"));
         //speciality.setSpecialityName(resultSet.getString("SPECIALITY_NAME"));
         // ... mapear otras propiedades de Speciality desde el ResultSet
         appointment.setSpeciality(speciality);

@@ -6,6 +6,7 @@ Date:        18-10-2023
 ************************************************************************************/
 
 CREATE OR REPLACE TYPE TYRC_APPOI AS OBJECT (
+    appointment_id NUMBER(15),
     specialist_name VARCHAR2(200),
     user_name VARCHAR2(200),
     membership_type VARCHAR2(20),

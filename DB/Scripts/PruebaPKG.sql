@@ -15,6 +15,7 @@ BEGIN
 
   FOR i IN 1..v_info.COUNT LOOP
   dbms_output.put_line('Este es un mensaje de prueba2');
+        DBMS_OUTPUT.PUT_LINE('Appointrment Id: ' || v_info(i).appointment_id);
         DBMS_OUTPUT.PUT_LINE('Specialist Name: ' || v_info(i).specialist_name);
         DBMS_OUTPUT.PUT_LINE('User Name: ' || v_info(i).user_name);
         DBMS_OUTPUT.PUT_LINE('Membership Type: ' || v_info(i).membership_type);
@@ -27,7 +28,7 @@ BEGIN
     END LOOP;
 END;
 
-DECLARE v_appointment_date    Appointments.appointment_date%TYPE := '01/11/2023 12:00';
+/*DECLARE v_appointment_date    Appointments.appointment_date%TYPE := '01/11/2023 12:00';
 Begin
 SELECT S.SPECIALIST_NAME,
             U.USER_NAME,
@@ -46,11 +47,33 @@ SELECT S.SPECIALIST_NAME,
             WHERE 1=1  AND S.specialist_id = 1 AND TRUNC(A.appointment_date) = TRUNC(TO_TIMESTAMP(TO_CHAR(v_appointment_date, 'DD/MM/YY HH24:MI:SS') , 'DD/MM/YY HH24:MI:SS'));
 
 END;
-
+*/
 SET SERVEROUTPUT ON
 BEGIN
    dbms_output.put_line('Este es un mensaje de prueba');
 END;
+
+
+-- Llamar al procedimiento para cancelar una cita específica
+SET SERVEROUTPUT ON
+DECLARE
+    v_appointment_id Appointments.appointment_id%TYPE;
+BEGIN
+    -- Asignar el ID de la cita que deseas cancelar
+    v_appointment_id := 123; -- Reemplaza 123 con el ID de la cita que deseas cancelar
+
+    -- Llamar al procedimiento para cancelar la cita
+    PKG_APPOINTMENT.CANCEL_APPOINTMENT(p_appointment_id => v_appointment_id);
+    
+    -- Mostrar un mensaje para indicar que la cita ha sido cancelada
+    DBMS_OUTPUT.PUT_LINE('La cita con ID ' || v_appointment_id || ' ha sido cancelada.');
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Manejar cualquier error que pueda ocurrir durante la ejecución
+        DBMS_OUTPUT.PUT_LINE('Ocurrió un error: ' || SQLCODE || ' - ' || SQLERRM);
+END;
+/
+
 
 
 SELECT object_name, status FROM user_objects WHERE object_name = 'PKG_APPOINTMENT';

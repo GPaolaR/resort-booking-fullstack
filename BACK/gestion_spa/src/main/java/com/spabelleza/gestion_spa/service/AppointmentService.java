@@ -1,9 +1,8 @@
 package com.spabelleza.gestion_spa.service;
 
-import com.spabelleza.gestion_spa.DTO.AppointmentDTO;
-import com.spabelleza.gestion_spa.DTO.TYRC_APPOI;
+import com.spabelleza.gestion_spa.DTO.*;
 import com.spabelleza.gestion_spa.entity.Appointment;
-import com.spabelleza.gestion_spa.repository.AppointmentRowMapper;
+import com.spabelleza.gestion_spa.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
@@ -16,16 +15,142 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AppointmentService implements IAppointmentService{
 
     private final JdbcTemplate jdbcTemplate;
+    private final AppointmentRepository appointmentRepository;
+    @Autowired
+    private final ISpecialistService iSpecialistService;
 
     @Autowired
-    public AppointmentService(JdbcTemplate jdbcTemplate) {
+    public AppointmentService(JdbcTemplate jdbcTemplate, AppointmentRepository appointmentRepository, ISpecialistService iSpecialistService) {
         this.jdbcTemplate = jdbcTemplate;
+        this.appointmentRepository = appointmentRepository;
+        this.iSpecialistService = iSpecialistService;
+    }
+
+    @Override
+    public List<AppointmentBySpecialityDTO> getAppointmentsBySpecialityAndDate(Integer specialityId, Timestamp startDate) {
+        ZoneId bogotaZone = ZoneId.of("America/Bogota"); // Zona horaria de Bogotá
+
+        List<Appointment> appointments = appointmentRepository.findBySpecialitySpecialityAndAppointmentDateAfter(specialityId, startDate);
+
+        return appointments.stream()
+                .map(appointment -> {
+                    AppointmentBySpecialityDTO dto = new AppointmentBySpecialityDTO();
+                    dto.setSpecialistId(appointment.getSpecialist().getSpecialistId());
+                    dto.setSpecialityId(appointment.getSpeciality().getSpeciality());
+                    dto.setAppointmentDate(appointment.getAppointmentDate().toInstant().atZone(bogotaZone).toLocalDateTime());
+                    dto.setDuration(appointment.getDuration());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+
+    private List<LocalTime> calculateAvailableTimeSlots(LocalTime startTime, LocalTime endTime, List<AppointmentBySpecialityDTO> appointmentsOnDate) {
+        List<LocalTime> availableTimeSlots = new ArrayList<>();
+
+        // Crear un conjunto de todas las horas entre startTime y endTime
+        Set<LocalTime> allTimeSlots = new HashSet<>();
+        LocalTime currentTime = startTime;
+        while (currentTime.isBefore(endTime)) {
+            allTimeSlots.add(currentTime);
+            currentTime = currentTime.plusHours(1); // Puedes ajustar el intervalo según tus necesidades
+        }
+
+        // Filtrar las horas disponibles eliminando las ocupadas
+        allTimeSlots.removeAll(appointmentsOnDate.stream()
+                .flatMap(appointment -> getHoursBetween(appointment.getAppointmentDate().toLocalTime(), appointment.getDuration(), appointment.getAppointmentDate()).stream())
+                .collect(Collectors.toList()));
+
+        availableTimeSlots.addAll(allTimeSlots);
+        return availableTimeSlots;
+    }
+
+    private List<LocalTime> getHoursBetween(LocalTime startTime, int duration, LocalDateTime appointmentDateTime) {
+        List<LocalTime> hoursBetween = new ArrayList<>();
+        LocalTime currentTime = startTime;
+        for (int i = 0; i < duration; i++) {
+            // Comparar con la fecha y hora exactas de la cita
+
+            //if (!currentTime.isAfter(appointmentDateTime.toLocalTime())) {
+            hoursBetween.add(currentTime);
+           //}
+            currentTime = currentTime.plusHours(1);
+        }
+        return hoursBetween;
+    }
+
+
+    @Override
+    public List<AvailableTimeSlotDTO> getAvailableTimeSlots(Integer specialityId, Timestamp startDate) {
+
+        List<AvailableTimeSlotDTO> availableTimeSlots = new ArrayList<>();
+        // Obtener horarios laborales de los especialistas para la especialidad específica
+        List<SpecialistScheduleDTO> specialistSchedules = iSpecialistService.getSpecialistScheduleBySpecialityId(specialityId);
+        // Obtener citas agendadas para la especialidad y la fecha proporcionada
+        List<AppointmentBySpecialityDTO> appointments = getAppointmentsBySpecialityAndDate(specialityId, startDate);
+
+        // Crear un mapa para almacenar las citas agrupadas por especialista y día
+        Map<Long, Map<LocalDate, List<AppointmentBySpecialityDTO>>> appointmentsBySpecialistAndDate = new HashMap<>();
+
+        // Agrupar citas por especialista y día
+        for (AppointmentBySpecialityDTO appointment : appointments) {
+            appointmentsBySpecialistAndDate
+                    .computeIfAbsent(appointment.getSpecialistId(), k -> new HashMap<>())
+                    .computeIfAbsent(appointment.getAppointmentDate().toLocalDate(), k -> new ArrayList<>())
+                    .add(appointment);
+        }
+
+        // Iterar sobre los horarios laborales de los especialistas
+        for (SpecialistScheduleDTO schedule : specialistSchedules) {
+            Long specialistId = schedule.getSpecialistId();
+            LocalTime startTime = schedule.getStartTime();
+            LocalTime endTime = schedule.getEndTime();
+
+            // Obtener las citas para el especialista actual
+            Map<LocalDate, List<AppointmentBySpecialityDTO>> appointmentsByDate = appointmentsBySpecialistAndDate.getOrDefault(specialistId, new HashMap<>());
+
+            // Lista para almacenar las horas disponibles por día
+            List<AvailableTimeSlotDTO> availableTimeSlotsBySpecialist = new ArrayList<>();
+
+            // Iterar sobre los siguientes 3 días
+            for (int i = 0; i < 3; i++) {
+                LocalDate currentDate = startDate.toLocalDateTime().toLocalDate().plusDays(i);
+                List<AppointmentBySpecialityDTO> appointmentsOnDate = appointmentsByDate.getOrDefault(currentDate, new ArrayList<>());
+
+                // Filtrar las citas para el día actual
+                List<AppointmentBySpecialityDTO> appointmentsForCurrentDate = appointmentsOnDate.stream()
+                        .filter(appointment -> appointment.getAppointmentDate().toLocalDate().equals(currentDate))
+                        .collect(Collectors.toList());
+
+                // Calcular las horas disponibles para el día actual
+                List<LocalTime> availableTimeSlotsOnDate = calculateAvailableTimeSlots(startTime, endTime, appointmentsForCurrentDate);
+
+                // Agregar a la lista solo si hay disponibilidad
+                if (!availableTimeSlotsOnDate.isEmpty()) {
+                    AvailableTimeSlotDTO availableTimeSlot = new AvailableTimeSlotDTO(specialistId, currentDate, availableTimeSlotsOnDate);
+                    availableTimeSlotsBySpecialist.add(availableTimeSlot);
+                }
+            }
+            /*// Filtrar para obtener solo las 3 fechas más cercanas
+            availableTimeSlotsBySpecialist = availableTimeSlotsBySpecialist.stream()
+                    .filter(slot -> upcomingDates.contains(slot.getDate()))
+                    .collect(Collectors.toList());*/
+
+            // Agregar las listas de disponibilidad por especialista a la lista principal
+            availableTimeSlots.addAll(availableTimeSlotsBySpecialist);
+        }
+
+        return availableTimeSlots;
     }
 
     @Override
@@ -36,7 +161,6 @@ public class AppointmentService implements IAppointmentService{
             Timestamp endDate = null;
 
             Long specialistId = appointmentDTO.getSpecialistId();
-            //LocalDateTime appointmentDate = request.getAppointmentDate();
             if(appointmentDTO.getAppointmentDate()!=null){
                 appointmentDate = Timestamp.valueOf(appointmentDTO.getAppointmentDate());
             }
@@ -48,8 +172,6 @@ public class AppointmentService implements IAppointmentService{
             if(appointmentDTO.getEndDate()!=null){
                 endDate = Timestamp.valueOf(appointmentDTO.getEndDate());
             }
-
-
 
             SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                     .withCatalogName("PKG_APPOINTMENT")
@@ -90,8 +212,7 @@ public class AppointmentService implements IAppointmentService{
             inParams.addValue("p_start_date", startDate);
             inParams.addValue("p_end_date", endDate);
 
-            System.out.println(inParams);
-
+            //System.out.println(inParams);
             Map<String, Object> result = jdbcCall.execute(inParams);
             return (List<TYRC_APPOI>) result.get("orc");
 
@@ -106,78 +227,22 @@ public class AppointmentService implements IAppointmentService{
     private static TYRC_APPOI getTyrcAppoi(Struct struct) throws SQLException {
         Object[] attributes = struct.getAttributes();
         TYRC_APPOI tyrc_appoi = new TYRC_APPOI();
-        tyrc_appoi.setSpecialistName((String) attributes[0]);
-        tyrc_appoi.setUserName((String) attributes[1]);
-        tyrc_appoi.setMembershipType((String) attributes[2]);
-        tyrc_appoi.setPlanType((String) attributes[3]);
-        tyrc_appoi.setSpecialityName((String) attributes[4]);
-        Timestamp timestampFromDB = (Timestamp) attributes[5];
-        TimeZone timeZoneFromDB = TimeZone.getTimeZone("America/Bogota"); // Cambia a tu zona horaria
-
+        tyrc_appoi.setAppointmentId((BigDecimal) attributes[0]);
+        tyrc_appoi.setSpecialistName((String) attributes[1]);
+        tyrc_appoi.setUserName((String) attributes[2]);
+        tyrc_appoi.setMembershipType((String) attributes[3]);
+        tyrc_appoi.setPlanType((String) attributes[4]);
+        tyrc_appoi.setSpecialityName((String) attributes[5]);
+        Timestamp timestampFromDB = (Timestamp) attributes[6];
+        TimeZone timeZoneFromDB = TimeZone.getTimeZone("America/Bogota"); // Zona horaria
         // Aplica la zona horaria especificada al Timestamp
         timestampFromDB.setTime(timestampFromDB.getTime() + timeZoneFromDB.getRawOffset());
-
         tyrc_appoi.setAppointmentDate(timestampFromDB);
-        tyrc_appoi.setTotalPrice((BigDecimal) attributes[6]);
-        tyrc_appoi.setStatus((String) attributes[7]);
+        tyrc_appoi.setTotalPrice((BigDecimal) attributes[7]);
+        tyrc_appoi.setStatus((String) attributes[8]);
         return tyrc_appoi;
     }
 
 
-    public List<Appointment> getAppointmentsByCriteria(int specialistId, long userId, int planId, LocalDate startDate, LocalDate endDate) {
-        StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM Appointments WHERE specialist_id = ?");
-        List<Object> params = new ArrayList<>();
-        params.add(specialistId);
 
-        if (userId != 0) {
-            sqlBuilder.append(" AND user_id = ?");
-            params.add(userId);
-        }
-        if (planId != 0) {
-            sqlBuilder.append(" AND plan_id = ?");
-            params.add(planId);
-        }
-        if (startDate != null && endDate != null) {
-            sqlBuilder.append(" AND appointment_date BETWEEN ? AND ?");
-            params.add(startDate);
-            params.add(endDate);
-        }
-
-        String sql = sqlBuilder.toString();
-        return jdbcTemplate.query(sql, params.toArray(), new AppointmentRowMapper());
-    }
-
-    public List<Appointment> getAppointmentsForUserInFuture(long userId) {
-        String sql = "SELECT * FROM APPOINTMENTS WHERE USER_ID = ?";
-        return jdbcTemplate.query(sql, new Object[]{userId}, new AppointmentRowMapper());
-    }
-    /*@PersistenceContext
-    private EntityManager entityManager;
-
-    @Override
-    public List<Date> getDatesWithoutAvailableSpecialists(Speciality speciality, Plan plan) {
-        LocalDateTime currentDate = LocalDateTime.now();
-        Date startDate = (Date) Date.from(currentDate.atZone(ZoneId.systemDefault()).toInstant());
-
-        TypedQuery<Date> query = (TypedQuery<Date>) entityManager.createQuery(
-                "SELECT DISTINCT a.appointmentDate FROM Appointment a " +
-                        "WHERE a.specialist.speciality = :speciality " +
-                        "AND a.specialist.plan = :plan " +
-                        "AND a.appointmentDate >= :startDate");
-
-        query.setParameter("speciality", speciality);
-        query.setParameter("plan", plan);
-        query.setParameter("startDate", startDate);
-
-         // Generar una lista de fechas desde la fecha actual hasta una fecha futura (por ejemplo, 30 días después).
-        List<Date> allDates = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            allDates.add(Date.from(currentDate.plusDays(i).atZone(ZoneId.systemDefault()).toInstant()));
-        }
-
-        // Obtener las fechas sin especialistas disponibles
-        allDates.removeAll(busyDates);
-
-        return query.getResultList();
-    }*/
 }

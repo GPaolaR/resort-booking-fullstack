@@ -1,15 +1,18 @@
 package com.spabelleza.gestion_spa.controller;
 
+import com.spabelleza.gestion_spa.DTO.AppointmentBySpecialityDTO;
 import com.spabelleza.gestion_spa.DTO.AppointmentDTO;
+import com.spabelleza.gestion_spa.DTO.AvailableTimeSlotDTO;
 import com.spabelleza.gestion_spa.DTO.TYRC_APPOI;
-import com.spabelleza.gestion_spa.entity.Appointment;
 import com.spabelleza.gestion_spa.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -32,8 +35,25 @@ public class AppointmentController {
         return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
 
+    @GetMapping("/by-speciality-and-date")
+    public ResponseEntity<List<AppointmentBySpecialityDTO>> getAppointmentsBySpecialityAndDate(
+            @RequestParam("specialityId") Integer specialityId,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate
+    ) {
+        List<AppointmentBySpecialityDTO> appointments = iAppointmentService.getAppointmentsBySpecialityAndDate(specialityId, Timestamp.valueOf(startDate));
+        return ResponseEntity.ok(appointments);
+    }
 
-    @GetMapping("/filter")
+    @GetMapping("/prueba")
+    public ResponseEntity<List<AvailableTimeSlotDTO>> calculateAvailableTimeSlots(
+            @RequestParam("specialityId") Integer specialityId,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate
+    ) {
+        List<AvailableTimeSlotDTO> appointments = iAppointmentService.getAvailableTimeSlots(specialityId, Timestamp.valueOf(startDate));
+        return ResponseEntity.ok(appointments);
+    }
+
+    /*@GetMapping("/filter")
     public List<Appointment> getAppointments(
             @RequestParam int specialistId,
             @RequestParam(required = false) long userId,
@@ -51,7 +71,7 @@ public class AppointmentController {
             //@RequestParam String startDate
         //LocalDate parsedStartDate = LocalDate.parse(startDate);
         return iAppointmentService.getAppointmentsForUserInFuture(userId);
-    }
+    }*/
 
     /*@GetMapping("/datesWithoutAvailableSpecialists")
     public List<Date> getDatesWithoutAvailableSpecialists(@RequestBody AppointmentDTO appointmentDTO) {

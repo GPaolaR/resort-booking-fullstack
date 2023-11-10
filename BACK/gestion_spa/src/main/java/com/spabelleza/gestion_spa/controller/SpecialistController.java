@@ -1,14 +1,12 @@
 package com.spabelleza.gestion_spa.controller;
 
 import com.spabelleza.gestion_spa.DTO.SpecialistDTO;
+import com.spabelleza.gestion_spa.DTO.SpecialistScheduleDTO;
 import com.spabelleza.gestion_spa.service.ISpecialistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +23,14 @@ public class SpecialistController {
     @GetMapping("/list")
     public ResponseEntity<List<SpecialistDTO>> getSpecialists(){
         List<SpecialistDTO> specialists = iSpecialistService.getSpecialists();
+        return new ResponseEntity<>(specialists, HttpStatus.OK);
+    }
+
+    @GetMapping("/schedule")
+    public ResponseEntity<List<SpecialistScheduleDTO>> getSpecialistSchedule(
+            @RequestParam("specialityId") Integer specialityId
+    ){
+        List<SpecialistScheduleDTO> specialists = iSpecialistService.getSpecialistScheduleBySpecialityId(specialityId);
         return new ResponseEntity<>(specialists, HttpStatus.OK);
     }
 }
