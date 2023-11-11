@@ -23,7 +23,7 @@ insert into specialities values(seq_SPETY.nextval, 'Corporal', systimestamp);
 insert into specialities values(seq_SPETY.nextval, 'Uñas', systimestamp);
 
 insert into specialists values(seq_splts.nextval,'Carlos', 'Flores', 1, '10000001', '3000000002', 'carlos.flores@spabelleza.com', 2, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('17:00','hh24:mi'), systimestamp);
-insert into specialists values(seq_splts.nextval,'Juana', 'Martinez', 1, '10000003', '3000000004', 'juana.martinez@spabelleza.com', 3, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('17:00','hh24:mi'), systimestamp);
+insert into specialists values(seq_splts.nextval,'Clara', 'Gomeez', 1, '10000002', '3000000004', 'juana.martinez@spabelleza.com', 3, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('17:00','hh24:mi'), systimestamp);
 
 
 insert into LOGIN values (SEQ_LOGIN.NEXTVAL, 'USUARIO1', 'contra123', 1, systimestamp);
@@ -34,6 +34,8 @@ insert into administrators values (SEQ_ADMIN.NEXTVAL, 2, 'Juan','Perez', 1, '100
 insert into users values (SEQ_USER.NEXTVAL, 1, 'Carolina','Jimenez', 1, '1000000001', 32, 'F', '3000000001', 'carolina.jimenez@example.com', 4, systimestamp);
 
 insert into appointments values (SEQ_APPOI.NEXTVAL, 1, 1, 2, 4, TO_TIMESTAMP('07/10/2023 10:00', 'dd/mm/yyyy hh24:mi:ss'), 2, 200000,'Cumplida', systimestamp);
+insert into appointments values (SEQ_APPOI.NEXTVAL, 1, 21, 2, 4, TO_TIMESTAMP('06/10/2023 8:00', 'dd/mm/yyyy hh24:mi:ss'), 2, 200000,'Pendiente', systimestamp);
+
 
 
 

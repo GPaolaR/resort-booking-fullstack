@@ -88,10 +88,8 @@ public class AppointmentService implements IAppointmentService{
         }
         return hoursBetween;
     }
-
-
     @Override
-    public List<AvailableTimeSlotDTO> getAvailableTimeSlots(Integer specialityId, Timestamp startDate) {
+    public List<AvailableTimeSlotDTO> getAvailableTimeSlotsBySpeciality (Integer specialityId, Timestamp startDate) {
 
         List<AvailableTimeSlotDTO> availableTimeSlots = new ArrayList<>();
         // Obtener horarios laborales de los especialistas para la especialidad específica
@@ -151,6 +149,102 @@ public class AppointmentService implements IAppointmentService{
         }
 
         return availableTimeSlots;
+    }
+    @Override
+    public List<MatchingTimeSlotResult> getAvailableTimeSlots(List<Integer> specialityIds, Timestamp startDate) {
+        List<MatchingTimeSlotResult> matchingTimeSlots = new ArrayList<>();
+
+        // Obtener las disponibilidades para cada especialidad
+        List<List<AvailableTimeSlotDTO>> timeSlotsBySpeciality = new ArrayList<>();
+        for (Integer specialityId : specialityIds) {
+            List<AvailableTimeSlotDTO> timeSlots = getAvailableTimeSlotsBySpeciality(specialityId, startDate);
+            timeSlotsBySpeciality.add(timeSlots);
+        }
+
+        // Comparar las disponibilidades para encontrar coincidencias de fecha y hora
+        for (int i = 0; i < timeSlotsBySpeciality.size() - 1; i++) {
+            List<AvailableTimeSlotDTO> timeSlots1 = timeSlotsBySpeciality.get(i);
+
+            for (int j = i + 1; j < timeSlotsBySpeciality.size(); j++) {
+                List<AvailableTimeSlotDTO> timeSlots2 = timeSlotsBySpeciality.get(j);
+
+                // Comparar las disponibilidades para encontrar coincidencias de fecha y hora
+                matchingTimeSlots = findMatchingTimeSlots(timeSlots1, timeSlots2);
+
+                // Imprimir las coincidencias
+                for (MatchingTimeSlotResult result : matchingTimeSlots) {
+                    System.out.println("Coincidencia para especialidad " + result.getSpecialistId1() +
+                            " y especialidad " + result.getSpecialistId2() +
+                            " el día " + result.getDate() +
+                            " a las horas " + result.getMatchingTimeSlots());
+                }
+            }
+        }
+
+        return matchingTimeSlots;
+    }
+
+
+    // Dentro de tu servicio
+    private List<MatchingTimeSlotResult> findMatchingTimeSlots(List<AvailableTimeSlotDTO> timeSlots1, List<AvailableTimeSlotDTO> timeSlots2) {
+        List<MatchingTimeSlotResult> matchingTimeSlots = new ArrayList<>();
+
+        for (AvailableTimeSlotDTO timeSlot1 : timeSlots1) {
+            for (AvailableTimeSlotDTO timeSlot2 : timeSlots2) {
+                // Verificar coincidencia de fecha
+                if (timeSlot1.getDate().equals(timeSlot2.getDate())) {
+                    // Verificar coincidencia de hora
+                    List<LocalTime> overlappingTimes = getOverlap(timeSlot1.getAvailableTimeSlots(), timeSlot2.getAvailableTimeSlots());
+
+                    if (!overlappingTimes.isEmpty()) {
+                        // Agregar a la lista de coincidencias
+                        MatchingTimeSlotResult result = new MatchingTimeSlotResult();
+                        result.setSpecialistId1(timeSlot1.getSpecialistId());
+                        result.setSpecialistId2(timeSlot2.getSpecialistId());
+                        result.setDate(timeSlot1.getDate());
+                        result.setMatchingTimeSlots(overlappingTimes);
+
+                        matchingTimeSlots.add(result);
+                    }
+                }
+            }
+        }
+
+        return matchingTimeSlots;
+    }
+
+    private List<LocalTime> getOverlap(List<LocalTime> timeSlots1, List<LocalTime> timeSlots2) {
+        List<LocalTime> overlappingTimes = new ArrayList<>();
+
+        for (LocalTime time1 : timeSlots1) {
+            for (LocalTime time2 : timeSlots2) {
+                // Verificar coincidencia de hora
+                if (time1.equals(time2)) {
+                    overlappingTimes.add(time1);
+                }
+            }
+        }
+
+        return overlappingTimes;
+    }
+
+    private static TYRC_APPOI getTyrcAppoi(Struct struct) throws SQLException {
+        Object[] attributes = struct.getAttributes();
+        TYRC_APPOI tyrc_appoi = new TYRC_APPOI();
+        tyrc_appoi.setAppointmentId((BigDecimal) attributes[0]);
+        tyrc_appoi.setSpecialistName((String) attributes[1]);
+        tyrc_appoi.setUserName((String) attributes[2]);
+        tyrc_appoi.setMembershipType((String) attributes[3]);
+        tyrc_appoi.setPlanType((String) attributes[4]);
+        tyrc_appoi.setSpecialityName((String) attributes[5]);
+        Timestamp timestampFromDB = (Timestamp) attributes[6];
+        TimeZone timeZoneFromDB = TimeZone.getTimeZone("America/Bogota"); // Zona horaria
+        // Aplica la zona horaria especificada al Timestamp
+        timestampFromDB.setTime(timestampFromDB.getTime() + timeZoneFromDB.getRawOffset());
+        tyrc_appoi.setAppointmentDate(timestampFromDB);
+        tyrc_appoi.setTotalPrice((BigDecimal) attributes[7]);
+        tyrc_appoi.setStatus((String) attributes[8]);
+        return tyrc_appoi;
     }
 
     @Override
@@ -223,26 +317,5 @@ public class AppointmentService implements IAppointmentService{
             throw e;
         }
     }
-
-    private static TYRC_APPOI getTyrcAppoi(Struct struct) throws SQLException {
-        Object[] attributes = struct.getAttributes();
-        TYRC_APPOI tyrc_appoi = new TYRC_APPOI();
-        tyrc_appoi.setAppointmentId((BigDecimal) attributes[0]);
-        tyrc_appoi.setSpecialistName((String) attributes[1]);
-        tyrc_appoi.setUserName((String) attributes[2]);
-        tyrc_appoi.setMembershipType((String) attributes[3]);
-        tyrc_appoi.setPlanType((String) attributes[4]);
-        tyrc_appoi.setSpecialityName((String) attributes[5]);
-        Timestamp timestampFromDB = (Timestamp) attributes[6];
-        TimeZone timeZoneFromDB = TimeZone.getTimeZone("America/Bogota"); // Zona horaria
-        // Aplica la zona horaria especificada al Timestamp
-        timestampFromDB.setTime(timestampFromDB.getTime() + timeZoneFromDB.getRawOffset());
-        tyrc_appoi.setAppointmentDate(timestampFromDB);
-        tyrc_appoi.setTotalPrice((BigDecimal) attributes[7]);
-        tyrc_appoi.setStatus((String) attributes[8]);
-        return tyrc_appoi;
-    }
-
-
 
 }

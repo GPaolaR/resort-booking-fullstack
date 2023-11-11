@@ -1,9 +1,6 @@
 package com.spabelleza.gestion_spa.controller;
 
-import com.spabelleza.gestion_spa.DTO.AppointmentBySpecialityDTO;
-import com.spabelleza.gestion_spa.DTO.AppointmentDTO;
-import com.spabelleza.gestion_spa.DTO.AvailableTimeSlotDTO;
-import com.spabelleza.gestion_spa.DTO.TYRC_APPOI;
+import com.spabelleza.gestion_spa.DTO.*;
 import com.spabelleza.gestion_spa.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -45,38 +42,20 @@ public class AppointmentController {
     }
 
     @GetMapping("/prueba")
-    public ResponseEntity<List<AvailableTimeSlotDTO>> calculateAvailableTimeSlots(
+    public ResponseEntity<List<MatchingTimeSlotResult>> calculateAvailableTimeSlots(
+            @RequestParam("specialityId") List<Integer> specialityIds,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate
+    ) {
+        List<MatchingTimeSlotResult> appointments = iAppointmentService.getAvailableTimeSlots(specialityIds, Timestamp.valueOf(startDate));
+        return ResponseEntity.ok(appointments);
+    }
+    @GetMapping("/pruebaBySpeciality")
+    public ResponseEntity<List<AvailableTimeSlotDTO>> calculateAvailableTimeSlotsBySpeciality(
             @RequestParam("specialityId") Integer specialityId,
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate
     ) {
-        List<AvailableTimeSlotDTO> appointments = iAppointmentService.getAvailableTimeSlots(specialityId, Timestamp.valueOf(startDate));
+        List<AvailableTimeSlotDTO> appointments = iAppointmentService.getAvailableTimeSlotsBySpeciality(specialityId, Timestamp.valueOf(startDate));
         return ResponseEntity.ok(appointments);
     }
 
-    /*@GetMapping("/filter")
-    public List<Appointment> getAppointments(
-            @RequestParam int specialistId,
-            @RequestParam(required = false) long userId,
-            @RequestParam(required = false) Integer planId,
-            @RequestParam(required = false) String startDate,
-            @RequestParam(required = false) String endDate) {
-        LocalDate parsedStartDate = (startDate != null) ? LocalDate.parse(startDate) : null;
-        LocalDate parsedEndDate = (endDate != null) ? LocalDate.parse(endDate) : null;
-        return iAppointmentService.getAppointmentsByCriteria(specialistId, userId, planId, parsedStartDate, parsedEndDate);
-    }
-
-    @GetMapping("/userFuture")
-    public List<Appointment> getAppointmentsForUserInFuture(
-            @RequestParam long userId) {
-            //@RequestParam String startDate
-        //LocalDate parsedStartDate = LocalDate.parse(startDate);
-        return iAppointmentService.getAppointmentsForUserInFuture(userId);
-    }*/
-
-    /*@GetMapping("/datesWithoutAvailableSpecialists")
-    public List<Date> getDatesWithoutAvailableSpecialists(@RequestBody AppointmentDTO appointmentDTO) {
-        Speciality speciality = appointmentDTO.getSpeciality();
-        Plan plan = appointmentDTO.getPlan();
-        return iAppointmentService.getDatesWithoutAvailableSpecialists(speciality, plan);
-    }*/
 }
