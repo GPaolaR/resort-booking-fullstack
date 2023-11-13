@@ -4,6 +4,7 @@ import com.spabelleza.gestion_spa.DTO.*;
 import com.spabelleza.gestion_spa.entity.Appointment;
 import com.spabelleza.gestion_spa.exception.NotFoundException;
 import com.spabelleza.gestion_spa.repository.AppointmentRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
@@ -20,6 +21,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -33,6 +36,7 @@ public class AppointmentService implements IAppointmentService{
     private final JdbcTemplate jdbcTemplate;
     private final AppointmentRepository appointmentRepository;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    //private final AppointmentBySpecialityDTO appointmentBySpecialityDTO;
     @Autowired
     private final ISpecialistService iSpecialistService;
 
@@ -41,6 +45,7 @@ public class AppointmentService implements IAppointmentService{
         this.jdbcTemplate = jdbcTemplate;
         this.appointmentRepository = appointmentRepository;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        //this.appointmentBySpecialityDTO = appointmentBySpecialityDTO;
         this.iSpecialistService = iSpecialistService;
     }
 
@@ -360,30 +365,73 @@ public class AppointmentService implements IAppointmentService{
         }
     }
 
+    public Timestamp convert(String dateAppointment, String format){
+        try {
+            SimpleDateFormat formatterDate = new SimpleDateFormat(format);
+            // you can change format of date
+            Timestamp timeStampDate = new Timestamp(formatterDate.parse(dateAppointment).getTime());
+
+            return timeStampDate;
+        } catch (ParseException e) {
+            System.out.println("Exception :" + e);
+            return null;
+        }
+    }
+
+    private boolean citaExiste(int specialistId, int specialityId, String appointmentDate) {
+        String sql = "SELECT COUNT(*) FROM APPOINTMENTS WHERE SPECIALIST_ID = :specialistId AND SPECIALITY_ID = :specialityId " +
+                "AND APPOINTMENT_DATE =TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss')";
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("specialistId", specialistId, Types.NUMERIC);
+        parameters.addValue("specialityId", specialityId, Types.NUMERIC);
+        parameters.addValue("appointmentDate", appointmentDate, Types.VARCHAR);
+
+        int count = namedParameterJdbcTemplate.queryForObject(sql, parameters, Integer.class);
+
+        return count > 0;
+    }
+
     @Override
-    public void cargarArchivo(MultipartFile file) {
+    public String cargarArchivo(MultipartFile file) {
         String sql = "INSERT INTO APPOINTMENTS (APPOINTMENT_ID, USER_ID, SPECIALIST_ID, SPECIALITY_ID, PLAN_ID, APPOINTMENT_DATE, APPOINTMENT_DURATION, TOTAL_PRICE, STATUS, LAST_CHANGE_DATE) " +
                 "VALUES (SEQ_APPOI.nextval, :userId, :specialistId, :specialityId, :planId, TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss'), :appointmentDuration, :totalPrice, :status, SYSDATE)";
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
             String line;
+            StringBuilder message = new StringBuilder();
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(";");
+                Integer specialistId = Integer.parseInt(values[1]);
+                Integer specialityId = Integer.parseInt(values[2]);
+                String timeDate = values[4];
 
-                MapSqlParameterSource parameters = new MapSqlParameterSource();
-                parameters.addValue("userId", Long.parseLong(values[0]), Types.NUMERIC);
-                parameters.addValue("specialistId", Long.parseLong(values[1]), Types.NUMERIC);
-                parameters.addValue("specialityId", Long.parseLong(values[2]), Types.NUMERIC);
-                parameters.addValue("planId", Long.parseLong(values[3]), Types.NUMERIC);
-                parameters.addValue("appointmentDate", values[4], Types.VARCHAR);
-                parameters.addValue("appointmentDuration", Integer.parseInt(values[5]), Types.NUMERIC);
-                parameters.addValue("totalPrice", Double.parseDouble(values[6]), Types.NUMERIC);
-                parameters.addValue("status", values[7], Types.VARCHAR);
+                if(citaExiste(specialistId, specialityId, timeDate) == true){
+                    message.append(" - " + timeDate);
 
-                namedParameterJdbcTemplate.update(sql, parameters);
+                }else{
+                    MapSqlParameterSource parameters = new MapSqlParameterSource();
+                    parameters.addValue("userId", Long.parseLong(values[0]), Types.NUMERIC);
+                    parameters.addValue("specialistId", Long.parseLong(values[1]), Types.NUMERIC);
+                    parameters.addValue("specialityId", Long.parseLong(values[2]), Types.NUMERIC);
+                    parameters.addValue("planId", Long.parseLong(values[3]), Types.NUMERIC);
+                    parameters.addValue("appointmentDate", values[4], Types.VARCHAR);
+                    parameters.addValue("appointmentDuration", Integer.parseInt(values[5]), Types.NUMERIC);
+                    parameters.addValue("totalPrice", Double.parseDouble(values[6]), Types.NUMERIC);
+                    parameters.addValue("status", values[7], Types.VARCHAR);
+
+                    namedParameterJdbcTemplate.update(sql, parameters);
+                }
             }
+            System.out.println(message.length());
+            if(message.length() > 0){
+                return "Fechas no estan disponibles: "+message.toString();
+            }else{
+                return "Carga Completa Exitosa";
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
+            return e.toString();
         }
     }
 

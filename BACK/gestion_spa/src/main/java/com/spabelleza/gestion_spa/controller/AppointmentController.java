@@ -86,11 +86,16 @@ public class AppointmentController {
             }
 
             // Pasa el contenido del archivo al servicio
-            iAppointmentService.cargarArchivo(file);
+            String message = iAppointmentService.cargarArchivo(file);
 
             Map<String, String> successResponse = new HashMap<>();
-            successResponse.put("status", "success");
-            successResponse.put("message", "Carga de archivo exitosa.");
+            if (message.length() > 0){
+                successResponse.put("status", "warn");
+            }else{
+                successResponse.put("status", "success");
+            }
+
+            successResponse.put("message", message);
 
             return ResponseEntity.ok(successResponse);
 
@@ -106,25 +111,6 @@ public class AppointmentController {
         errorResponse.put("message", errorMessage);
         return errorResponse;
     }
-        /*try {
-            // Verifica si el archivo está vacío
-            if (file.isEmpty()) {
-                return ResponseEntity.badRequest().body("El archivo está vacío");
-            }
 
-            // Verifica el tipo de archivo (puedes agregar más validaciones según tus necesidades)
-            if (!file.getContentType().equals("text/csv")) {
-                return ResponseEntity.badRequest().body("El archivo debe ser de tipo CSV");
-            }
-
-            // Pasa el contenido del archivo al servicio
-            iAppointmentService.cargarArchivo(file);
-
-            return ResponseEntity.ok("Carga de archivo exitosa.");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al cargar el archivo: " + e.getMessage());
-        }*/
 
 }

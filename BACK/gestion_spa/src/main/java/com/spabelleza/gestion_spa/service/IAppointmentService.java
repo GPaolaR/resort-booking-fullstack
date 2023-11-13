@@ -15,6 +15,6 @@ public interface IAppointmentService {
     List<TYRC_APPOI> getAppointmentAgenda(AppointmentDTO appointmentDTO);
     LocalDate getPriorityAppointmentDate(Integer membershipTypeId, Integer planId);
 
-    void cargarArchivo(MultipartFile file) throws IOException;
+    String cargarArchivo(MultipartFile file) throws IOException;
 
 }
