@@ -11,6 +11,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class SpecialistScheduleDTO {
     private Long specialistId;
+    private String specialistName;
     private LocalTime startTime;
     private LocalTime  endTime;
 

@@ -13,7 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 public class MatchingTimeSlotResult {
     private Long specialistId1;
+    private String specialistName1;
     private Long specialistId2;
+    private String specialistName2;
     private LocalDate date;
     private List<LocalTime> matchingTimeSlots;
 }

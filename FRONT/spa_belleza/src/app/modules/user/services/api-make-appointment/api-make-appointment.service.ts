@@ -30,5 +30,14 @@ export class ApiMakeAppointmentService {
     // Realizar la solicitud GET con los parámetros
     return this.http.get(`${this.apiUrl}/appointments/available-time-slots-by-speciality`, { params: params });;
   }
+  getTimeSlotsSpecialities(specialityIds: string, startDate: string): Observable<any> {
+    // Construir los parámetros usando HttpParams
+    let params = new HttpParams()
+      .set('specialityId', specialityIds)
+      .set('startDate', startDate);
+
+    // Realizar la solicitud GET con los parámetros
+    return this.http.get(`${this.apiUrl}/appointments/available-time-slots`, { params: params });;
+  }
 
 }

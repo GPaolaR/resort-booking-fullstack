@@ -48,7 +48,7 @@ public class SpecialistService implements ISpecialistService{
                     // Crear el objeto SpecialistScheduleDTO con los datos formateados
                     SpecialistScheduleDTO dto = new SpecialistScheduleDTO();
                     dto.setSpecialistId(specialist.getSpecialistId());
-                    // Convierte Timestamp a LocalTime y ajusta la zona horaria a Bogotá
+                    dto.setSpecialistName(specialist.getSpecialistName() + ' ' + specialist.getSpecialistLastname());
                     dto.setStartTime(specialist.getStartTime().toInstant().atZone(bogotaZone).toLocalTime());
                     dto.setEndTime(specialist.getEndTime().toInstant().atZone(bogotaZone).toLocalTime());
                      return dto;

@@ -158,6 +158,7 @@ public class AppointmentService implements IAppointmentService{
         // Iterar sobre los horarios laborales de los especialistas
         for (SpecialistScheduleDTO schedule : specialistSchedules) {
             Long specialistId = schedule.getSpecialistId();
+            String specialistName = schedule.getSpecialistName();
             LocalTime startTime = schedule.getStartTime();
             LocalTime endTime = schedule.getEndTime();
 
@@ -168,7 +169,7 @@ public class AppointmentService implements IAppointmentService{
             List<AvailableTimeSlotDTO> availableTimeSlotsBySpecialist = new ArrayList<>();
 
             // Iterar sobre los siguientes 3 días
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 1; i++) {
                 LocalDate currentDate = startDate.toLocalDateTime().toLocalDate().plusDays(i);
                 List<AppointmentBySpecialityDTO> appointmentsOnDate = appointmentsByDate.getOrDefault(currentDate, new ArrayList<>());
 
@@ -182,7 +183,7 @@ public class AppointmentService implements IAppointmentService{
 
                 // Agregar a la lista solo si hay disponibilidad
                 if (!availableTimeSlotsOnDate.isEmpty()) {
-                    AvailableTimeSlotDTO availableTimeSlot = new AvailableTimeSlotDTO(specialistId, currentDate, availableTimeSlotsOnDate);
+                    AvailableTimeSlotDTO availableTimeSlot = new AvailableTimeSlotDTO(specialistId, specialistName, currentDate, availableTimeSlotsOnDate);
                     availableTimeSlotsBySpecialist.add(availableTimeSlot);
                 }
             }
@@ -213,13 +214,13 @@ public class AppointmentService implements IAppointmentService{
                 // Comparar las disponibilidades para encontrar coincidencias de fecha y hora
                 matchingTimeSlots = findMatchingTimeSlots(timeSlots1, timeSlots2);
 
-                // Imprimir las coincidencias
+                /*// Imprimir las coincidencias
                 for (MatchingTimeSlotResult result : matchingTimeSlots) {
                     System.out.println("Coincidencia para especialidad " + result.getSpecialistId1() +
                             " y especialidad " + result.getSpecialistId2() +
                             " el día " + result.getDate() +
                             " a las horas " + result.getMatchingTimeSlots());
-                }
+                }*/
             }
         }
 
@@ -240,7 +241,9 @@ public class AppointmentService implements IAppointmentService{
                         // Agregar a la lista de coincidencias
                         MatchingTimeSlotResult result = new MatchingTimeSlotResult();
                         result.setSpecialistId1(timeSlot1.getSpecialistId());
+                        result.setSpecialistName1(timeSlot1.getSpecialistName());
                         result.setSpecialistId2(timeSlot2.getSpecialistId());
+                        result.setSpecialistName2(timeSlot2.getSpecialistName());
                         result.setDate(timeSlot1.getDate());
                         result.setMatchingTimeSlots(overlappingTimes);
 
