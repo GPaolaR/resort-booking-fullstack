@@ -362,22 +362,18 @@ public class AppointmentService implements IAppointmentService{
         }
     }
 
-    public Timestamp convert(String dateAppointment, String format){
-        try {
-            SimpleDateFormat formatterDate = new SimpleDateFormat(format);
-            // you can change format of date
-            Timestamp timeStampDate = new Timestamp(formatterDate.parse(dateAppointment).getTime());
 
-            return timeStampDate;
-        } catch (ParseException e) {
-            System.out.println("Exception :" + e);
-            return null;
-        }
-    }
+    private boolean appointmentAvaliable(int specialistId, int specialityId, String appointmentDate) {
+//        String sql = "SELECT COUNT(*) FROM APPOINTMENTS WHERE SPECIALIST_ID = :specialistId AND SPECIALITY_ID = :specialityId " +
+//                "AND APPOINTMENT_DATE =TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss')";
 
-    private boolean citaExiste(int specialistId, int specialityId, String appointmentDate) {
-        String sql = "SELECT COUNT(*) FROM APPOINTMENTS WHERE SPECIALIST_ID = :specialistId AND SPECIALITY_ID = :specialityId " +
-                "AND APPOINTMENT_DATE =TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss')";
+        String sql = "SELECT COUNT(*) FROM APPOINTMENTS " +
+                "WHERE SPECIALIST_ID = :specialistId AND SPECIALITY_ID = :specialityId AND (" +
+                "(APPOINTMENT_DATE < TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss') + INTERVAL '2' HOUR" +
+                " AND APPOINTMENT_DATE >= TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss'))" +
+                " OR (APPOINTMENT_DATE <= TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss')" +
+                " AND TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss') < APPOINTMENT_DATE + INTERVAL '2' HOUR) )";
+
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("specialistId", specialistId, Types.NUMERIC);
         parameters.addValue("specialityId", specialityId, Types.NUMERIC);
@@ -389,7 +385,7 @@ public class AppointmentService implements IAppointmentService{
     }
 
     @Override
-    public String cargarArchivo(MultipartFile file) {
+    public String uploadFile(MultipartFile file) {
         String sql = "INSERT INTO APPOINTMENTS (APPOINTMENT_ID, USER_ID, SPECIALIST_ID, SPECIALITY_ID, PLAN_ID, APPOINTMENT_DATE, APPOINTMENT_DURATION, TOTAL_PRICE, STATUS, LAST_CHANGE_DATE) " +
                 "VALUES (SEQ_APPOI.nextval, :userId, :specialistId, :specialityId, :planId, TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss'), :appointmentDuration, :totalPrice, :status, SYSDATE)";
 
@@ -402,7 +398,7 @@ public class AppointmentService implements IAppointmentService{
                 Integer specialityId = Integer.parseInt(values[2]);
                 String timeDate = values[4];
 
-                if(citaExiste(specialistId, specialityId, timeDate) == true){
+                if(appointmentAvaliable(specialistId, specialityId, timeDate)){
                     message.append(" - " + timeDate);
 
                 }else{
@@ -419,7 +415,7 @@ public class AppointmentService implements IAppointmentService{
                     namedParameterJdbcTemplate.update(sql, parameters);
                 }
             }
-            System.out.println(message.length());
+
             if(message.length() > 0){
                 return "Fechas no estan disponibles: "+message.toString();
             }else{

@@ -73,7 +73,7 @@ public class AppointmentController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<?> cargarArchivo(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
             // Verifica si el archivo está vacío
             if (file.isEmpty()) {
@@ -86,7 +86,7 @@ public class AppointmentController {
             }
 
             // Pasa el contenido del archivo al servicio
-            String message = iAppointmentService.cargarArchivo(file);
+            String message = iAppointmentService.uploadFile(file);
 
             Map<String, String> successResponse = new HashMap<>();
             if (message.length() > 0){
@@ -94,7 +94,6 @@ public class AppointmentController {
             }else{
                 successResponse.put("status", "success");
             }
-
             successResponse.put("message", message);
 
             return ResponseEntity.ok(successResponse);
