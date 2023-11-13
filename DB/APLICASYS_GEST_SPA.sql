@@ -21,18 +21,18 @@ PROMPT ---------------------------Objetos: tablespaces--------------------------
 
 -- Crear tablespace
 CREATE TABLESPACE TS_GEST_SPA_M
-    DATAFILE 'C:\Oracle\oradata\XE\DF_GEST_SPA_M.DBF'
+    DATAFILE 'C:\Oracle\oradata\XE\DF_GEST_SPA_M.DBF' 
     SIZE 5M
     AUTOEXTEND ON NEXT 1M
     MAXSIZE 200M
     DEFAULT STORAGE(INITIAL 64K NEXT 64K);
-/
+
 
 /****************************************************************************************************/
 
 PROMPT ---------------------------Objects: Users-------------------------------------
 
-ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE
+ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 
 -- Crear un nuevo esquema llamado GEST_SPA
 CREATE USER GEST_SPA IDENTIFIED BY CHANGE_ME;

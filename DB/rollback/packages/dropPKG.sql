@@ -6,3 +6,4 @@ Fecha:       17-10-2023
 ************************************************************************************/
 
 DROP PACKAGE GEST_SPA.PKG_APPOINTMENT;
+DROP PACKAGE GEST_SPA.PKG_REPORT;

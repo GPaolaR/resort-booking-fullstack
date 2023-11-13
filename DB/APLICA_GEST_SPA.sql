@@ -56,7 +56,9 @@ PROMPT Applying Object ...  @..\DB\tables\crtbSPECIALITIES.sql
 PROMPT Applying Object ...  @..\DB\tables\crtbUSERS.sql
 @..\DB\tables\crtbUSERS.sql
 /
-
+PROMPT Applying Object ... @..\DB\tables\crtbREPORTS.sql
+@..\DB\tables\crtbREPORTS.sql
+/
 /****************************************************************************************************/
 
 PROMPT ---------------------------Objects: sequences-------------------------------------
@@ -91,6 +93,9 @@ PROMPT Applying Object ...  @..\DB\sequences\crsqSEQ_SPLTS.sql
 PROMPT Applying Object ...  @..\DB\sequences\crsqSEQ_USER.sql
 @..\DB\sequences\crsqSEQ_USER.sql
 /
+PROMPT Applying Object ...  @..\DB\sequences\crsqSEQ_REPOR.sql
+@..\DB\sequences\crsqSEQ_REPOR.sql
+/
 
 /****************************************************************************************************/
 
@@ -124,6 +129,9 @@ PROMPT Applying Object ...  @..\DB\indexes\crPK_SPECIALISTS.sql
 /
 PROMPT Applying Object ...  @..\DB\indexes\crPK_USERS.sql
 @..\DB\indexes\crPK_USERS.sql
+/
+PROMPT Applying Object ...  @..\DB\indexes\crPK_REPORTS.sql
+@..\DB\indexes\crPK_REPORTS.sql
 /
 PROMPT Applying Object ...  @..\DB\indexes\crUK_ADMIN_01.sql
 @..\DB\indexes\crUK_ADMIN_01.sql
@@ -182,15 +190,20 @@ PROMPT ---------------------------Objects: packages-----------------------------
 PROMPT Applying Object ...  @..\DB\packages\PKG_APPOINTMENT.sql
 @..\DB\packages\PKG_APPOINTMENT.sql
 /
-
+PROMPT Applying Object ...  @..\DB\packages\PKG_REPORT.sql
+@..\DB\packages\PKG_REPORT.sql
+/
 
 /****************************************************************************************************/
 
 PROMPT ---------------------------Objects: sql-------------------------------------
 
--- PROMPT Applying Object ...  @..\DB\sql\insDataTest.sql
--- @..\DB\sql\insDataTest.sql
--- /
+PROMPT Applying Object ...  @..\DB\sql\insDataTest.sql
+@..\DB\sql\insDataTest.sql
+/
+PROMPT Applying Object ...  @..\DB\sql\crJOB_APPOINTMENTS.sql
+@..\DB\sql\crJOB_APPOINTMENTS.sql
+/
 
 
 /****************************************************************************************************/
