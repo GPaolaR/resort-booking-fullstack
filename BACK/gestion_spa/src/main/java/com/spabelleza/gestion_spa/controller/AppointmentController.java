@@ -1,12 +1,15 @@
 package com.spabelleza.gestion_spa.controller;
 
-import com.spabelleza.gestion_spa.DTO.*;
+import com.spabelleza.gestion_spa.DTO.AppointmentDTO;
+import com.spabelleza.gestion_spa.DTO.TYRC_APPOI;
+import com.spabelleza.gestion_spa.entity.Appointment;
 import com.spabelleza.gestion_spa.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -32,7 +35,7 @@ public class AppointmentController {
         return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
 
-    @GetMapping("/by-speciality-and-date")
+@GetMapping("/by-speciality-and-date")
     public ResponseEntity<List<AppointmentBySpecialityDTO>> getAppointmentsBySpecialityAndDate(
             @RequestParam("specialityId") Integer specialityId,
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate
@@ -56,6 +59,6 @@ public class AppointmentController {
     ) {
         List<AvailableTimeSlotDTO> appointments = iAppointmentService.getAvailableTimeSlotsBySpeciality(specialityId, Timestamp.valueOf(startDate));
         return ResponseEntity.ok(appointments);
-    }
-
+        }
+    
 }
