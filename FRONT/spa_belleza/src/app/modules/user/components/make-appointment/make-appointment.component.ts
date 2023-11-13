@@ -37,24 +37,11 @@ export class MakeAppointmentComponent implements OnInit{
   membershipTypeId='1';
   totalPrice:any;
   OnButton: boolean = false;
+  appointmentData: any[] = [];
 
-  activeIndex: number = 0;
-  products = [
-    {
-      name:'8:00'      
-    },
-    {
-      name:'10:00'      
-    },
-    {
-      name:'12:00'      
-    },
-    {
-      name:'1:00'      
-    },
-  ]
-
-
+  groupedData: any[] = [];
+  selectedDate!: any;
+  
   ngOnInit() {
     this.membershipTypeId=localStorage.getItem("membershipTypeId")!;
     this.selectedPlan = JSON.parse(localStorage.getItem('planSelected')!)?? {planId: '', planType: '', planDescription: '', discountedPrice: '', pricePerPerson: ''};
@@ -131,7 +118,8 @@ export class MakeAppointmentComponent implements OnInit{
         if (timeSlotsResponse !== null) {
           // Maneja la respuesta del servidor de getTimeSlotsSpeciality aquí
           console.log('Mensaje getTimeSlotsSpeciality:', timeSlotsResponse);
-          // Puedes realizar acciones adicionales aquí si es necesario.
+          this.appointmentData = this.transformData(timeSlotsResponse);
+          console.log('Datos de la cita:', this.appointmentData);
         }
       },
       (error: any) => {
@@ -140,17 +128,42 @@ export class MakeAppointmentComponent implements OnInit{
         this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
       }
     );
-
-
-    
-
   }
-  
+ 
+  onButtonAgendaClick(){
+    console.log(this.selectedDate) ;
+  }
 
+
+  transformData(data: any[]): any[] {
+    // Transforma los datos según tu necesidad, por ejemplo, separando cada availableTimeSlots o matchingTimeSlots
+    let transformedData: any[] = [];
+
+    data.forEach(appointment => {
+      if (appointment.availableTimeSlots) {
+        appointment.availableTimeSlots.forEach((timeSlot: any) => {
+          transformedData.push({
+            specialistId: appointment.specialistId,
+            specialistName: appointment.specialistName,
+            specialistId1: null,
+            specialistId2: null,
+            date: appointment.date,
+            timeSlot: timeSlot
+          });
+        });
+      } else if (appointment.matchingTimeSlots) {
+        appointment.matchingTimeSlots.forEach((timeSlot: any) => {
+          transformedData.push({
+            specialistId: null,
+            specialistId1: appointment.specialistId1,
+            specialistId2: appointment.specialistId2,
+            date: appointment.date,
+            timeSlot: timeSlot
+          });
+        });
+      }
+    });
+
+    return transformedData;
+  }
 }
-
-
-
-
-
-

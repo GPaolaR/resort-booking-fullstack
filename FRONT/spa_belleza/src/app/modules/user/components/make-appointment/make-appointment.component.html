@@ -1,67 +1,108 @@
 <div class="container">
-   <div>
-    <p-scrollPanel [style]="{ width: '100%', height: '85%' }"> 
-        <h1>Solicita tu cita</h1> 
-        <div class="flex justify-content-center m-6 gap-2">
-            <div class="bg-white p-4 w-6 gap-4 shadow-3">
-                 <h2>Datos de la cita</h2>
-                <div class="flex flex-column m-5 gap-3">  
-                    <h3>Plan</h3>                       
-                    <p-dropdown [options]="plans" [(ngModel)]="selectedPlan" optionLabel="planType" placeholder="Seleccione un plan" (onChange)="onPlanSelectionChange()"></p-dropdown>                     
-                    <h3>Tipo de tratamiento</h3>                    
-                    <p-multiSelect [options]="specialities" [(ngModel)]="selectedSpeciality" defaultLabel="Selecione uno o dos tratamientos" optionLabel="specialityName" display="chip" [selectionLimit] ='2'></p-multiSelect>
-                    <h3 *ngIf="showInputNumber">Número de personas</h3>
-                    <p-inputNumber *ngIf="showInputNumber" [(ngModel)]="numPeople" [showButtons]="true" inputId="stacked" mode="decimal" [min]="1" [max]="10" (ngModelChange)="calculateTotalPrice()"> </p-inputNumber>
-                    <h2>Total a pagar: {{totalPrice|currencyFormat}}</h2>
-                  </div>
-                <div class="flex justify-content-center gap-4">
-                  <p-button [rounded]="true" size="small" (click)="onButtonClick()">Buscar</p-button>
-                  <p-button [rounded]="true" size="small" [disabled]="true">Agendar cita</p-button>
-                </div>
-            </div>  
-            <div class="p-4 w-6 shadow-4" style="background-color: rgba(97, 176, 100, 0.60);">
-                <h2 class="flex flex-wrap align-items-center justify-content-center">Horarios disponibles</h2>
-                <!-- <h4>date</h4> -->
-                 
-                <p-tabView class=" m-6" [(activeIndex)]="activeIndex">
-                  <p-tabPanel header="Date I">
-                    <p-dataView #dv [value]="products">
-                      <ng-template let-product pTemplate="listItem">
-                          <div class="col-12">
-                              <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-                                    <div class="font-bold">{{ product.name }}</div>
-                              </div>
-                            </div>
-                      </ng-template>
-                  </p-dataView>
-                  </p-tabPanel>
-                  <p-tabPanel header="Date II">
-                    <p-dataView #dv [value]="products">
-                      <ng-template let-product pTemplate="listItem">
-                          <div class="col-12">
-                              <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-                                    <div class="font-bold">{{ product.name }}</div>
-                              </div>
-                            </div>
-                      </ng-template>
-                  </p-dataView>
-                  </p-tabPanel>
-                  <p-tabPanel header="Date III">
-                    <p-dataView #dv [value]="products">
-                      <ng-template let-product pTemplate="listItem">
-                          <div class="col-12">
-                              <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-                                    <div class="font-bold">{{ product.name }}</div>
-                              </div>
-                            </div>
-                      </ng-template>
-                  </p-dataView>
-                  </p-tabPanel>
-              </p-tabView>               
-               
-            </div>
+  <div>
+    <p-scrollPanel [style]="{ width: '100%', height: '85%' }">
+      <h1>Solicita tu cita</h1>
+      <div class="flex justify-content-center m-6 gap-2">
+        <div class="bg-white p-4 w-6 gap-4 shadow-3">
+          <h2>Datos de la cita</h2>
+          <div class="flex flex-column m-5 gap-3">
+            <h3>Plan</h3>
+            <p-dropdown
+              [options]="plans"
+              [(ngModel)]="selectedPlan"
+              optionLabel="planType"
+              placeholder="Seleccione un plan"
+              (onChange)="onPlanSelectionChange()"
+            ></p-dropdown>
+            <h3>Tipo de tratamiento</h3>
+            <p-multiSelect
+              [options]="specialities"
+              [(ngModel)]="selectedSpeciality"
+              defaultLabel="Selecione uno o dos tratamientos"
+              optionLabel="specialityName"
+              display="chip"
+              [selectionLimit]="2"
+            ></p-multiSelect>
+            <h3 *ngIf="showInputNumber">Número de personas</h3>
+            <p-inputNumber
+              *ngIf="showInputNumber"
+              [(ngModel)]="numPeople"
+              [showButtons]="true"
+              inputId="stacked"
+              mode="decimal"
+              [min]="1"
+              [max]="10"
+              (ngModelChange)="calculateTotalPrice()"
+            >
+            </p-inputNumber>
+            <h2>Total a pagar: {{ totalPrice | currencyFormat }}</h2>
+          </div>
+          <div class="flex justify-content-center gap-4">
+            <p-button [rounded]="true" size="small" (click)="onButtonClick()"
+              >Buscar</p-button
+            >
+            <p-button [rounded]="true" size="small" (click)="onButtonAgendaClick()" 
+              >Agendar cita</p-button
+            >
+          </div>
         </div>
-    </p-scrollPanel>   
-   </div>         
+        <div
+          class="p-4 w-6 shadow-4"
+          style="background-color: rgba(97, 176, 100, 0.6)"
+        >
+          <h2 class="flex flex-wrap align-items-center justify-content-center">
+            Horarios disponibles
+          </h2>
+
+          <p-table
+            [value]="appointmentData"
+            rowGroupMode="rowspan"
+            groupRowsBy="date"
+            sortField="date"
+            sortMode="single"
+            [paginator]="true"
+            [rows]="8"
+            [showCurrentPageReport]="true"
+            selectionMode="single"
+            [(selection)]="selectedDate"
+            dataKey="timeSlot" >
+            <!-- [tableStyle]="{ 'min-width': '40rem' }"
+          > -->
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Fecha</th>
+                <!-- <th style="width: 3rem">#</th> -->
+                       <th >Especialista</th>
+                       <!-- <th *ngIf="!appointmentData[0]?.specialistId1 && !appointmentData[0]?.specialistId2">Specialist ID</th>
+                     <th *ngIf="appointmentData[0]?.specialistId1 && appointmentData[0]?.specialistId2">Specialist ID 1</th>
+                      <th *ngIf="appointmentData[0]?.specialistId1 && appointmentData[0]?.specialistId2">Specialist ID 2</th> -->
+                <th>Hora</th>
+              </tr>
+            </ng-template>
+            <ng-template
+              pTemplate="body"
+              let-appointment
+              let-rowIndex="rowIndex"
+              let-rowgroup="rowgroup"
+              let-rowspan="rowspan"
+            >
+              <tr [pSelectableRow]="appointment">
+                <td *ngIf="rowgroup" [attr.rowspan]="rowspan">
+                  {{ appointment.date }}
+                </td>
+                 <!-- <td>{{rowIndex + 1}}</td> -->
+                      <td *ngIf="!appointment.specialistId1 && !appointment.specialistId2">{{appointment.specialistName}}</td>
+                      <!--<td *ngIf="appointment.specialistId1 && appointment.specialistId2">{{appointment.specialistId1}}</td>
+                      <td *ngIf="appointment.specialistId1 && appointment.specialistId2">{{appointment.specialistId2}}</td> -->
+                <!-- <td *ngIf="rowgroup" [attr.rowspan]="rowspan">{{appointment.specialistId}}</td>  -->
+                <td>{{ appointment.timeSlot }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <p>*Recuerde que su cita es de dos horas de duración. Por favor 
+            llegar con 30 min antes a Spa Belleza</p>
+        </div>
+      </div>
+    </p-scrollPanel>
+  </div>
 </div>
-    

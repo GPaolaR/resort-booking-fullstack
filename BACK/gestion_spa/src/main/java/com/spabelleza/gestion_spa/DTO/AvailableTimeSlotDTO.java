@@ -15,6 +15,7 @@ public class AvailableTimeSlotDTO {
     //private LocalTime startTime;
     //private LocalTime endTime;
     private Long specialistId;
+    private String specialistName;
     private LocalDate date;
     private List<LocalTime> availableTimeSlots;
     /*public AvailableTimeSlotDTO(Long specialistId, LocalDate date, List<LocalTime> availableTimeSlotsOnDate) {
