@@ -20,7 +20,9 @@
     //height: 90vh;
     //display: flexbox;
     background-color: #A9AC7D;
-    padding: 2% ;
+    //padding: 2% ;
+    padding-left: 2%;
+    padding-right: 2%;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -57,6 +59,7 @@
     margin: 0px;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     //padding: 10px 0 ;
     //text-align: center;
 }
@@ -65,9 +68,18 @@
        width: 273px; 
     }
 
-    /*.p-divider{
-        border-color: black;
-        background-color: black;
-    }*/
+    .p-divider .p-divider-content {
+        background-color: #A9AC7D;
+    }
+
+    .p-divider-horizontal.p-divider-left{
+        justify-content: center;
+    }
+    
+     .p-divider.p-divider-horizontal:before{
+        //border-top: 5px;
+        border-top-color: black;
+    }
+    
 }
 
