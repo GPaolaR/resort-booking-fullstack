@@ -23,6 +23,8 @@ import { DataViewModule } from 'primeng/dataview';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TabViewModule } from 'primeng/tabview';
+import { AccordionModule } from 'primeng/accordion';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   declarations: [],
@@ -52,7 +54,9 @@ import { TabViewModule } from 'primeng/tabview';
     DataViewModule,
     MultiSelectModule,
     InputNumberModule,
-    TabViewModule
+    TabViewModule,
+    AccordionModule,
+    FileUploadModule
   ]
 })
 export class PrimeNGModule { }

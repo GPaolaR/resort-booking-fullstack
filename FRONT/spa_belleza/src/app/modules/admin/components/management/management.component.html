@@ -1,3 +1,30 @@
-
-<p>management works!</p>
-
+<div class="container">
+    <p-toast></p-toast> 
+    <h1>Gestión citas e informes</h1> 
+    <div class="flex justify-content-center m-6 gap-2">
+      <p-accordion [activeIndex]="0">
+        <p-accordionTab header="Cargue citas de aliados">
+          <p>Seleccione el archivo para cargar citas.</p>
+          <input
+                    type="file"
+                    class="custom-file-input"
+                    id="file"
+                    accept=".csv"
+                    maxFileSize="1000000"
+                    (change)="onFileSelected($event)"
+                  />
+  
+          <p-button (onClick)="uploadFile()" label="Cargar archivo"></p-button>
+        </p-accordionTab>
+        <p-accordionTab header="Genera informe">
+          <p>Seleccione la fecha de inicio y fin para la generación del informe.</p>
+          <div>
+            <p-calendar [(ngModel)]="startDate" [showIcon]="true"></p-calendar>
+            <p-calendar [(ngModel)]="endDate" [showIcon]="true"></p-calendar>
+          </div>
+          <p-button label="Descargar informe" (onClick)="downloadFile()"></p-button>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+  </div>
+  

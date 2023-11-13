@@ -6,6 +6,9 @@ import { ManagementComponent } from './components/management/management.componen
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PrimeNGModule } from '../prime-ng/prime-ng.module';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+//import { FileUploadBasicDemo } from 'src/app/demo/file-upload-basic-demo';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     SharedModule,
     PrimeNGModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ]
 })
 export class AdminModule { }

@@ -10,9 +10,14 @@ import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.SqlReturnType;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
@@ -27,13 +32,15 @@ public class AppointmentService implements IAppointmentService{
 
     private final JdbcTemplate jdbcTemplate;
     private final AppointmentRepository appointmentRepository;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     @Autowired
     private final ISpecialistService iSpecialistService;
 
     @Autowired
-    public AppointmentService(JdbcTemplate jdbcTemplate, AppointmentRepository appointmentRepository, ISpecialistService iSpecialistService) {
+    public AppointmentService(JdbcTemplate jdbcTemplate, AppointmentRepository appointmentRepository, NamedParameterJdbcTemplate namedParameterJdbcTemplate, ISpecialistService iSpecialistService) {
         this.jdbcTemplate = jdbcTemplate;
         this.appointmentRepository = appointmentRepository;
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
         this.iSpecialistService = iSpecialistService;
     }
 
@@ -347,6 +354,33 @@ public class AppointmentService implements IAppointmentService{
             // Loggear el error completo
             //log.error("Error al ejecutar el procedimiento almacenado: {}", e.getMessage(), e);
             throw e;
+        }
+    }
+
+    @Override
+    public void cargarArchivo(MultipartFile file) {
+        String sql = "INSERT INTO APPOINTMENTS (APPOINTMENT_ID, USER_ID, SPECIALIST_ID, SPECIALITY_ID, PLAN_ID, APPOINTMENT_DATE, APPOINTMENT_DURATION, TOTAL_PRICE, STATUS, LAST_CHANGE_DATE) " +
+                "VALUES (SEQ_APPOI.nextval, :userId, :specialistId, :specialityId, :planId, TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss'), :appointmentDuration, :totalPrice, :status, SYSDATE)";
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(";");
+
+                MapSqlParameterSource parameters = new MapSqlParameterSource();
+                parameters.addValue("userId", Long.parseLong(values[0]), Types.NUMERIC);
+                parameters.addValue("specialistId", Long.parseLong(values[1]), Types.NUMERIC);
+                parameters.addValue("specialityId", Long.parseLong(values[2]), Types.NUMERIC);
+                parameters.addValue("planId", Long.parseLong(values[3]), Types.NUMERIC);
+                parameters.addValue("appointmentDate", values[4], Types.VARCHAR);
+                parameters.addValue("appointmentDuration", Integer.parseInt(values[5]), Types.NUMERIC);
+                parameters.addValue("totalPrice", Double.parseDouble(values[6]), Types.NUMERIC);
+                parameters.addValue("status", values[7], Types.VARCHAR);
+
+                namedParameterJdbcTemplate.update(sql, parameters);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

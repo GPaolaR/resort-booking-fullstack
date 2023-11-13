@@ -1,8 +1,6 @@
 package com.spabelleza.gestion_spa.controller;
 
-import com.spabelleza.gestion_spa.DTO.AppointmentDTO;
-import com.spabelleza.gestion_spa.DTO.TYRC_APPOI;
-import com.spabelleza.gestion_spa.entity.Appointment;
+import com.spabelleza.gestion_spa.DTO.*;
 import com.spabelleza.gestion_spa.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,7 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -72,5 +72,59 @@ public class AppointmentController {
         return ResponseEntity.ok(appointments);
     }
 
+    @PostMapping("/upload")
+    public ResponseEntity<?> cargarArchivo(@RequestParam("file") MultipartFile file) {
+        try {
+            // Verifica si el archivo está vacío
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body(getErrorResponse("El archivo está vacío"));
+            }
+
+            // Verifica el tipo de archivo (puedes agregar más validaciones según tus necesidades)
+            if (!file.getContentType().equals("text/csv")) {
+                return ResponseEntity.badRequest().body(getErrorResponse("El archivo debe ser de tipo CSV"));
+            }
+
+            // Pasa el contenido del archivo al servicio
+            iAppointmentService.cargarArchivo(file);
+
+            Map<String, String> successResponse = new HashMap<>();
+            successResponse.put("status", "success");
+            successResponse.put("message", "Carga de archivo exitosa.");
+
+            return ResponseEntity.ok(successResponse);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(getErrorResponse("Error al cargar el archivo: " + e.getMessage()));
+        }
+    }
+
+    private Map<String, String> getErrorResponse(String errorMessage) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("status", "error");
+        errorResponse.put("message", errorMessage);
+        return errorResponse;
+    }
+        /*try {
+            // Verifica si el archivo está vacío
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body("El archivo está vacío");
+            }
+
+            // Verifica el tipo de archivo (puedes agregar más validaciones según tus necesidades)
+            if (!file.getContentType().equals("text/csv")) {
+                return ResponseEntity.badRequest().body("El archivo debe ser de tipo CSV");
+            }
+
+            // Pasa el contenido del archivo al servicio
+            iAppointmentService.cargarArchivo(file);
+
+            return ResponseEntity.ok("Carga de archivo exitosa.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al cargar el archivo: " + e.getMessage());
+        }*/
 
 }

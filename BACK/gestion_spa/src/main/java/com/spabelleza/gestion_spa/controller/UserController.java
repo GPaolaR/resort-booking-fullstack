@@ -27,7 +27,6 @@ public class UserController {
     public User getUserByLoginId(@PathVariable ("LoginId") Long loginId) {
         return this.iUserService.getUserByLoginId(loginId);
     }
-
     @GetMapping("/{idUs}")
     public User getUserById(@PathVariable ("idUs") Long userId) {
         return this.iUserService.getUserById(userId);

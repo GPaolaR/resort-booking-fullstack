@@ -23,7 +23,7 @@ public class EmailService {
         this.iReportService = iReportService;
     }
 
-    @Scheduled(cron = "0 30 14 12 * *")
+    @Scheduled(cron = "0 0 8 1 * *") //Ejecución cada día 1 del mes a las 08:00 a.m.
     //@Scheduled(fixedDelay = 60000)
     public void sendEmail(){
 

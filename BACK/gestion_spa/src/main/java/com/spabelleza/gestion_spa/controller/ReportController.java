@@ -58,7 +58,7 @@ public class ReportController {
         }
     }
 
-    @GetMapping("/descargar-csv")
+    @GetMapping("/download-csv")
     public ResponseEntity<Resource> descargarCSV(@RequestParam("p_start_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime p_start_date,
                                                  @RequestParam("p_end_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime p_end_date)
             throws BadRequestException {

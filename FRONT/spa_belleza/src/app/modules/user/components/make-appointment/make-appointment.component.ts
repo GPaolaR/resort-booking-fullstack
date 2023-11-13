@@ -106,10 +106,6 @@ export class MakeAppointmentComponent implements OnInit{
     console.log('Especialidades Seleccionado:', this.selectedSpeciality);
     console.log('numero de personas Seleccionado:', this.numPeople);
 
-
-
-
-
     this.apiMakeAppointmentService.getStartDate(
       parseInt(this.membershipTypeId, 10),
       parseInt(this.selectedPlan.planId, 10)
