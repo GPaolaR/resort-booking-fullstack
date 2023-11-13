@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface PlanRepository extends JpaRepository<Plan, Long> {
-    @Query("SELECT new com.spabelleza.gestion_spa.DTO.PlanDTO(p.planType, p.planDescription, p.basePrice * (1 - m.discount), p.pricePerPerson) FROM Plan p, MembershipType m WHERE m.membershipTypeId = :membershipTypeId")
+    @Query("SELECT new com.spabelleza.gestion_spa.DTO.PlanDTO(p.planId, p.planType, p.planDescription, p.basePrice * (1 - m.discount), p.pricePerPerson) FROM Plan p, MembershipType m WHERE m.membershipTypeId = :membershipTypeId")
     List<PlanDTO> getPlansByMembershipTypeId(@Param("membershipTypeId") Integer membershipTypeId);
 }
 

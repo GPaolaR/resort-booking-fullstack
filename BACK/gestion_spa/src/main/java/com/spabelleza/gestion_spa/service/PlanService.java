@@ -30,7 +30,7 @@ public class PlanService implements IPlanService{
     public List<PlansListDTO> getPlans(){
         List<Plan> plans = planRepository.findAll();
         return plans.stream()
-                .map(user -> modelMapper.map(user, PlansListDTO.class))
+                .map(plan -> modelMapper.map(plan, PlansListDTO.class))
                 .collect(Collectors.toList());
     }
 }

@@ -3,30 +3,30 @@
     <p-scrollPanel [style]="{ width: '100%', height: '85%' }">
       <h1>Planes disponibles</h1>
       <p-carousel
-        [value]="products"
+        [value]="plans"
         [numVisible]="4"
         [numScroll]="1"
         [responsiveOptions]="responsiveOptions"
       >
-        <ng-template let-product pTemplate="item">
+        <ng-template let-plan pTemplate="item">
           <div class="product-item">
-            <p-card [header]="product.planType">
+            <p-card [header]="plan.planType">
               <ng-template pTemplate="header">
                 <img
                   alt="Card"
-                  [src]="'../../../../../assets/' + (product.planType | planImage)"
+                  [src]="'../../../../../assets/' + (plan.planType | planImage)"
                   height="230"
                   style="object-fit: cover"
                 />
               </ng-template>
-              <p>{{ product.planDescription }}</p>
+              <p>{{ plan.planDescription }}</p>
               <ng-template pTemplate="footer">
-                <h5>Desde: $ {{ product.discountedPrice }}</h5>
+                <h5>Desde: {{ plan.discountedPrice | currencyFormat }}</h5>
                 <p-button
                   label="Solicitar plan"
                   [rounded]="true"
                   size="small"
-                  (click)="onButtonClick(product.planType)"
+                  (click)="onButtonClick(plan)"
                 ></p-button>
               </ng-template>
             </p-card>

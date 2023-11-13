@@ -14,7 +14,4 @@ export class ApiPlanService {
     return this.http.get(`${this.apiUrl}/plans/${membershipTypeId}`);
   }
 
-  getUser(loginId: String ) {
-    return this.http.get(`${this.apiUrl}/user/us/${loginId}`);
-  }
 }

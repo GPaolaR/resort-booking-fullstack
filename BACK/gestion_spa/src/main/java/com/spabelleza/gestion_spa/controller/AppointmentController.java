@@ -41,7 +41,7 @@ public class AppointmentController {
         return ResponseEntity.ok(appointments);
     }
 
-    @GetMapping("/prueba")
+    @GetMapping("/available-time-slots")
     public ResponseEntity<List<MatchingTimeSlotResult>> calculateAvailableTimeSlots(
             @RequestParam("specialityId") List<Integer> specialityIds,
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate
@@ -49,7 +49,7 @@ public class AppointmentController {
         List<MatchingTimeSlotResult> appointments = iAppointmentService.getAvailableTimeSlots(specialityIds, Timestamp.valueOf(startDate));
         return ResponseEntity.ok(appointments);
     }
-    @GetMapping("/pruebaBySpeciality")
+    @GetMapping("/available-time-slots-by-speciality")
     public ResponseEntity<List<AvailableTimeSlotDTO>> calculateAvailableTimeSlotsBySpeciality(
             @RequestParam("specialityId") Integer specialityId,
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate

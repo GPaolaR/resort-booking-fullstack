@@ -6,11 +6,18 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ApiLoginService {
 
-  private apiUrl = 'http://localhost:8080'; 
+  private apiUrl = 'http://localhost:8080/api'; 
 
   constructor(private http: HttpClient) { }
 
   validateUser(credentialUser: any) {
-    return this.http.post(`${this.apiUrl}/api/login/validate`, credentialUser);
+    return this.http.post(`${this.apiUrl}/login/validate`, credentialUser);
+  }
+  
+  getUser(loginId: String ) {
+    return this.http.get(`${this.apiUrl}/user/us/${loginId}`);
+  }
+  getAdmin(loginId: String ) {
+    return this.http.get(`${this.apiUrl}/admin/us/${loginId}`);
   }
 }

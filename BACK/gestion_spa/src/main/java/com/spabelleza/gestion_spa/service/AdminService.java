@@ -19,6 +19,11 @@ public class AdminService implements IAdminService{
         Administrator admin = this.adminRepository.findById(AdminId).orElse(null);
         return admin;
     }
+    @Override
+    public Administrator getAdminByLoginId(Long loginId) {
+        Administrator admin = this.adminRepository.findAdminByLogin_LoginId(loginId).orElse(null);
+        return admin;
+    }
 
     @Override
     public List<Administrator> getAdmins(){
