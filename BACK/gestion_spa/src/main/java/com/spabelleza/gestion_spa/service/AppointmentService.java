@@ -2,6 +2,7 @@ package com.spabelleza.gestion_spa.service;
 
 import com.spabelleza.gestion_spa.DTO.*;
 import com.spabelleza.gestion_spa.entity.Appointment;
+import com.spabelleza.gestion_spa.exception.NotFoundException;
 import com.spabelleza.gestion_spa.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -54,6 +55,45 @@ public class AppointmentService implements IAppointmentService{
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public LocalDate getPriorityAppointmentDate(Integer membershipTypeId, Integer planId){
+        LocalDate startDate;
+        LocalDate today = LocalDate.now();
+
+        switch (membershipTypeId) {
+            case 1: // ID de sin membresía
+                startDate=today.plusDays(20);
+                break;
+            case 2: // ID de membresía para PLATINO
+                startDate=today;
+                break;
+            case 3: // ID de membresía para ORO
+                startDate = today.plusDays(7);
+                break;
+            case 4: // ID de membresía para PLATA
+                startDate = today.plusDays(15);
+                break;
+            default:
+                // Manejar el caso por defecto o lanzar una excepción si es necesario
+                throw new NotFoundException("ID de membresía no válido: " + membershipTypeId);
+        }
+        switch (planId) {
+            case 1:
+                startDate=startDate.plusDays(1);
+                break;
+            case 2:
+                //startDate=startDate;
+                break;
+            case 3:
+            case 4:
+                startDate = startDate.plusDays(3);
+                break;
+            default:
+                // Manejar el caso por defecto o lanzar una excepción si es necesario
+                throw new NotFoundException("ID de plan no válido: " + planId);
+        }
+        return startDate;
+    }
 
     private List<LocalTime> calculateAvailableTimeSlots(LocalTime startTime, LocalTime endTime, List<AppointmentBySpecialityDTO> appointmentsOnDate) {
         List<LocalTime> availableTimeSlots = new ArrayList<>();
@@ -139,11 +179,6 @@ public class AppointmentService implements IAppointmentService{
                     availableTimeSlotsBySpecialist.add(availableTimeSlot);
                 }
             }
-            /*// Filtrar para obtener solo las 3 fechas más cercanas
-            availableTimeSlotsBySpecialist = availableTimeSlotsBySpecialist.stream()
-                    .filter(slot -> upcomingDates.contains(slot.getDate()))
-                    .collect(Collectors.toList());*/
-
             // Agregar las listas de disponibilidad por especialista a la lista principal
             availableTimeSlots.addAll(availableTimeSlotsBySpecialist);
         }
@@ -184,8 +219,6 @@ public class AppointmentService implements IAppointmentService{
         return matchingTimeSlots;
     }
 
-
-    // Dentro de tu servicio
     private List<MatchingTimeSlotResult> findMatchingTimeSlots(List<AvailableTimeSlotDTO> timeSlots1, List<AvailableTimeSlotDTO> timeSlots2) {
         List<MatchingTimeSlotResult> matchingTimeSlots = new ArrayList<>();
 
@@ -224,7 +257,6 @@ public class AppointmentService implements IAppointmentService{
                 }
             }
         }
-
         return overlappingTimes;
     }
 

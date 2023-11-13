@@ -3,6 +3,7 @@ package com.spabelleza.gestion_spa.service;
 import com.spabelleza.gestion_spa.DTO.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface IAppointmentService {
@@ -10,5 +11,6 @@ public interface IAppointmentService {
     List<MatchingTimeSlotResult> getAvailableTimeSlots(List<Integer> specialityId, Timestamp startDate);
     List<AvailableTimeSlotDTO> getAvailableTimeSlotsBySpeciality (Integer specialityId, Timestamp startDate);
     List<TYRC_APPOI> getAppointmentAgenda(AppointmentDTO appointmentDTO);
+    LocalDate getPriorityAppointmentDate(Integer membershipTypeId, Integer planId);
 
 }

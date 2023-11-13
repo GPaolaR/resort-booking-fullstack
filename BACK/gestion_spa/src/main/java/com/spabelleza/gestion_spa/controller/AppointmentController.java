@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,7 +36,17 @@ public class AppointmentController {
         return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
 
-@GetMapping("/by-speciality-and-date")
+    @GetMapping("/calculate-start-date")
+    public ResponseEntity<LocalDate> calculateStartDate(
+            @RequestParam Integer membershipTypeId,
+            @RequestParam Integer planId) {
+
+        LocalDate startDate = iAppointmentService.getPriorityAppointmentDate(membershipTypeId, planId);
+
+        return ResponseEntity.ok(startDate);
+    }
+
+    @GetMapping("/by-speciality-and-date")
     public ResponseEntity<List<AppointmentBySpecialityDTO>> getAppointmentsBySpecialityAndDate(
             @RequestParam("specialityId") Integer specialityId,
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate
@@ -59,6 +70,7 @@ public class AppointmentController {
     ) {
         List<AvailableTimeSlotDTO> appointments = iAppointmentService.getAvailableTimeSlotsBySpeciality(specialityId, Timestamp.valueOf(startDate));
         return ResponseEntity.ok(appointments);
-        }
-    
+    }
+
+
 }

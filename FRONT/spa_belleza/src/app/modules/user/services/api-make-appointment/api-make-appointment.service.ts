@@ -11,13 +11,24 @@ export class ApiMakeAppointmentService {
 
   constructor(private http: HttpClient) { }
 
-  getPlans(specialityId: number, startDate: number): Observable<any> {
+  getStartDate(membershipTypeId: number, planId: number): Observable<any> {
+    // Construir los parámetros usando HttpParams
+    let params = new HttpParams()
+      .set('membershipTypeId', membershipTypeId)
+      .set('planId', planId);
+
+    // Realizar la solicitud GET con los parámetros
+    return this.http.get(`${this.apiUrl}/appointments/calculate-start-date`, { params: params });;
+  }
+
+  getTimeSlotsSpeciality(specialityId: number, startDate: string): Observable<any> {
     // Construir los parámetros usando HttpParams
     let params = new HttpParams()
       .set('specialityId', specialityId)
-      .set('parametro2', startDate.toString());
+      .set('startDate', startDate);
 
     // Realizar la solicitud GET con los parámetros
-    return this.http.get('tu/url/api', { params: params });;
+    return this.http.get(`${this.apiUrl}/appointments/available-time-slots-by-speciality`, { params: params });;
   }
+
 }
