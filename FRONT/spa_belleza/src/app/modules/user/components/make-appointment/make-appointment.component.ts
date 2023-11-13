@@ -2,10 +2,14 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { plan } from'../../../../shared/interfaces/plan.interface';
 import { ApiPlanService } from '../../services/api-plan/api-plan.service';
+import { ApiMakeAppointmentService } from '../../services/api-make-appointment/api-make-appointment.service';
 //import { ApiPlansService } from '../../../../shared/services/api-plans/api-plans.service';
 import { Message, MessageService} from "primeng/api";
 import { speciality } from '../../interfaces/speciality.interface';
 import { ChangeDetectorRef } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { switchMap, catchError } from 'rxjs/operators';
+import { of, EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-make-appointment',
@@ -16,12 +20,14 @@ export class MakeAppointmentComponent implements OnInit{
 
   constructor(private route: ActivatedRoute,
     private apiPlanService: ApiPlanService,
+    private apiMakeAppointmentService: ApiMakeAppointmentService,
     private messageService: MessageService,
+    private datePipe: DatePipe,
     private cdr: ChangeDetectorRef) {
       this.selectedPlan={planId: '', planType: '', planDescription: '', discountedPrice: '', pricePerPerson: ''}
     }
 
-  date: Date | undefined;
+  startDate: string | undefined;
   specialities!: speciality[];
   plans: plan[] |undefined = [];
   selectedPlan?:any;
@@ -30,6 +36,7 @@ export class MakeAppointmentComponent implements OnInit{
   selectedSpeciality!: speciality[];
   membershipTypeId='1';
   totalPrice:any;
+  OnButton: boolean = false;
 
   activeIndex: number = 0;
   products = [
@@ -94,11 +101,51 @@ export class MakeAppointmentComponent implements OnInit{
     }
   }
   onButtonClick(){
-
-
-    console.log('numero de personas Seleccionado:', this.numPeople);
+    console.log('Membresia de usuario:', this.membershipTypeId);
     console.log('Plan Seleccionado:', this.selectedPlan);
     console.log('Especialidades Seleccionado:', this.selectedSpeciality);
+    console.log('numero de personas Seleccionado:', this.numPeople);
+
+
+
+
+
+    this.apiMakeAppointmentService.getStartDate(
+      parseInt(this.membershipTypeId, 10),
+      parseInt(this.selectedPlan.planId, 10)
+    ).pipe(
+      switchMap((startDateResponse: any) => {
+        // Maneja la respuesta del servidor de getStartDate aquí
+        console.log('Mensaje getStartDate:', startDateResponse);
+        this.startDate = startDateResponse;
+
+        if (this.selectedSpeciality.length < 2 && this.startDate) {
+          const formattedDate = this.datePipe.transform(this.startDate, 'yyyy-MM-ddTHH:mm') ?? '';
+          return this.apiMakeAppointmentService.getTimeSlotsSpeciality(
+            parseInt(this.selectedSpeciality[0].specialityId, 10),
+            formattedDate
+          );
+        } else {
+          // Devuelve un observable vacío si no necesitas realizar más llamadas
+          return of(null);
+        }
+      })
+    ).subscribe(
+      (timeSlotsResponse: any | null) => {
+        if (timeSlotsResponse !== null) {
+          // Maneja la respuesta del servidor de getTimeSlotsSpeciality aquí
+          console.log('Mensaje getTimeSlotsSpeciality:', timeSlotsResponse);
+          // Puedes realizar acciones adicionales aquí si es necesario.
+        }
+      },
+      (error: any) => {
+        // Maneja los errores del servidor de getStartDate o getTimeSlotsSpeciality aquí
+        const errorMessage = error.error.message || 'Ocurrió un error inesperado';
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
+      }
+    );
+
+
     
 
   }

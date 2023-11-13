@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,6 +31,16 @@ public class AppointmentController {
         //Timestamp timestamp = Timestamp.valueOf(appointmentDate);
         List<TYRC_APPOI> appointments = iAppointmentService.getAppointmentAgenda(request);
         return new ResponseEntity<>(appointments, HttpStatus.OK);
+    }
+
+    @GetMapping("/calculate-start-date")
+    public ResponseEntity<LocalDate> calculateStartDate(
+            @RequestParam Integer membershipTypeId,
+            @RequestParam Integer planId) {
+
+        LocalDate startDate = iAppointmentService.getPriorityAppointmentDate(membershipTypeId, planId);
+
+        return ResponseEntity.ok(startDate);
     }
 
     @GetMapping("/by-speciality-and-date")
@@ -57,5 +68,6 @@ public class AppointmentController {
         List<AvailableTimeSlotDTO> appointments = iAppointmentService.getAvailableTimeSlotsBySpeciality(specialityId, Timestamp.valueOf(startDate));
         return ResponseEntity.ok(appointments);
     }
+
 
 }
