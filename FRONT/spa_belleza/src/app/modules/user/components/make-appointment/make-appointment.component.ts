@@ -41,6 +41,9 @@ export class MakeAppointmentComponent implements OnInit{
 
   groupedData: any[] = [];
   selectedDate!: any;
+  showButtonSearch = false;
+  showButtonAgenda = false;
+  showTable = false;
   
   ngOnInit() {
     this.membershipTypeId=localStorage.getItem("membershipTypeId")!;
@@ -79,6 +82,12 @@ export class MakeAppointmentComponent implements OnInit{
   onPlanSelectionChange() {   
     this.showInputNumber = (this.selectedPlan?.planType == 'Spa para empresas') ?? false;
     this.calculateTotalPrice(); 
+    this.showButtonSearch = true;
+  }
+  onSpecialitySelectionChange() {
+    this.showButtonAgenda = false; 
+    this.showButtonSearch = true;
+    this.showTable = false; 
   }
   calculateTotalPrice(){
     if(this.selectedPlan?.pricePerPerson === 1){
@@ -88,80 +97,73 @@ export class MakeAppointmentComponent implements OnInit{
     }
   }
   onButtonClick(){
-    console.log('Membresia de usuario:', this.membershipTypeId);
-    console.log('Plan Seleccionado:', this.selectedPlan);
-    console.log('Especialidades Seleccionado:', this.selectedSpeciality);
-    console.log('numero de personas Seleccionado:', this.numPeople);
-
     this.apiMakeAppointmentService.getStartDate(
       parseInt(this.membershipTypeId, 10),
       parseInt(this.selectedPlan.planId, 10)
     ).pipe(
       switchMap((startDateResponse: any) => {
-        // Maneja la respuesta del servidor de getStartDate aquí
-        console.log('Mensaje getStartDate:', startDateResponse);
         this.startDate = startDateResponse;
 
-        if (this.selectedSpeciality.length < 2 && this.startDate) {
+        if (this.startDate) {
           const formattedDate = this.datePipe.transform(this.startDate, 'yyyy-MM-ddTHH:mm') ?? '';
-          return this.apiMakeAppointmentService.getTimeSlotsSpeciality(
-            parseInt(this.selectedSpeciality[0].specialityId, 10),
+          const formattedSpecialities = this.selectedSpeciality.map(speciality => speciality.specialityId).join(',');
+          //console.log('Especialidades Seleccionado:', formattedSpecialities);
+          return this.apiMakeAppointmentService.getTimeSlotsSpecialities(
+            formattedSpecialities,
             formattedDate
           );
         } else {
-          // Devuelve un observable vacío si no necesitas realizar más llamadas
+          // Devuelve un observable vacío 
           return of(null);
         }
       })
     ).subscribe(
       (timeSlotsResponse: any | null) => {
-        if (timeSlotsResponse !== null) {
-          // Maneja la respuesta del servidor de getTimeSlotsSpeciality aquí
-          console.log('Mensaje getTimeSlotsSpeciality:', timeSlotsResponse);
+        if (timeSlotsResponse !== null && timeSlotsResponse.length > 0) {
           this.appointmentData = this.transformData(timeSlotsResponse);
-          console.log('Datos de la cita:', this.appointmentData);
+          this.showButtonAgenda = true;
+        } else {
+          // Mostrar mensaje de advertencia ya que timeSlotsResponse es null o vacío
+          this.messageService.add({ severity: 'warn', summary: 'Advertencia', detail: 'No hay agenda disponibles en este momento.' });
+          
         }
       },
       (error: any) => {
-        // Maneja los errores del servidor de getStartDate o getTimeSlotsSpeciality aquí
+        // Errores del servidor de getStartDate o getTimeSlotsSpeciality
         const errorMessage = error.error.message || 'Ocurrió un error inesperado';
         this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
       }
     );
+    this.showTable = true;
   }
  
-  onButtonAgendaClick(){
-    console.log(this.selectedDate) ;
+  onButtonAgendaClick(){      
+
+    console.log('Membresia de usuario:', this.membershipTypeId);
+    console.log('Plan Seleccionado:', this.selectedPlan);
+    console.log('Especialidades Seleccionado:', this.selectedSpeciality);
+    console.log('numero de personas Seleccionado:', this.numPeople);
+    this.showButtonAgenda = false;
   }
 
 
   transformData(data: any[]): any[] {
-    // Transforma los datos según tu necesidad, por ejemplo, separando cada availableTimeSlots o matchingTimeSlots
+    // Transforma los datos separando cada timeSlot del matchingTimeSlots
     let transformedData: any[] = [];
 
     data.forEach(appointment => {
-      if (appointment.availableTimeSlots) {
-        appointment.availableTimeSlots.forEach((timeSlot: any) => {
-          transformedData.push({
-            specialistId: appointment.specialistId,
-            specialistName: appointment.specialistName,
-            specialistId1: null,
-            specialistId2: null,
-            date: appointment.date,
-            timeSlot: timeSlot
-          });
-        });
-      } else if (appointment.matchingTimeSlots) {
+      if (appointment.matchingTimeSlots) {
         appointment.matchingTimeSlots.forEach((timeSlot: any) => {
           transformedData.push({
-            specialistId: null,
             specialistId1: appointment.specialistId1,
+            specialistName1: appointment.specialistName1,
             specialistId2: appointment.specialistId2,
+            specialistName2: appointment.specialistName2,            
             date: appointment.date,
             timeSlot: timeSlot
           });
         });
-      }
+      } 
     });
 
     return transformedData;

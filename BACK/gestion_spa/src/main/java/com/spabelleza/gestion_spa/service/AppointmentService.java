@@ -4,7 +4,6 @@ import com.spabelleza.gestion_spa.DTO.*;
 import com.spabelleza.gestion_spa.entity.Appointment;
 import com.spabelleza.gestion_spa.exception.NotFoundException;
 import com.spabelleza.gestion_spa.repository.AppointmentRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
@@ -21,8 +20,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -201,36 +198,50 @@ public class AppointmentService implements IAppointmentService{
     @Override
     public List<MatchingTimeSlotResult> getAvailableTimeSlots(List<Integer> specialityIds, Timestamp startDate) {
         List<MatchingTimeSlotResult> matchingTimeSlots = new ArrayList<>();
+        List<AvailableTimeSlotDTO> timeSlots = new ArrayList<>();
 
         // Obtener las disponibilidades para cada especialidad
         List<List<AvailableTimeSlotDTO>> timeSlotsBySpeciality = new ArrayList<>();
         for (Integer specialityId : specialityIds) {
-            List<AvailableTimeSlotDTO> timeSlots = getAvailableTimeSlotsBySpeciality(specialityId, startDate);
+            timeSlots = getAvailableTimeSlotsBySpeciality(specialityId, startDate);
             timeSlotsBySpeciality.add(timeSlots);
         }
 
-        // Comparar las disponibilidades para encontrar coincidencias de fecha y hora
-        for (int i = 0; i < timeSlotsBySpeciality.size() - 1; i++) {
-            List<AvailableTimeSlotDTO> timeSlots1 = timeSlotsBySpeciality.get(i);
+        if(specialityIds.size()>1){
+            // Comparar las disponibilidades para encontrar coincidencias de fecha y hora
+            for (int i = 0; i < timeSlotsBySpeciality.size() - 1; i++) {
+                List<AvailableTimeSlotDTO> timeSlots1 = timeSlotsBySpeciality.get(i);
 
-            for (int j = i + 1; j < timeSlotsBySpeciality.size(); j++) {
-                List<AvailableTimeSlotDTO> timeSlots2 = timeSlotsBySpeciality.get(j);
+                for (int j = i + 1; j < timeSlotsBySpeciality.size(); j++) {
+                    List<AvailableTimeSlotDTO> timeSlots2 = timeSlotsBySpeciality.get(j);
 
-                // Comparar las disponibilidades para encontrar coincidencias de fecha y hora
-                matchingTimeSlots = findMatchingTimeSlots(timeSlots1, timeSlots2);
-
-                /*// Imprimir las coincidencias
-                for (MatchingTimeSlotResult result : matchingTimeSlots) {
-                    System.out.println("Coincidencia para especialidad " + result.getSpecialistId1() +
-                            " y especialidad " + result.getSpecialistId2() +
-                            " el día " + result.getDate() +
-                            " a las horas " + result.getMatchingTimeSlots());
-                }*/
+                    // Comparar las disponibilidades para encontrar coincidencias de fecha y hora
+                    matchingTimeSlots = findMatchingTimeSlots(timeSlots1, timeSlots2);
+                }
             }
+        }else {
+            matchingTimeSlots=convertToMatchingTimeSlotResult(timeSlots);
         }
 
         return matchingTimeSlots;
     }
+
+    public List<MatchingTimeSlotResult> convertToMatchingTimeSlotResult(List<AvailableTimeSlotDTO> availableTimeSlots) {
+        List<MatchingTimeSlotResult> result = new ArrayList<>();
+
+        for (AvailableTimeSlotDTO availableTimeSlot : availableTimeSlots) {
+            MatchingTimeSlotResult matchingTimeSlotResult = new MatchingTimeSlotResult();
+            matchingTimeSlotResult.setSpecialistId1(availableTimeSlot.getSpecialistId());
+            matchingTimeSlotResult.setSpecialistName1(availableTimeSlot.getSpecialistName());
+            matchingTimeSlotResult.setDate(availableTimeSlot.getDate());
+            matchingTimeSlotResult.setMatchingTimeSlots(availableTimeSlot.getAvailableTimeSlots());
+
+            result.add(matchingTimeSlotResult);
+        }
+
+        return result;
+    }
+
 
     private List<MatchingTimeSlotResult> findMatchingTimeSlots(List<AvailableTimeSlotDTO> timeSlots1, List<AvailableTimeSlotDTO> timeSlots2) {
         List<MatchingTimeSlotResult> matchingTimeSlots = new ArrayList<>();
@@ -405,6 +416,7 @@ public class AppointmentService implements IAppointmentService{
                     message.append(" - " + timeDate);
 
                 }else{
+
                     MapSqlParameterSource parameters = new MapSqlParameterSource();
                     parameters.addValue("userId", Long.parseLong(values[0]), Types.NUMERIC);
                     parameters.addValue("specialistId", Long.parseLong(values[1]), Types.NUMERIC);
