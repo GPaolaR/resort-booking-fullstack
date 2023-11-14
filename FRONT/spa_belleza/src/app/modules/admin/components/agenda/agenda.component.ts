@@ -51,14 +51,11 @@ export class AgendaComponent {
       this.apiPlansService.getPlans()
     ]).subscribe(
       ([specialistsData, usersData, plansData]) => {
-        // Maneja la respuesta del servicio de especialistas
-        console.log('Respuesta del servicio de especialistas:', specialistsData);
+        // Respuesta del servicio de especialistas
         this.specialists = specialistsData as specialist[];
-        // Maneja la respuesta del servicio de usuarios
-        console.log('Respuesta del servicio de usuarios:', usersData);
+        // Respuesta del servicio de usuarios
         this.users = usersData as user[];
-        // Maneja la respuesta del servicio de planes
-        console.log('Respuesta del servicio de planes:', plansData);
+        // Respuesta del servicio de planes
         this.plans = plansData as plan[];
       },
       (error) => {
@@ -119,11 +116,11 @@ export class AgendaComponent {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
       }
     );
-    console.log('Especialista: ',this.selectedSpecialist);
-    console.log('Usuario: ',this.selectedUser);
-    console.log('Plan: ',this.selectedPlan?.planId);
-    console.log('FechaInicial: ',this.datePipe.transform(this.inicialDate, 'yyyy-MM-ddTHH:mm'));
-    console.log('FechaFin: ',this.endDate);
+    // console.log('Especialista: ',this.selectedSpecialist);
+    // console.log('Usuario: ',this.selectedUser);
+    // console.log('Plan: ',this.selectedPlan?.planId);
+    // console.log('FechaInicial: ',this.datePipe.transform(this.inicialDate, 'yyyy-MM-ddTHH:mm'));
+    // console.log('FechaFin: ',this.endDate);
   }
 
   editProduct(appointment: appointment) {

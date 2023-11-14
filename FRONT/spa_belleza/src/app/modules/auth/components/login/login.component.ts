@@ -59,6 +59,7 @@ export class LoginComponent {
           this.membershipTypeId=data.membershipType.membershipTypeId;
           this.membershipType=data.membershipType.membershipType;
           this.userName=data.userName + ' ' + data.userLastName;
+          localStorage.setItem('Id', data.userId);         
           localStorage.setItem('name', this.userName);
           localStorage.setItem('membershipTypeId', this.membershipTypeId);
           localStorage.setItem('membershipType', this.membershipType);

@@ -1,7 +1,6 @@
 package com.spabelleza.gestion_spa.controller;
 
 import com.spabelleza.gestion_spa.DTO.*;
-import com.spabelleza.gestion_spa.entity.Administrator;
 import com.spabelleza.gestion_spa.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -112,7 +111,7 @@ public class AppointmentController {
         return errorResponse;
     }
 
-    @PostMapping
+    @PostMapping("/insert")
     public ResponseEntity<?> insertAppointment(
             @RequestBody AppointmentSaveDTO request
     ){
@@ -131,7 +130,7 @@ public class AppointmentController {
         return ResponseEntity.ok(successResponse);
     }
 
-    @PostMapping
+    @PutMapping("/edit")
     public ResponseEntity<?> editAppointment(
             @RequestBody AppointmentSaveDTO request
     ){
@@ -150,8 +149,8 @@ public class AppointmentController {
         return ResponseEntity.ok(successResponse);
     }
 
-    @PostMapping("/{idAppointment}")
-    public ResponseEntity<?> cancellAppointment(@PathVariable("idAppointment") String appointmenteId) {
+    @PutMapping("/cancel/{idAppointment}")
+    public ResponseEntity<?> cancellAppointment(@PathVariable("idAppointment") Integer appointmenteId) {
         String appointments = iAppointmentService.cancelAppointmente(appointmenteId);
         Map<String, String> successResponse = new HashMap<>();
         if (appointments.equals("Cancelación Realizada")){

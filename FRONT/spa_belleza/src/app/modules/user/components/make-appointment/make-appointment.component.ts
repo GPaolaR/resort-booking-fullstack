@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { plan } from'../../../../shared/interfaces/plan.interface';
 import { ApiPlanService } from '../../services/api-plan/api-plan.service';
 import { ApiMakeAppointmentService } from '../../services/api-make-appointment/api-make-appointment.service';
-//import { ApiPlansService } from '../../../../shared/services/api-plans/api-plans.service';
+import { appointmentData } from'../../../../shared/interfaces/appointmentData.interface';
 import { Message, MessageService} from "primeng/api";
 import { speciality } from '../../interfaces/speciality.interface';
 import { ChangeDetectorRef } from '@angular/core';
@@ -35,9 +35,11 @@ export class MakeAppointmentComponent implements OnInit{
   numPeople: number = 1;
   selectedSpeciality!: speciality[];
   membershipTypeId='1';
+  userId:any;
   totalPrice:any;
   OnButton: boolean = false;
   appointmentData: any[] = [];
+  appointmentDataInsert: appointmentData | undefined;
 
   groupedData: any[] = [];
   selectedDate!: any;
@@ -47,6 +49,7 @@ export class MakeAppointmentComponent implements OnInit{
   
   ngOnInit() {
     this.membershipTypeId=localStorage.getItem("membershipTypeId")!;
+    this.userId=localStorage.getItem("Id")!;
     this.selectedPlan = JSON.parse(localStorage.getItem('planSelected')!)?? {planId: '', planType: '', planDescription: '', discountedPrice: '', pricePerPerson: ''};
     this.showInputNumber = (this.selectedPlan?.planType == 'Spa para empresas') ?? false
     this.cdr.detectChanges();    
@@ -68,7 +71,7 @@ export class MakeAppointmentComponent implements OnInit{
           this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
         }
       );
-      console.log('No se han encontrado planes');
+      //console.log('No se han encontrado planes');
       this.messageService.add({ severity: 'info', summary: 'Información', detail: 'No se han encontrado planes' }); 
     }
     this.calculateTotalPrice();
@@ -121,6 +124,7 @@ export class MakeAppointmentComponent implements OnInit{
       (timeSlotsResponse: any | null) => {
         if (timeSlotsResponse !== null && timeSlotsResponse.length > 0) {
           this.appointmentData = this.transformData(timeSlotsResponse);
+          console.log('appointmentData:', this.appointmentData);
           this.showButtonAgenda = true;
         } else {
           // Mostrar mensaje de advertencia ya que timeSlotsResponse es null o vacío
@@ -139,33 +143,78 @@ export class MakeAppointmentComponent implements OnInit{
  
   onButtonAgendaClick(){      
 
-    console.log('Membresia de usuario:', this.membershipTypeId);
-    console.log('Plan Seleccionado:', this.selectedPlan);
-    console.log('Especialidades Seleccionado:', this.selectedSpeciality);
-    console.log('numero de personas Seleccionado:', this.numPeople);
+    if (!this.selectedDate) {
+      const errorMessage = "Por favor, seleccione una fecha y hora disponibles.";
+      this.messageService.add({ severity: 'warn', summary: 'Advertencia', detail: errorMessage });
+      return;
+    }
+    // Crear un array de objetos para las especialidades
+    const specialitiesData = [
+      { id: this.selectedDate.specialistId1, specialityId: this.selectedDate.specialityId1 },
+      { id: this.selectedDate.specialistId2, specialityId: this.selectedDate.specialityId2 }
+    ];    
+
+    // Iterar sobre el array y realizar las solicitudes
+    specialitiesData.forEach(specialityData => {
+      // Verificar si hay datos para el especialista y la especialidad
+      if (specialityData.id && specialityData.specialityId) {
+        const appointmentDataInsert = {
+          userId: this.userId,
+          specialistId: specialityData.id,
+          specialityId: specialityData.specialityId,
+          planId: this.selectedPlan?.planId,
+          appointmentDate: this.datePipe.transform(this.selectedDate.date + ' ' + this.selectedDate.timeSlot, 'dd/MM/yyyy HH:mm:ss') || '', 
+          duration: "2",
+          totalPrice: this.totalPrice,
+          status: "Pendiente",
+          appointmentId: null
+        };      
+
+        this.apiMakeAppointmentService.insertAppointment(appointmentDataInsert).subscribe(
+          (response: any) => {
+           //console.log(`Mensaje para Especialidad ${specialityData.specialityId}:`, response);
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: response.message });
+          },
+          (error: any) => {
+            const errorMessage = error.error.message || 'Ocurrió un error inesperado';
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
+          }
+        );
+      }
+    });
+
     this.showButtonAgenda = false;
   }
-
 
   transformData(data: any[]): any[] {
     // Transforma los datos separando cada timeSlot del matchingTimeSlots
     let transformedData: any[] = [];
-
+  
     data.forEach(appointment => {
       if (appointment.matchingTimeSlots) {
         appointment.matchingTimeSlots.forEach((timeSlot: any) => {
-          transformedData.push({
-            specialistId1: appointment.specialistId1,
-            specialistName1: appointment.specialistName1,
-            specialistId2: appointment.specialistId2,
-            specialistName2: appointment.specialistName2,            
-            date: appointment.date,
-            timeSlot: timeSlot
-          });
+          // Divide la cadena del timeSlot para obtener la hora
+          const [hourString] = timeSlot.split(':');
+          const hour = parseInt(hourString, 10);
+  
+          // Filtra solo las horas pares
+          if (hour % 2 === 0) {
+            transformedData.push({
+              specialistId1: appointment.specialistId1,
+              specialistName1: appointment.specialistName1,
+              specialityId1: appointment.specialityId1,
+              specialistId2: appointment.specialistId2,
+              specialistName2: appointment.specialistName2,            
+              specialityId2: appointment.specialityId2,            
+              date: appointment.date,
+              timeSlot: timeSlot
+            });
+          }
         });
       } 
     });
-
+  
     return transformedData;
   }
+  
 }

@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name="USERS")
 @Data
-@JsonIgnoreProperties({ "userId", "lastChangeDate" })
+@JsonIgnoreProperties({ "lastChangeDate" })
 public class User {
 
     @Id

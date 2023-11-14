@@ -21,7 +21,7 @@ public interface IAppointmentService {
     String editAppointment(String userId, String specialistId, String specialityId, String planId,
                              String appointmentDate, String appointmentDuration, String totalPrice,
                              String status, String appointmentId);
-    String cancelAppointmente(String appointmentId);
+    String cancelAppointmente(Integer appointmentId);
     String uploadFile(MultipartFile file) throws IOException;
 
 }

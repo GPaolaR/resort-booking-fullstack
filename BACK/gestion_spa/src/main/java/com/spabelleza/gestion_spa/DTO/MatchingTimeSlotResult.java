@@ -14,8 +14,10 @@ import java.util.List;
 public class MatchingTimeSlotResult {
     private Long specialistId1;
     private String specialistName1;
+    private Integer specialityId1;
     private Long specialistId2;
     private String specialistName2;
+    private Integer specialityId2;
     private LocalDate date;
     private List<LocalTime> matchingTimeSlots;
 }

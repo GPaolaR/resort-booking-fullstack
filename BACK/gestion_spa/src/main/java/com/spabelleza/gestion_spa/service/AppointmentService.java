@@ -172,7 +172,7 @@ public class AppointmentService implements IAppointmentService{
             List<AvailableTimeSlotDTO> availableTimeSlotsBySpecialist = new ArrayList<>();
 
             // Iterar sobre los siguientes 3 días
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 3; i++) {
                 LocalDate currentDate = startDate.toLocalDateTime().toLocalDate().plusDays(i);
                 List<AppointmentBySpecialityDTO> appointmentsOnDate = appointmentsByDate.getOrDefault(currentDate, new ArrayList<>());
 
@@ -186,7 +186,7 @@ public class AppointmentService implements IAppointmentService{
 
                 // Agregar a la lista solo si hay disponibilidad
                 if (!availableTimeSlotsOnDate.isEmpty()) {
-                    AvailableTimeSlotDTO availableTimeSlot = new AvailableTimeSlotDTO(specialistId, specialistName, currentDate, availableTimeSlotsOnDate);
+                    AvailableTimeSlotDTO availableTimeSlot = new AvailableTimeSlotDTO(specialistId, specialistName, specialityId, currentDate, availableTimeSlotsOnDate);
                     availableTimeSlotsBySpecialist.add(availableTimeSlot);
                 }
             }
@@ -233,6 +233,7 @@ public class AppointmentService implements IAppointmentService{
         for (AvailableTimeSlotDTO availableTimeSlot : availableTimeSlots) {
             MatchingTimeSlotResult matchingTimeSlotResult = new MatchingTimeSlotResult();
             matchingTimeSlotResult.setSpecialistId1(availableTimeSlot.getSpecialistId());
+            matchingTimeSlotResult.setSpecialityId1(availableTimeSlot.getSpecialityId());
             matchingTimeSlotResult.setSpecialistName1(availableTimeSlot.getSpecialistName());
             matchingTimeSlotResult.setDate(availableTimeSlot.getDate());
             matchingTimeSlotResult.setMatchingTimeSlots(availableTimeSlot.getAvailableTimeSlots());
@@ -259,7 +260,9 @@ public class AppointmentService implements IAppointmentService{
                         MatchingTimeSlotResult result = new MatchingTimeSlotResult();
                         result.setSpecialistId1(timeSlot1.getSpecialistId());
                         result.setSpecialistName1(timeSlot1.getSpecialistName());
+                        result.setSpecialityId1(timeSlot1.getSpecialityId());
                         result.setSpecialistId2(timeSlot2.getSpecialistId());
+                        result.setSpecialityId2(timeSlot2.getSpecialityId());
                         result.setSpecialistName2(timeSlot2.getSpecialistName());
                         result.setDate(timeSlot1.getDate());
                         result.setMatchingTimeSlots(overlappingTimes);
@@ -450,7 +453,7 @@ public class AppointmentService implements IAppointmentService{
         parameters.put("appointmentDate", appointmentDate);
         parameters.put("appointmentDuration", Long.parseLong(appointmentDuration));
         parameters.put("totalPrice", Long.parseLong(totalPrice));
-        parameters.put("status", Long.parseLong(status));
+        parameters.put("status", (status));
         parameters.put("appointmentId", Long.parseLong(appointmentId));
 
         try {
@@ -463,11 +466,11 @@ public class AppointmentService implements IAppointmentService{
     }
 
     @Override
-    public String cancelAppointmente(String appointmentId){
+    public String cancelAppointmente(Integer appointmentId){
         String sql = "UPDATE APPOINTMENTS SET STATUS = :status WHERE APPOINTMENT_ID = :appointmentId";
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("newStatus", "Cancelado");
+        parameters.put("status", "Cancelado");
         parameters.put("appointmentId", appointmentId);
 
         try {
