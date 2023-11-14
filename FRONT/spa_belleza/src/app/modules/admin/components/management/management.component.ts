@@ -57,6 +57,33 @@ export class ManagementComponent {
   }
 
   downloadFile(): void {
+    // Validar que al menos un filtro ha sido ingresado
+    if (!this.startDate || !this.endDate) {
+      const errorMessage = "Por favor, ingresar un rango de fechas.";
+      this.messageService.add({ severity: 'warn', summary: 'Advertencia', detail: errorMessage });
+      return;
+    }
+
+    // Validar rango de fechas
+    if (this.startDate && this.endDate) {
+      const MS_PER_DAY = 24 * 60 * 60 * 1000; // Cantidad de milisegundos en un día
+      const diffInDays = Math.round(Math.abs((this.startDate.getTime() - this.endDate.getTime()) / MS_PER_DAY));
+
+      // Validar que la diferencia en días sea menor o igual a 90 (3 meses)
+      if (diffInDays > 90) {
+        const errorMessage = "El rango de fechas no puede ser mayor a tres meses.";
+        this.messageService.add({ severity: 'warn', summary: 'Advertencia', detail: errorMessage });
+        return;
+      }
+      // Validar que la fecha de inicio sea menor a la fecha de fin
+      if (this.startDate > this.endDate) {
+        const errorMessage = "La fecha de inicio debe ser menor a la fecha de fin.";
+        this.messageService.add({ severity: 'warn', summary: 'Advertencia', detail: errorMessage });
+        return;
+      }
+    }
+
+
     const formattedStartDate = this.datePipe.transform(this.startDate, 'yyyy-MM-ddTHH:mm') ?? '';
     console.log('formattedStartDate', formattedStartDate);
     const formattedEndDate = this.datePipe.transform(this.endDate, 'yyyy-MM-ddTHH:mm') ?? '';

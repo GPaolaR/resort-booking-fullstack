@@ -1,4 +1,5 @@
 export interface appointment{
+    appointmentId: number | undefined;
     specialistName: string | undefined;
     userName: string | undefined;
     membershipType: string | undefined;

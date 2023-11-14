@@ -149,8 +149,8 @@ public class AppointmentController {
         return ResponseEntity.ok(successResponse);
     }
 
-    @PutMapping("/cancel/{idAppointment}")
-    public ResponseEntity<?> cancellAppointment(@PathVariable("idAppointment") Integer appointmenteId) {
+    @PutMapping("/cancel")
+    public ResponseEntity<?> cancellAppointment(@RequestParam("idAppointment") Integer appointmenteId) {
         String appointments = iAppointmentService.cancelAppointmente(appointmenteId);
         Map<String, String> successResponse = new HashMap<>();
         if (appointments.equals("Cancelación Realizada")){

@@ -23,14 +23,15 @@ public class EmailService {
         this.iReportService = iReportService;
     }
 
-    @Scheduled(cron = "0 0 8 1 * *") //Ejecución cada día 1 del mes a las 08:00 a.m.
+    @Scheduled(cron = "0 37 6 14 * *")
+    //@Scheduled(cron = "0 0 8 1 * *") //Ejecución cada día 1 del mes a las 08:00 a.m.
     //@Scheduled(fixedDelay = 60000)
     public void sendEmail(){
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-            helper.setTo("usuario.demo@example.com");
+            helper.setTo("admin.demo@example.com");
             helper.setSubject("Informe Mensual "+ iReportService.getCurrentDate());
             helper.setText("Buenas noches\n\nSe hace envio del reporte de especialistas mensual.");
 

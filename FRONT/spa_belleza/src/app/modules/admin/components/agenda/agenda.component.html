@@ -64,17 +64,11 @@
                     <td>{{ appointment.totalPrice | currencyFormat }}</td>
                     <td>{{ appointment.status }}</td>
                     <td>
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(appointment)"></button>
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(appointment)"></button>
+                        <!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(appointment)"></button> -->
+                        <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-warning" (click)="deleteProduct(appointment)"></button>
                     </td>
                 </tr>
             </ng-template>
-            <!-- <ng-template pTemplate="paginatorleft">
-                <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-            </ng-template>
-            <ng-template pTemplate="paginatorright">
-                <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-            </ng-template> -->
             </p-table>
         </div>
     <!-- </p-scrollPanel>    -->

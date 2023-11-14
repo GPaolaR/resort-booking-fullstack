@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ApiSpecialistsService } from '../../services/api-specialists/api-specialists.service';
+import { ApiAgendaService } from '../../services/api-agenda/api-agenda.service';
 import { specialist} from'../../interfaces/specialist.interface';
 import { plan } from'../../../../shared/interfaces/plan.interface';
 import { user } from'../../interfaces/user.interface';
@@ -35,6 +36,7 @@ export class AgendaComponent {
 
   constructor(private cdr: ChangeDetectorRef,
     private apiSpecialistsService: ApiSpecialistsService,
+    private apiAgendaService: ApiAgendaService,
     private apiAppointmentsService: ApiAppointmentsService,
     private apiUsersService: ApiUsersService,
     private apiPlansService: ApiPlansService,
@@ -129,6 +131,23 @@ export class AgendaComponent {
 }
 
 deleteProduct(appointment: appointment) {
+  console.log('appointment: ',appointment);
+
+  this.apiAgendaService.cancelAppoinment(appointment?.appointmentId!).subscribe(
+    (response: any) => {
+      // Maneja la respuesta del servidor aquí
+      console.log('Mensaje:', response);
+      //this.appointments=response;
+      this.messageService.add({ severity: response.status, summary: 'Error', detail: response.message });
+      
+      
+    },
+    (error: any) => {
+      // Maneja los errores del servidor aquí
+      const errorMessage = error.error.message || 'Ocurrió un error inesperado';
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
+    }
+  );
     // this.confirmationService.confirm({
     //     message: 'Are you sure you want to delete ' + appointment.name + '?',
     //     header: 'Confirm',

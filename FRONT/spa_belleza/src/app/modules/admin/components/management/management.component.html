@@ -1,26 +1,38 @@
 <div class="container">
     <p-toast></p-toast> 
     <h1>Gestión citas e informes</h1> 
-    <div class="flex justify-content-center m-6 gap-2">
+    <div class="flex justify-content-center m-4 gap-2">
       <p-accordion [activeIndex]="0">
         <p-accordionTab header="Cargue citas de aliados">
-          <p>Seleccione el archivo para cargar citas.</p>
-          <input
-                    type="file"
-                    class="custom-file-input"
-                    id="file"
-                    accept=".csv"
-                    maxFileSize="1000000"
-                    (change)="onFileSelected($event)"
-                  />
-  
-          <p-button (onClick)="uploadFile()" label="Cargar archivo"></p-button>
+          <div class="flex flex-column p-2 gap-2">
+            <p class ="m-0"> Seleccione el archivo para cargar citas. </p>
+            <p class="text-xs m-0">*Archivos permitivos .csv </p>
+            <input
+                      type="file"
+                      class="custom-file-input m-3"
+                      id="file"
+                      accept=".csv"
+                      maxFileSize="1000000"
+                      (change)="onFileSelected($event)"
+                    />
+    
+            <p-button (onClick)="uploadFile()" label="Cargar archivo"></p-button>
+
+          </div>
         </p-accordionTab>
         <p-accordionTab header="Genera informe">
           <p>Seleccione la fecha de inicio y fin para la generación del informe.</p>
-          <div>
-            <p-calendar [(ngModel)]="startDate" [showIcon]="true"></p-calendar>
-            <p-calendar [(ngModel)]="endDate" [showIcon]="true"></p-calendar>
+          <div class="flex flex-row gap-1 m-3">
+            <span class="p-float-label">
+              <p-calendar  [(ngModel)]="startDate" [showIcon]="true" placeholder="Seleccione una fecha inicio"></p-calendar>
+              <label for="float-label">Fecha inicio</label>
+          </span>
+          <span class="p-float-label">
+              <p-calendar  [(ngModel)]="endDate" [showIcon]="true" placeholder="Seleccione una fecha fin"></p-calendar>
+              <label for="float-label">Fecha fin</label>
+          </span>
+            <!-- <p-calendar [(ngModel)]="startDate" [showIcon]="true"></p-calendar>
+            <p-calendar [(ngModel)]="endDate" [showIcon]="true"></p-calendar> -->
           </div>
           <p-button label="Descargar informe" (onClick)="downloadFile()"></p-button>
         </p-accordionTab>
