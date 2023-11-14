@@ -5,6 +5,7 @@ import com.spabelleza.gestion_spa.entity.Appointment;
 import com.spabelleza.gestion_spa.exception.NotFoundException;
 import com.spabelleza.gestion_spa.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
@@ -396,6 +397,87 @@ public class AppointmentService implements IAppointmentService{
         int count = namedParameterJdbcTemplate.queryForObject(sql, parameters, Integer.class);
 
         return count > 0;
+    }
+
+    @Override
+    public String insertAppointment(String userId, String specialistId, String specialityId, String planId,
+                                    String appointmentDate, String appointmentDuration, String totalPrice,
+                                    String status){
+
+        String sql = "INSERT INTO APPOINTMENTS (APPOINTMENT_ID, USER_ID, SPECIALIST_ID, SPECIALITY_ID, PLAN_ID, APPOINTMENT_DATE, APPOINTMENT_DURATION, TOTAL_PRICE, STATUS, LAST_CHANGE_DATE) " +
+                "VALUES (SEQ_APPOI.nextval, :userId, :specialistId, :specialityId, :planId, TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss'), :appointmentDuration, :totalPrice, :status, SYSDATE)";
+
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("userId", Long.parseLong(userId), Types.NUMERIC);
+        parameters.addValue("specialistId", Long.parseLong(specialistId), Types.NUMERIC);
+        parameters.addValue("specialityId", Long.parseLong(specialityId), Types.NUMERIC);
+        parameters.addValue("planId", Long.parseLong(planId), Types.NUMERIC);
+        parameters.addValue("appointmentDate", appointmentDate, Types.VARCHAR);
+        parameters.addValue("appointmentDuration", appointmentDuration, Types.NUMERIC);
+        parameters.addValue("totalPrice", Double.parseDouble(totalPrice), Types.NUMERIC);
+        parameters.addValue("status", status, Types.VARCHAR);
+
+        try {
+            namedParameterJdbcTemplate.update(sql, parameters);
+            return "Cita Agendada Exitosamente";
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new NotFoundException("Agendamiento Fallido");
+        }
+    }
+
+    @Override
+    public String editAppointment(String userId, String specialistId, String specialityId, String planId,
+                             String appointmentDate, String appointmentDuration, String totalPrice,
+                             String status, String appointmentId){
+        String sql = "UPDATE APPOINTMENTS SET " +
+                "USER_ID = :userId, " +
+                "SPECIALIST_ID = :specialistId, " +
+                "SPECIALITY_ID = :specialityId, " +
+                "PLAN_ID = :planId, " +
+                "APPOINTMENT_DATE = TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss'), " +
+                "APPOINTMENT_DURATION = :appointmentDuration, " +
+                "TOTAL_PRICE = :totalPrice, " +
+                "STATUS = :status, " +
+                "LAST_CHANGE_DATE = SYSDATE " +
+                "WHERE APPOINTMENT_ID = :appointmentId";
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("userId", Long.parseLong(userId));
+        parameters.put("specialistId", Long.parseLong(specialistId));
+        parameters.put("specialityId", Long.parseLong(specialityId));
+        parameters.put("planId", Long.parseLong(planId));
+        parameters.put("appointmentDate", appointmentDate);
+        parameters.put("appointmentDuration", Long.parseLong(appointmentDuration));
+        parameters.put("totalPrice", Long.parseLong(totalPrice));
+        parameters.put("status", Long.parseLong(status));
+        parameters.put("appointmentId", Long.parseLong(appointmentId));
+
+        try {
+            namedParameterJdbcTemplate.update(sql, parameters);
+            return "Modificación Exitosa";
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new NotFoundException("ID de cita no válido: " + appointmentId);
+        }
+    }
+
+    @Override
+    public String cancelAppointmente(String appointmentId){
+        String sql = "UPDATE APPOINTMENTS SET STATUS = :status WHERE APPOINTMENT_ID = :appointmentId";
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("newStatus", "Cancelado");
+        parameters.put("appointmentId", appointmentId);
+
+        try {
+            namedParameterJdbcTemplate.update(sql, parameters);
+            return "Cancelación Realizada";
+        } catch (DataAccessException e) {
+            // Manejar la excepción según tus necesidades
+            e.printStackTrace(); // Puedes imprimir el stack trace o manejarlo de otra manera
+            throw new NotFoundException("ID de cita no válido: " + appointmentId);
+        }
     }
 
     @Override

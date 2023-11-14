@@ -1,6 +1,7 @@
 package com.spabelleza.gestion_spa.controller;
 
 import com.spabelleza.gestion_spa.DTO.*;
+import com.spabelleza.gestion_spa.entity.Administrator;
 import com.spabelleza.gestion_spa.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -111,5 +112,56 @@ public class AppointmentController {
         return errorResponse;
     }
 
+    @PostMapping
+    public ResponseEntity<?> insertAppointment(
+            @RequestBody AppointmentSaveDTO request
+    ){
+        String appointments = iAppointmentService.insertAppointment(request.getUserId(),request.getSpecialistId(),
+                request.getSpecialityId(),request.getPlanId(),request.getAppointmentDate(),request.getDuration(),
+                request.getTotalPrice(),request.getStatus());
+
+        Map<String, String> successResponse = new HashMap<>();
+        if (appointments.equals("Cita Agendada Exitosamente")){
+            successResponse.put("status", "success");
+        }else{
+            successResponse.put("status", "warn");
+        }
+        successResponse.put("message", appointments);
+
+        return ResponseEntity.ok(successResponse);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> editAppointment(
+            @RequestBody AppointmentSaveDTO request
+    ){
+        String appointments = iAppointmentService.editAppointment(request.getUserId(),request.getSpecialistId(),
+                request.getSpecialityId(),request.getPlanId(),request.getAppointmentDate(),request.getDuration(),
+                request.getTotalPrice(),request.getStatus(), request.getAppointmentId());
+
+        Map<String, String> successResponse = new HashMap<>();
+        if (appointments.equals("Modificación Exitosa")){
+            successResponse.put("status", "success");
+        }else{
+            successResponse.put("status", "warn");
+        }
+        successResponse.put("message", appointments);
+
+        return ResponseEntity.ok(successResponse);
+    }
+
+    @PostMapping("/{idAppointment}")
+    public ResponseEntity<?> cancellAppointment(@PathVariable("idAppointment") String appointmenteId) {
+        String appointments = iAppointmentService.cancelAppointmente(appointmenteId);
+        Map<String, String> successResponse = new HashMap<>();
+        if (appointments.equals("Cancelación Realizada")){
+            successResponse.put("status", "success");
+        }else{
+            successResponse.put("status", "warn");
+        }
+        successResponse.put("message", appointments);
+
+        return ResponseEntity.ok(successResponse);
+    }
 
 }

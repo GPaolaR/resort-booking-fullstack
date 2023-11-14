@@ -15,6 +15,13 @@ public interface IAppointmentService {
     List<TYRC_APPOI> getAppointmentAgenda(AppointmentDTO appointmentDTO);
     LocalDate getPriorityAppointmentDate(Integer membershipTypeId, Integer planId);
 
+    String insertAppointment(String userId, String specialistId, String specialityId, String planId,
+                                    String appointmentDate, String appointmentDuration, String totalPrice,
+                                    String status);
+    String editAppointment(String userId, String specialistId, String specialityId, String planId,
+                             String appointmentDate, String appointmentDuration, String totalPrice,
+                             String status, String appointmentId);
+    String cancelAppointmente(String appointmentId);
     String uploadFile(MultipartFile file) throws IOException;
 
 }
