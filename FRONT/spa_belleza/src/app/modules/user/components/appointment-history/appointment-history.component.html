@@ -1,40 +1,28 @@
 <div class="container">
-    <!-- <app-header></app-header> -->
-   <div>
+  <div>
     <p-scrollPanel [style]="{ width: '100%', height: '85%' }">
-        <h1>Tus citas</h1>   
-        <div class="product-list">
-            <div *ngFor="let product of products" class="product-item">
-                <p-card [header]="product.planType">
-                    <p>Fecha y Hora: {{ product.planDescription  }}</p>
-                    <p>Tratamiento: {{ product.planDescription  }}</p>
-                    <div class="specialists">
-                        <p>Especialista(s): {{ product.planDescription  }}</p>
-                        <h5>$$$$$</h5>
-                    </div>
-                </p-card>
+      <h1>Tus citas</h1>
+      <div class="product-list">
+        <div *ngFor="let appointment of appointments" class="product-item">
+          <div class="card">
+            <h5>{{ appointment.planType }}</h5>
+            <div class="flex align-items-center justify-content-between">
+              <div>
+                <p>Tratamiento: {{ appointment.specialityName }}</p>
+                <p>Especialista(s): {{ appointment.specialistName }}</p>
+              </div>
+              <div>
+                <p>
+                  Fecha y Hora: {{ appointment.appointmentDate | dateFormat }}
+                </p>
+                <h5>
+                  Total a pagar: {{ appointment.totalPrice | currencyFormat }}
+                </h5>
+              </div>
             </div>
+          </div>
         </div>
-        
-        <!-- <p-carousel [value]="products" [numVisible]="4" [numScroll]="1" orientation="vertical" [responsiveOptions]="responsiveOptions">
-            <ng-template let-product pTemplate="item">
-            <div class="product-item">
-                <p-card [header]="product.planType" >                
-                    <p>fecha y hora: {{ product.planDescription }}</p>  
-                    <p>Tratamiento: {{ product.planDescription }}</p>  
-                    <span>
-                        <p>Especialista(s): {{ product.planDescription }}</p>                
-                        <h5>$$$$$</h5>
-                    </span>            
-                </p-card>
-            </div>
-            </ng-template>
-        </p-carousel> -->
-    </p-scrollPanel>   
-   </div>
-         
-    <!-- <app-footer></app-footer> -->
-   
-    
+      </div>
+    </p-scrollPanel>
+  </div>
 </div>
-    

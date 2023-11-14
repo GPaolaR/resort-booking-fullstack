@@ -19,7 +19,7 @@ interface City {
 })
 export class SpecialistAgendaComponent {
   filterAgenda: filterAgenda | undefined;
-  appointments!: appointment[];
+  appointments!: any[];
   appointment!: appointment;
   dateAppointment: Date | undefined;
   specialists: specialist[] | undefined;

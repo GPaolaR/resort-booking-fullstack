@@ -1,7 +1,6 @@
 <div class="container">
     <p-toast></p-toast> 
    <div>
-    <!-- <p-scrollPanel [style]="{ width: '100%', height: '85%' }"> -->
         <h1>Agenda especialista</h1> 
         <div class="filter">
             <h2 class="mb-3">Filtros</h2>
@@ -14,29 +13,30 @@
                     <p-calendar  [(ngModel)]="dateAppointment" [showIcon]="true" placeholder="Seleccione una fecha"></p-calendar>
                     <label for="float-label">Fecha</label>
                 </span>
-                <!-- <p-dropdown [options]="specialists" [(ngModel)]="selectedSpecialist" optionLabel="specialistFullName" placeholder="Seleccione un especialista"></p-dropdown> -->
-                <!-- <p-calendar  [(ngModel)]="dateAppointment" [showIcon]="true" placeholder="Seleccione una fecha"></p-calendar> -->
             </div>
             <p-button [rounded]="true"  size="small" (onClick)="search()">Buscar</p-button>
         </div>  
         <div class="product-list">
             <div *ngFor="let appointment of appointments" class="product-item">
-                <p-card [header]="appointment.planType">
-                    <div>
-                        <p>Fecha y Hora: {{ appointment.appointmentDate | dateFormat  }}</p>
-                        <p>Tratamiento: {{ appointment.specialityName  }}</p>
-                        <div class="specialists">
-                            <p>Especialista(s): {{ appointment.specialistName  }}</p>
-                            <h5>{{ appointment.totalPrice}}</h5>
-                        </div>
+                <div class="card">
+                    <h5>{{ appointment.planType }}</h5>
+                    <div class="flex align-items-center justify-content-between">
+                      <div>
+                        <p>Tratamiento: {{ appointment.specialityName }}</p>
+                        <p>Especialista(s): {{ appointment.specialistName }}</p>
+                      </div>
+                      <div>
+                        <p>
+                          Fecha y Hora: {{ appointment.appointmentDate | dateFormat }}
+                        </p>
+                        <h5>
+                          Total a pagar: {{ appointment.totalPrice | currencyFormat }}
+                        </h5>
+                      </div>
                     </div>
-                    <div>
-                        <!-- <h3>Hora: </h3> -->
-                    </div>
-                </p-card>
+                </div>
             </div>
         </div>
-    <!-- </p-scrollPanel>    -->
    </div>  
     
 </div>

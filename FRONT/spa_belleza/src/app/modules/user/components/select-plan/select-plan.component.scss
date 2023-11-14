@@ -24,11 +24,6 @@ p{
     font-family: 'Roboto';
 }
 ::ng-deep {
-    .p-scrollPanel{
-        padding: 0;
-        width: '100%'; 
-        height: '80%';
-    }
     .p-carousel {
         padding: 1rem;
         min-height: fit-content;
@@ -48,11 +43,7 @@ p{
             flex-direction: column;
             height: 650px;
             min-height: 650px;
-            //padding: .5rem;
         }
-        // .p-card-body{
-        //     //padding: 0.5rem;
-        // }
         .p-card-title{
             padding: 5% 0;
             margin: 0;
