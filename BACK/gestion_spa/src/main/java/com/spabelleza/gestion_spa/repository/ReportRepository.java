@@ -12,5 +12,5 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     //StoredProcedureQuery createNamedQuery(String s);
 
     @Procedure(value="PKG_REPORT.GET_REPORT")
-    public void excuteProcess(Timestamp p_start_date, Timestamp p_end_date);
+    void excuteProcess(Timestamp p_start_date, Timestamp p_end_date);
 }

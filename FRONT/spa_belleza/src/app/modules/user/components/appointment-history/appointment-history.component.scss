@@ -44,6 +44,9 @@ h4{
     flex-direction: column;
     box-sizing: border-box;
 }
+.status-cancelado {
+    background-color: rgba(216, 216, 216, 0.6);
+}
 ::ng-deep {
     .product-list{
         align-items: center;

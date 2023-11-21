@@ -24,10 +24,12 @@ export class AppointmentHistoryComponent {
 
   
     ngOnInit(): void {
+      //console.log('ngOnInit');
       const startDate = new Date();
       const endDate = new Date(startDate);
       endDate.setFullYear(startDate.getFullYear() + 1);
-      this.userId=localStorage.getItem('userId');
+      this.userId=localStorage.getItem('Id');
+      //console.log(this.userId);
 
       this.filterAgenda = {
         specialistId: null,
@@ -37,15 +39,17 @@ export class AppointmentHistoryComponent {
         startDate: this.datePipe.transform(startDate, 'yyyy-MM-ddTHH:mm'),
         endDate: this.datePipe.transform(endDate, 'yyyy-MM-ddTHH:mm')
       };
-    console.log(this.filterAgenda);
+      //console.log(this.filterAgenda);
   
       this.apiAppointmentsService.getAgenda(this.filterAgenda).subscribe(
         (response: any) => {
           // Maneja la respuesta del servidor aquí
           console.log('Mensaje:', response);
           this.appointments=response;  
+          console.log(this.appointments?.length);
           if(this.appointments?.length==0){
-            this.messageService.add({ severity: 'info', summary: 'Información', detail: 'No se han encontrado citas para el especialista en la fecha establecida' }); 
+            console.log('No se han encontrado citas establecidas');
+            this.messageService.add({ severity: 'info', summary: 'Información', detail: 'No se han encontrado citas establecidas' }); 
           }
           
         },

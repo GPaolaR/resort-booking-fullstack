@@ -68,7 +68,7 @@ export class ManagementComponent {
     if (this.startDate && this.endDate) {
       const MS_PER_DAY = 24 * 60 * 60 * 1000; // Cantidad de milisegundos en un día
       const diffInDays = Math.round(Math.abs((this.startDate.getTime() - this.endDate.getTime()) / MS_PER_DAY));
-
+      
       // Validar que la diferencia en días sea menor o igual a 90 (3 meses)
       if (diffInDays > 90) {
         const errorMessage = "El rango de fechas no puede ser mayor a tres meses.";

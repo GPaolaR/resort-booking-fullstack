@@ -83,8 +83,8 @@ export class SpecialistAgendaComponent {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
       }
     );
-    console.log('Especialista: ',this.selectedSpecialist);    
-    console.log('FechaInicial: ',this.datePipe.transform(this.dateAppointment, 'yyyy-MM-ddTHH:mm'));
+    //console.log('Especialista: ',this.selectedSpecialist);    
+    //console.log('FechaInicial: ',this.datePipe.transform(this.dateAppointment, 'yyyy-MM-ddTHH:mm'));
     
   }
   

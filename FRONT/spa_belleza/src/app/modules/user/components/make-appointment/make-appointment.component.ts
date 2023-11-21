@@ -85,6 +85,7 @@ export class MakeAppointmentComponent implements OnInit{
   onPlanSelectionChange() {   
     this.showInputNumber = (this.selectedPlan?.planType == 'Spa para empresas') ?? false;
     this.calculateTotalPrice(); 
+    this.showButtonAgenda = false; 
     this.showButtonSearch = true;
   }
   onSpecialitySelectionChange() {
@@ -93,7 +94,7 @@ export class MakeAppointmentComponent implements OnInit{
     this.showTable = false; 
   }
   calculateTotalPrice(){
-    if(this.selectedPlan?.pricePerPerson === 1){
+    if(this.selectedPlan?.pricePerPerson === 1 && this.showInputNumber){
       this.totalPrice = (this.selectedPlan?.discountedPrice ?? 0)*this.numPeople;
     }else{
       this.totalPrice = this.selectedPlan?.discountedPrice ?? 0;

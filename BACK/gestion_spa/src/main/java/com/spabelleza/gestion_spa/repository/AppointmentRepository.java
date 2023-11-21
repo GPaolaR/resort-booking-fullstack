@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     //List<Appointment> findBySpecialityIdAndAppointmentDateAfter(Long specialityId, Timestamp startDate);
-    List<Appointment> findBySpecialitySpecialityAndAppointmentDateAfter(Integer specialityId, Timestamp startDate);
+    List<Appointment> findBySpecialitySpecialityAndAppointmentDateAfterAndStatusNot(Integer specialityId, Timestamp startDate, String status);
 
 }

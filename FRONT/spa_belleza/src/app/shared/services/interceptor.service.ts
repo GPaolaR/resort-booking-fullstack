@@ -22,7 +22,7 @@ export class InterceptorService implements HttpInterceptor{
       catchError((error: HttpEvent<any>) => {
         if (error instanceof HttpErrorResponse && error.status === 404) {
           const errorMessage = error.error.message || 'Recurso no encontrado';
-          console.error('Error 400:', errorMessage);
+          //console.error('Error 400:', errorMessage);
           // Muestra el mensaje de error como un Toast de PrimeNG
           this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
   

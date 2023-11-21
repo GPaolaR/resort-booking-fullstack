@@ -51,7 +51,7 @@ public class AppointmentService implements IAppointmentService{
     public List<AppointmentBySpecialityDTO> getAppointmentsBySpecialityAndDate(Integer specialityId, Timestamp startDate) {
         ZoneId bogotaZone = ZoneId.of("America/Bogota"); // Zona horaria de Bogotá
 
-        List<Appointment> appointments = appointmentRepository.findBySpecialitySpecialityAndAppointmentDateAfter(specialityId, startDate);
+        List<Appointment> appointments = appointmentRepository.findBySpecialitySpecialityAndAppointmentDateAfterAndStatusNot(specialityId, startDate , "Cancelado");
 
         return appointments.stream()
                 .map(appointment -> {
@@ -386,7 +386,7 @@ public class AppointmentService implements IAppointmentService{
 //                "AND APPOINTMENT_DATE =TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss')";
 
         String sql = "SELECT COUNT(*) FROM APPOINTMENTS " +
-                "WHERE SPECIALIST_ID = :specialistId AND SPECIALITY_ID = :specialityId AND (" +
+                "WHERE STATUS != 'Cancelado' AND SPECIALIST_ID = :specialistId AND SPECIALITY_ID = :specialityId AND (" +
                 "(APPOINTMENT_DATE < TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss') + INTERVAL '2' HOUR" +
                 " AND APPOINTMENT_DATE >= TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss'))" +
                 " OR (APPOINTMENT_DATE <= TO_TIMESTAMP(:appointmentDate, 'dd/mm/yyyy hh24:mi:ss')" +
@@ -424,8 +424,8 @@ public class AppointmentService implements IAppointmentService{
             namedParameterJdbcTemplate.update(sql, parameters);
             return "Cita Agendada Exitosamente";
         } catch (DataAccessException e) {
-            e.printStackTrace();
-            throw new NotFoundException("Agendamiento Fallido");
+            //e.printStackTrace();
+            throw new NotFoundException("Agendamiento Fallido. Cita no disponible");
         }
     }
 
