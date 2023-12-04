@@ -131,7 +131,7 @@ export class AgendaComponent {
 }
 
 deleteProduct(appointment: appointment) {
-  console.log('appointment: ',appointment);
+  //console.log('appointment: ',appointment);
 
   this.apiAgendaService.cancelAppoinment(appointment?.appointmentId!).subscribe(
     (response: any) => {
