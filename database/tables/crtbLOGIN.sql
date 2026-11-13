@@ -2,7 +2,7 @@
 Description: Login table
 Author:      Gina Riveros
 Date:        12-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 CREATE TABLE LOGIN (
     LOGIN_ID NUMBER(15),
@@ -12,4 +12,4 @@ CREATE TABLE LOGIN (
     LAST_CHANGE_DATE TIMESTAMP NOT NULL   
 );
 
-COMMENT ON TABLE GEST_SPA.LOGIN IS 'SPA Belleza login table';
+COMMENT ON TABLE GEST_SPA.LOGIN IS 'Oasis Resort and Spa login table';

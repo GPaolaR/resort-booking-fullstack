@@ -2,7 +2,7 @@
 Description: Appointments table
 Author:      Gina Riveros
 Date:        12-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 CREATE TABLE APPOINTMENTS (
     APPOINTMENT_ID NUMBER(15),
@@ -18,4 +18,4 @@ CREATE TABLE APPOINTMENTS (
     LAST_CHANGE_DATE TIMESTAMP NOT NULL
 );
 
-COMMENT ON TABLE GEST_SPA.APPOINTMENTS IS 'SPA Belleza appointments table';
+COMMENT ON TABLE GEST_SPA.APPOINTMENTS IS 'Oasis Resort and Spa appointments table';

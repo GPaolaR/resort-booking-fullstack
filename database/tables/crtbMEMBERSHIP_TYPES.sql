@@ -2,7 +2,7 @@
 Description: Membership_types table
 Author:      Gina Riveros
 Date:        12-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 CREATE TABLE MEMBERSHIP_TYPES (
     MEMBERSHIP_TYPE_ID NUMBER(4),
@@ -10,4 +10,4 @@ CREATE TABLE MEMBERSHIP_TYPES (
     DISCOUNT NUMBER(4,2) NOT NULL
 );
 
-COMMENT ON TABLE GEST_SPA.MEMBERSHIP_TYPES IS 'SPA Belleza membership types table';
+COMMENT ON TABLE GEST_SPA.MEMBERSHIP_TYPES IS 'Oasis Resort and Spa membership types table';

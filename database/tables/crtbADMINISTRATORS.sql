@@ -2,7 +2,7 @@
 Description: Administrators table
 Author:      Gina Riveros
 Date:        12-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 CREATE TABLE ADMINISTRATORS (
     ADMINISTRATOR_ID NUMBER(15) ,
@@ -18,4 +18,4 @@ CREATE TABLE ADMINISTRATORS (
    -- CONSTRAINT FK_ADMINISTRATORS_DOCUMENT_TYPE_ID FOREIGN KEY (DOCUMENT_TYPE_ID) REFERENCES DOCUMENTTYPES (DOCUMENT_TYPE_ID)
 );
 
-COMMENT ON TABLE GEST_SPA.ADMINISTRATORS IS 'SPA Belleza Adminstrators table';
+COMMENT ON TABLE GEST_SPA.ADMINISTRATORS IS 'Oasis Resort and Spa Adminstrators table';

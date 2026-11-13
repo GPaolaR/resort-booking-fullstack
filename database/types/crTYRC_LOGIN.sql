@@ -2,7 +2,7 @@
 Description: Object responsible for .
 Author:      Gina Riveros
 Date:        18-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 
 CREATE TYPE TYRC_LOGIN AS OBJECT

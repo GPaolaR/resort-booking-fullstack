@@ -2,7 +2,7 @@
 Descripci�n: Drop GEST_SPA packages 
 Autor:       Gina Riveros
 Fecha:       17-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 
 DROP PACKAGE GEST_SPA.PKG_APPOINTMENT;

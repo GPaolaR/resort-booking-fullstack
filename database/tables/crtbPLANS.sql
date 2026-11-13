@@ -2,7 +2,7 @@
 Description: Plans table
 Author:      Gina Riveros
 Date:        12-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 CREATE TABLE PLANS (
     PLAN_ID NUMBER(4),
@@ -12,4 +12,4 @@ CREATE TABLE PLANS (
     PRICE_PER_PERSON NUMBER(1) NOT NULL
 );
 
-COMMENT ON TABLE GEST_SPA.PLANS IS 'SPA Belleza plans table';
+COMMENT ON TABLE GEST_SPA.PLANS IS 'Oasis Resort and Spa plans table';

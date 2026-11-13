@@ -1,5 +1,5 @@
 /************************************************************************************
--- Equipo de Sistemas - "TechCamp"
+-- Proyecto: Oasis Resort and Spa
 -- Archivo:	 APLICASYS_GEST_SPA.sql
 -- Autor:	 Gina Riveros
 -- Tel:	     3160000000

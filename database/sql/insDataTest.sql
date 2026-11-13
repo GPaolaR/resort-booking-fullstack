@@ -1,6 +1,6 @@
-insert into ROLES values (SEQ_ROL.NEXTVAL, 'Usuario', 'Clientes de Spa Belleza');
-insert into ROLES values (SEQ_ROL.NEXTVAL, 'Administrador', 'Administrador del Spa Belleza');
---insert into ROLES values (SEQ_ROL.NEXTVAL, 'Especialista', 'Especialista del Spa Belleza');
+insert into ROLES values (SEQ_ROL.NEXTVAL, 'Usuario', 'Clientes de Oasis Resort and Spa');
+insert into ROLES values (SEQ_ROL.NEXTVAL, 'Administrador', 'Administrador del Oasis Resort and Spa');
+--insert into ROLES values (SEQ_ROL.NEXTVAL, 'Especialista', 'Especialista del Oasis Resort and Spa');
 
 
 insert into DOCUMENT_TYPES values(SEQ_DOCTY.NEXTVAL,'CC', 'Cédula de ciudadanía');
@@ -21,11 +21,11 @@ insert into specialities values(seq_SPETY.nextval, 'Facial', systimestamp);
 insert into specialities values(seq_SPETY.nextval, 'Corporal', systimestamp);
 insert into specialities values(seq_SPETY.nextval, 'Uñas', systimestamp);
 
-insert into specialists values(seq_splts.nextval,'Carlos', 'Flores', 1, '10000001', '3000000002', 'carlos.flores@spabelleza.com', 2, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('17:00','hh24:mi'), systimestamp);
-insert into specialists values(seq_splts.nextval,'Clara', 'Gomez', 1, '10000002', '3000000004', 'clara.gomez@spabelleza.com', 3, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('17:00','hh24:mi'), systimestamp);
-insert into specialists values(seq_splts.nextval,'Jaime', 'Urtado', 1, '10000004', '3000000004', 'jaime.urtado@spabelleza.com', 1, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('14:00','hh24:mi'), systimestamp);
-insert into specialists values(seq_splts.nextval,'Camila', 'Lopez', 1, '10000005', '3000000004', 'camila.lopez@spabelleza.com', 1, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('14:00','hh24:mi'), systimestamp);
-insert into specialists values(seq_splts.nextval,'Jose', 'Ardila', 1, '1000000006', '3000000004', 'jose.ardila@spabelleza.com', 2, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('17:00','hh24:mi'), systimestamp);
+insert into specialists values(seq_splts.nextval,'Carlos', 'Flores', 1, '10000001', '3000000002', 'carlos.flores@oasisresort.example', 2, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('17:00','hh24:mi'), systimestamp);
+insert into specialists values(seq_splts.nextval,'Clara', 'Gomez', 1, '10000002', '3000000004', 'clara.gomez@oasisresort.example', 3, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('17:00','hh24:mi'), systimestamp);
+insert into specialists values(seq_splts.nextval,'Jaime', 'Urtado', 1, '10000004', '3000000004', 'jaime.urtado@oasisresort.example', 1, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('14:00','hh24:mi'), systimestamp);
+insert into specialists values(seq_splts.nextval,'Camila', 'Lopez', 1, '10000005', '3000000004', 'camila.lopez@oasisresort.example', 1, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('14:00','hh24:mi'), systimestamp);
+insert into specialists values(seq_splts.nextval,'Jose', 'Ardila', 1, '1000000006', '3000000004', 'jose.ardila@oasisresort.example', 2, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('17:00','hh24:mi'), systimestamp);
 
 
 insert into LOGIN values (SEQ_LOGIN.NEXTVAL, 'USUARIO1', 'contra123', 1, systimestamp);
@@ -34,7 +34,7 @@ insert into LOGIN values (SEQ_LOGIN.NEXTVAL, 'USUARIO2', 'contra123', 1, systime
 insert into LOGIN values (SEQ_LOGIN.NEXTVAL, 'USUARIO3', 'contra123', 1, systimestamp);
 insert into LOGIN values (SEQ_LOGIN.NEXTVAL, 'USUARIO4', 'contra123', 1, systimestamp);
 
-insert into administrators values (SEQ_ADMIN.NEXTVAL, 2, 'Juan','Perez', 1, '1000000002', '3000000003', 'AdminJP@spabelleza.com', systimestamp);
+insert into administrators values (SEQ_ADMIN.NEXTVAL, 2, 'Juan','Perez', 1, '1000000002', '3000000003', 'AdminJP@oasisresort.example', systimestamp);
 
 insert into users values (SEQ_USER.NEXTVAL, 1, 'Carolina','Jimenez', 1, '1000000001', 32, 'F', '3000000001', 'carolina.jimenez@example.com', 4, systimestamp);
 insert into users values (SEQ_USER.NEXTVAL, 3, 'Alejandro','Bello', 1, '1000000003', 30, 'M', '3000000001', 'alejandro.demo@example.com', 1, systimestamp);

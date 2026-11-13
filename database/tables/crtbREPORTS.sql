@@ -2,7 +2,7 @@
 Description: Reports table
 Author:      Gina Riveros
 Date:        10-11-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 CREATE TABLE REPORTS (
 --    REPORT_ID NUMBER(15),
@@ -16,4 +16,4 @@ CREATE TABLE REPORTS (
     COUNT_APPOINTMENTS NUMBER(10) NOT NULL
 );
 
-COMMENT ON TABLE GEST_SPA.REPORTS IS 'SPA Belleza reports table';
+COMMENT ON TABLE GEST_SPA.REPORTS IS 'Oasis Resort and Spa reports table';

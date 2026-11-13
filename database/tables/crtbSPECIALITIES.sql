@@ -2,7 +2,7 @@
 Description: Specialties table
 Author:      Gina Riveros
 Date:        12-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 CREATE TABLE SPECIALITIES (
     SPECIALITY_ID NUMBER(4),
@@ -11,4 +11,4 @@ CREATE TABLE SPECIALITIES (
     LAST_CHANGE_DATE TIMESTAMP NOT NULL
 );
 
-COMMENT ON TABLE GEST_SPA.SPECIALITIES IS 'SPA Belleza specialty types table';
+COMMENT ON TABLE GEST_SPA.SPECIALITIES IS 'Oasis Resort and Spa specialty types table';

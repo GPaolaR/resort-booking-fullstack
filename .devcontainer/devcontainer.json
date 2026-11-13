@@ -1,5 +1,5 @@
 {
-  "name": "Spa Belleza (Java 17 + Node 18 + Oracle XE)",
+  "name": "Oasis Resort & Spa (Java 17 + Node 18 + Oracle XE)",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",

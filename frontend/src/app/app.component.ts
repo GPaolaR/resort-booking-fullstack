@@ -7,7 +7,7 @@ import { Router, NavigationEnd } from '@angular/router';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'spa_belleza';
+  title = 'oasis_resort';
   show: boolean = false;
 
   constructor(private router: Router) {

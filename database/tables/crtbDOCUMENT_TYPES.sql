@@ -2,7 +2,7 @@
 Description: Document_types table
 Author:      Gina Riveros
 Date:        12-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 CREATE TABLE DOCUMENT_TYPES (
     DOCUMENT_TYPE_ID NUMBER(4),
@@ -10,4 +10,4 @@ CREATE TABLE DOCUMENT_TYPES (
     DOCUMENT_TYPE_NAME VARCHAR2(50)
 );
 
-COMMENT ON TABLE GEST_SPA.DOCUMENT_TYPES IS 'SPA Belleza document types table';
+COMMENT ON TABLE GEST_SPA.DOCUMENT_TYPES IS 'Oasis Resort and Spa document types table';

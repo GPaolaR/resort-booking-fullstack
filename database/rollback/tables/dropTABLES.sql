@@ -2,7 +2,7 @@
 Descripción: Drop GEST_SPA tables
 Autor:       Gina Riveros
 Fecha:       17-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 PROMPT Eliminando tabla GEST_SPA.ADMINISTRATORS
 DROP TABLE GEST_SPA.ADMINISTRATORS PURGE;

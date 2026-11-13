@@ -2,7 +2,7 @@
 Description: Users table
 Author:      Gina Riveros
 Date:        12-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 CREATE TABLE USERS (
     USER_ID NUMBER(15),
@@ -19,4 +19,4 @@ CREATE TABLE USERS (
     LAST_CHANGE_DATE TIMESTAMP NOT NULL
 );
 
-COMMENT ON TABLE GEST_SPA.USERS IS 'SPA Belleza users table';
+COMMENT ON TABLE GEST_SPA.USERS IS 'Oasis Resort and Spa users table';

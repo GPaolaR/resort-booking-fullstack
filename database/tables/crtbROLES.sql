@@ -2,7 +2,7 @@
 Description: Roles table
 Author:      Gina Riveros
 Date:        12-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 CREATE TABLE ROLES (
     ROL_ID NUMBER(4),
@@ -10,4 +10,4 @@ CREATE TABLE ROLES (
     ROL_DESCRIPTION VARCHAR2(150)
 );
 
-COMMENT ON TABLE GEST_SPA.ROLES IS 'SPA Belleza roles table';
+COMMENT ON TABLE GEST_SPA.ROLES IS 'Oasis Resort and Spa roles table';

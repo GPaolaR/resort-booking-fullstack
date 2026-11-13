@@ -2,7 +2,7 @@
 Descripci�n: Drop GEST_SPA sequences
 Autor:       Gina Riveros
 Fecha:       17-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 
 drop SEQUENCE GEST_SPA.SEQ_ADMIN;

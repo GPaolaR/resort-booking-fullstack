@@ -3,7 +3,7 @@ create or replace PACKAGE PKG_LOGIN IS
 Description: Object responsible for managing dml transactions on the LOGIN entity.
 Author:      Gina Riveros
 Date:        18-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ------------------------------------------------------------------------------------
 Historial de modificaciones=>
 Fecha         Orden          Persona                 Acci?n        
@@ -20,7 +20,7 @@ Fecha         Orden          Persona                 Acci?n
     Description: Object used to validate the login.
     Author:      Gina Riveros
     Date:        18-10-2023
-    @copyright:  TechCamp
+    Project:     Oasis Resort and Spa
     ------------------------------------------------------------------------------------
     Historial de modificaciones=>
     Fecha         Orden          Persona                 Acci?n        

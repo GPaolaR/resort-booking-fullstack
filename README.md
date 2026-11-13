@@ -1,9 +1,9 @@
-# Spa Belleza — Appointment Management System
+# Oasis Resort & Spa — Booking System
 
-Full-stack web application for a beauty spa. Clients log in, browse service plans priced by their membership tier and book appointments in the time slots that specialists actually have free. Administrators manage the agenda, load appointments in bulk from CSV and download a monthly client report.
+Full-stack booking application for a fictional resort & spa. Clients log in, browse service plans priced by their membership tier and book appointments in the time slots that specialists actually have free. Administrators manage the agenda, load appointments in bulk from CSV and download a monthly client report.
 
-[![CI](https://github.com/GPaolaR/spa-belleza-fullstack/actions/workflows/ci.yml/badge.svg)](https://github.com/GPaolaR/spa-belleza-fullstack/actions/workflows/ci.yml)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/GPaolaR/spa-belleza-fullstack)
+[![CI](https://github.com/GPaolaR/resort-booking-fullstack/actions/workflows/ci.yml/badge.svg)](https://github.com/GPaolaR/resort-booking-fullstack/actions/workflows/ci.yml)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/GPaolaR/resort-booking-fullstack)
 
 ![Angular](https://img.shields.io/badge/Angular_16-DD0031?logo=angular&logoColor=white)
 ![PrimeNG](https://img.shields.io/badge/PrimeNG-1976D2)
@@ -11,7 +11,7 @@ Full-stack web application for a beauty spa. Clients log in, browse service plan
 ![Java 17](https://img.shields.io/badge/Java_17-007396?logo=openjdk&logoColor=white)
 ![Oracle](https://img.shields.io/badge/Oracle_PL%2FSQL-F80000?logo=oracle&logoColor=white)
 
-> 🇪🇸 **Resumen:** Aplicación full-stack para la gestión de citas de un spa. Los clientes inician sesión, ven planes con descuento según su membresía y agendan citas en los horarios en que hay especialistas disponibles. Los administradores gestionan la agenda (filtros, cancelación), cargan citas masivamente desde CSV y descargan un reporte mensual de clientes. Front en Angular 16 + PrimeNG, API REST en Spring Boot 3 (Java 17) y base de datos Oracle con paquetes PL/SQL, tipos de objeto y un job programado con `DBMS_SCHEDULER`.
+> 🇪🇸 **Resumen:** Aplicación full-stack para la gestión de citas de un resort & spa ficticio. Los clientes inician sesión, ven planes con descuento según su membresía y agendan citas en los horarios en que hay especialistas disponibles. Los administradores gestionan la agenda (filtros, cancelación), cargan citas masivamente desde CSV y descargan un reporte mensual de clientes. Front en Angular 16 + PrimeNG, API REST en Spring Boot 3 (Java 17) y base de datos Oracle con paquetes PL/SQL, tipos de objeto y un job programado con `DBMS_SCHEDULER`.
 
 ---
 
@@ -70,7 +70,7 @@ flowchart LR
 .
 ├── frontend/              Angular app (modules: auth, user, admin, shared)
 ├── backend/               Spring Boot API
-│   └── src/main/java/com/spabelleza/gestion_spa/
+│   └── src/main/java/com/oasisresort/booking/
 │       ├── controller/  service/  repository/
 │       └── entity/  DTO/  exception/
 ├── database/

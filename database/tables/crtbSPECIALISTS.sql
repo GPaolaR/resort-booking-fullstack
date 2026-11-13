@@ -2,7 +2,7 @@
 Description: Specialists table
 Author:      Gina Riveros
 Date:        12-10-2023
-@copyright:  TechCamp
+Project:     Oasis Resort and Spa
 ************************************************************************************/
 CREATE TABLE SPECIALISTS (
     SPECIALIST_ID NUMBER(15),
@@ -18,4 +18,4 @@ CREATE TABLE SPECIALISTS (
     LAST_CHANGE_DATE TIMESTAMP NOT NULL
 );
 
-COMMENT ON TABLE GEST_SPA.SPECIALISTS IS 'SPA Belleza specialists table';
+COMMENT ON TABLE GEST_SPA.SPECIALISTS IS 'Oasis Resort and Spa specialists table';
