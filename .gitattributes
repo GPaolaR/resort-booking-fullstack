@@ -1,0 +1,13 @@
+# Normalize line endings in the repo; checkout uses the platform default
+* text=auto
+*.bat text eol=crlf
+*.cmd text eol=crlf
+gradlew text eol=lf
+
+# Binary files
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.ico binary
+*.jar binary
+*.zip binary
