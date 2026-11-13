@@ -13,7 +13,7 @@ const routes: Routes = [
         { path:'specialist', component: SpecialistAgendaComponent},
         { path:'management', component: ManagementComponent},
         //{ path: '', redirectTo:'home'},
-        { path: '*', redirectTo:'home'}
+        { path: '**', redirectTo:'home'}
     ] 
   },
   // Otras rutas específicas del módulo

@@ -9,7 +9,7 @@ const routes: Routes = [
   { path:'admin', loadChildren: () => import('./modules/admin/admin-routing.module').then(m => m.AdminRoutingModule)},
   { path:'user', loadChildren: () => import('./modules/user/user-routing.module').then(m => m.UserRoutingModule)},
   { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
-  { path: '*', redirectTo:'auth/login'}
+  { path: '**', redirectTo:'auth/login'}
 ];
 
 @NgModule({

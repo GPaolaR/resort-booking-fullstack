@@ -42,7 +42,7 @@ export class ManagementComponent {
     const formData: FormData = new FormData();
     formData.append('file', this.selectedFile);
 
-    this.http.post('http://localhost:8080/api/appointments/upload', formData).subscribe(
+    this.http.post('/api/appointments/upload', formData).subscribe(
       (response: any) => {
         console.log(response);
         console.log('Archivo cargado con éxito.');

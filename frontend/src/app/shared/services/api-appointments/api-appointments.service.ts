@@ -8,7 +8,7 @@ import { filterAgenda } from'../../interfaces/filterAgenda.interface';
 export class ApiAppointmentsService {
 
 
-  private apiUrl = 'http://localhost:8080/api/appointments'; 
+  private apiUrl = '/api/appointments'; 
 
   constructor(private http: HttpClient) { }
 

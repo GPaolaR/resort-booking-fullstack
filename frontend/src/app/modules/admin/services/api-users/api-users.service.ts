@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ApiUsersService {
 
-  private apiUrl = 'http://localhost:8080/api/user/list'; 
+  private apiUrl = '/api/user/list'; 
 
   constructor(private http: HttpClient) { }
 

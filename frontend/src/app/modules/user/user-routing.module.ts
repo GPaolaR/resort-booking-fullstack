@@ -13,7 +13,7 @@ const routes: Routes = [
         { path:'appointment', component: MakeAppointmentComponent},
         { path:'home', component: SelectPlanComponent},
         //{ path: '', redirectTo:'home'},
-        { path: '*', redirectTo:'home'}
+        { path: '**', redirectTo:'home'}
     ] 
   },
   // Otras rutas específicas del módulo

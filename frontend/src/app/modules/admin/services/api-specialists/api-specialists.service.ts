@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ApiSpecialistsService {
 
-  private apiUrl = 'http://localhost:8080/api/specialist/list'; 
+  private apiUrl = '/api/specialist/list'; 
 
   constructor(private http: HttpClient) { }
 

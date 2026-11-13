@@ -10,7 +10,7 @@ export class ApiUploadService {
   constructor(private http: HttpClient) { }
 
   uploadFile(formData: FormData): Observable<any> {
-//     this.http.post('http://localhost:8080/api/appointments/upload', formData).subscribe(
+//     this.http.post('/api/appointments/upload', formData).subscribe(
 //       (response: any) => {
 //         alert('Archivo cargado con éxito.');
 //       },
@@ -20,7 +20,7 @@ export class ApiUploadService {
 //       }
 //     );
 
-    return this.http.post('localhost:8080/api/appointments/upload', formData).pipe(
+    return this.http.post('/api/appointments/upload', formData).pipe(
       catchError((error) => {
         // Manejar el mensaje de error y mostrarlo al usuario
         const errorMessage = error.error.error; // Suponiendo que el servidor devuelve { "error": "Mensaje de error" }

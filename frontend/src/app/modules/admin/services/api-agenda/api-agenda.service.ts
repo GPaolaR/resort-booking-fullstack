@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiAgendaService {
-  private apiUrl = 'http://localhost:8080/api'; 
+  private apiUrl = '/api'; 
 
   constructor(private http: HttpClient) { }
   

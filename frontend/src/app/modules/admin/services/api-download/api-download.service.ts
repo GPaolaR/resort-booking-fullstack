@@ -6,7 +6,7 @@ import { Observable, catchError, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiDownloadService {
-  private baseUrl = 'http://localhost:8080/api/report/download-csv';
+  private baseUrl = '/api/report/download-csv';
 
   constructor(private http: HttpClient) {}
 

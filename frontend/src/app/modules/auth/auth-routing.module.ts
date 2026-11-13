@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     children:[
         { path:'login', component: LoginComponent},
-        { path: '*', redirectTo:'login'}
+        { path: '**', redirectTo:'login'}
     ] 
   },
   // Otras rutas específicas del módulo
