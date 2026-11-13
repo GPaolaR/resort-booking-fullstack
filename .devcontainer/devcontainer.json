@@ -1,0 +1,26 @@
+{
+  "name": "Spa Belleza (Java 17 + Node 18 + Oracle XE)",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "18" }
+  },
+  "forwardPorts": [4200, 8080],
+  "portsAttributes": {
+    "4200": { "label": "Frontend", "onAutoForward": "openBrowser" },
+    "8080": { "label": "Backend API" }
+  },
+  "postCreateCommand": "cd frontend && npm ci && chmod +x ../backend/gradlew",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vmware.vscode-spring-boot",
+        "angular.ng-template",
+        "Oracle.sql-developer"
+      ]
+    }
+  },
+  "hostRequirements": { "memory": "8gb" }
+}
