@@ -11,7 +11,7 @@ DECLARE
 BEGIN
   PKG_APPOINTMENT.GET_APPOINTMENT_AGENDA(v_specialist_id, v_appointment_date, NULL,NULL, NULL, NULL, v_info);
   dbms_output.put_line('Este es un mensaje de prueba1');
-  DBMS_OUTPUT.PUT_LINE('Número de filas: ' || v_info.COUNT);
+  DBMS_OUTPUT.PUT_LINE('NÃºmero de filas: ' || v_info.COUNT);
 
   FOR i IN 1..v_info.COUNT LOOP
   dbms_output.put_line('Este es un mensaje de prueba2');
@@ -54,7 +54,7 @@ BEGIN
 END;
 
 
--- Llamar al procedimiento para cancelar una cita específica
+-- Llamar al procedimiento para cancelar una cita especÃ­fica
 SET SERVEROUTPUT ON
 DECLARE
     v_appointment_id Appointments.appointment_id%TYPE;
@@ -69,8 +69,8 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('La cita con ID ' || v_appointment_id || ' ha sido cancelada.');
 EXCEPTION
     WHEN OTHERS THEN
-        -- Manejar cualquier error que pueda ocurrir durante la ejecución
-        DBMS_OUTPUT.PUT_LINE('Ocurrió un error: ' || SQLCODE || ' - ' || SQLERRM);
+        -- Manejar cualquier error que pueda ocurrir durante la ejecuciÃ³n
+        DBMS_OUTPUT.PUT_LINE('OcurriÃ³ un error: ' || SQLCODE || ' - ' || SQLERRM);
 END;
 /
 

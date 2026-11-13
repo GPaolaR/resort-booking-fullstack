@@ -3,7 +3,7 @@ insert into ROLES values (SEQ_ROL.NEXTVAL, 'Administrador', 'Administrador del S
 --insert into ROLES values (SEQ_ROL.NEXTVAL, 'Especialista', 'Especialista del Spa Belleza');
 
 
-insert into DOCUMENT_TYPES values(SEQ_DOCTY.NEXTVAL,'CC', 'CÈdula de ciudadanÌa');
+insert into DOCUMENT_TYPES values(SEQ_DOCTY.NEXTVAL,'CC', 'C√©dula de ciudadan√≠a');
 --insert into DOCUMENT_TYPES values(SEQ_DOCTY.NEXTVAL,'TI', 'Tarjeta de identidad');
 
 insert into membership_types values(seq_memty.nextval, 'No aplica', 0 );
@@ -13,13 +13,13 @@ insert into membership_types values(seq_memty.nextval, 'Plata', 0.1 );
 
 
 insert into plans values(seq_plan.nextval, 'Spa para parejas', 'Relajate y renueva cuerpo y mente, reconectandote con tu persona especial.', 315000, 0);
-insert into plans values(seq_plan.nextval, 'Spa para empresas', 'Promueve la salud y el bienestar para tus empleados y colaboradores, estimula un ambiente de relajaciÛn y salud mental.', 230000, 1); -- xpersona
-insert into plans values(seq_plan.nextval, 'Masajes de relajaciÛn', 'Masaje con aceites naturales para equilibrar energias, relajarte y aliviar tensiones.', 250000, 1);
-insert into plans values(seq_plan.nextval, 'Tratamientos faciales', 'Hidrata y refresca, refina los poros abiertos, reduce lÌneas de expresion y aclara la piel dej·ndola clara y limpia.', 215000, 1);
+insert into plans values(seq_plan.nextval, 'Spa para empresas', 'Promueve la salud y el bienestar para tus empleados y colaboradores, estimula un ambiente de relajaci√≥n y salud mental.', 230000, 1); -- xpersona
+insert into plans values(seq_plan.nextval, 'Masajes de relajaci√≥n', 'Masaje con aceites naturales para equilibrar energias, relajarte y aliviar tensiones.', 250000, 1);
+insert into plans values(seq_plan.nextval, 'Tratamientos faciales', 'Hidrata y refresca, refina los poros abiertos, reduce l√≠neas de expresion y aclara la piel dej√°ndola clara y limpia.', 215000, 1);
 
 insert into specialities values(seq_SPETY.nextval, 'Facial', systimestamp);
 insert into specialities values(seq_SPETY.nextval, 'Corporal', systimestamp);
-insert into specialities values(seq_SPETY.nextval, 'UÒas', systimestamp);
+insert into specialities values(seq_SPETY.nextval, 'U√±as', systimestamp);
 
 insert into specialists values(seq_splts.nextval,'Carlos', 'Flores', 1, '10000001', '3000000002', 'carlos.flores@spabelleza.com', 2, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('17:00','hh24:mi'), systimestamp);
 insert into specialists values(seq_splts.nextval,'Clara', 'Gomez', 1, '10000002', '3000000004', 'clara.gomez@spabelleza.com', 3, TO_TIMESTAMP('8:00','hh24:mi'), TO_TIMESTAMP('17:00','hh24:mi'), systimestamp);

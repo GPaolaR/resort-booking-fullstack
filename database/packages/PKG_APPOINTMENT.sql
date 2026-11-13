@@ -109,14 +109,14 @@ CREATE OR REPLACE PACKAGE BODY PKG_APPOINTMENT IS
         SET STATUS = 'Cancelada'
         WHERE appointment_id = p_appointment_id;
         
-        COMMIT; -- Realizar la confirmación para hacer permanentes los cambios en la base de datos
+        COMMIT; -- Realizar la confirmaciÃ³n para hacer permanentes los cambios en la base de datos
     EXCEPTION
         WHEN NO_DATA_FOUND THEN
-            -- Manejar la excepción si no se encuentra la cita con el ID proporcionado
-            DBMS_OUTPUT.PUT_LINE('No se encontró la cita con el ID proporcionado.');
+            -- Manejar la excepciÃ³n si no se encuentra la cita con el ID proporcionado
+            DBMS_OUTPUT.PUT_LINE('No se encontrÃ³ la cita con el ID proporcionado.');
         WHEN OTHERS THEN
             -- Manejar otras excepciones
-            DBMS_OUTPUT.PUT_LINE('Ocurrió un error: ' || SQLCODE || ' - ' || SQLERRM);
+            DBMS_OUTPUT.PUT_LINE('OcurriÃ³ un error: ' || SQLCODE || ' - ' || SQLERRM);
     END CANCEL_APPOINTMENT;
 
     

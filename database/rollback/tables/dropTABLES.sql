@@ -1,5 +1,5 @@
 /************************************************************************************
-Descripción: Drop GEST_SPA tables
+DescripciÃ³n: Drop GEST_SPA tables
 Autor:       Gina Riveros
 Fecha:       17-10-2023
 @copyright:  TechCamp

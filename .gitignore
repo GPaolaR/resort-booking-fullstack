@@ -1,0 +1,27 @@
+# Local backups / archives
+_respaldos/
+*.zip
+
+# Environment files
+.env
+*.env
+!.env.example
+
+# IDE / OS
+.idea/
+*.iml
+.project
+.DS_Store
+Thumbs.db
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# Backend
+backend/build/
+backend/.gradle/
+
+# Reports generated at runtime by the backend
+backend/reports/*.csv
